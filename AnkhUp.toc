@@ -1,0 +1,31 @@
+## Interface: 30000
+## Version: 3.1.0-beta
+
+## Title: AnkhUp
+## Notes: A shaman Reincarnation monitor.
+## X-Category: Shaman
+## X-Copyright: Copyright © 2006-2009 Alyssa S. Kinley, a.k.a. Phanx
+## X-License: Do not redistribute. See README for full license terms.
+## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+## X-CompatibleLocales: enUS, enGB, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
+## X-Localizations: enUS, enGB
+
+## Author: Phanx
+## X-Email: addons AT phanx net
+## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Class: SHAMAN
+
+## SavedVariablesPerCharacter: AnkhUpDB
+
+Lib\LibStub.lua
+Lib\CallbackHandler-1.0.lua
+Lib\LibDataBroker-1.1.lua
+Lib\tekKonfigAboutPanel.lua
+
+Localization.lua
+Core.lua
+GUI.lua
+Broker.lua
+Config.lua
