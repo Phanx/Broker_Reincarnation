@@ -1,22 +1,21 @@
 ------------------------------------------------------------------------
 
-AnkhUp
-Reincarnation monitoring and ankh management features for shamans.
-by Phanx < addons@phanx.net >
+AnkhUp provides a Reincarnation monitor and basic ankh management
+for shaman characters.
 
 ------------------------------------------------------------------------
 Features:
 
-- Accurate, unobtrusive Reincarnation cooldown monitor
-- Alerts when Reincarnation is ready
-- Warns you when your supply of ankhs is running low
-- Restocks ankhs when visiting reagent vendors
+* Accurate, unobtrusive Reincarnation cooldown monitor
+* Alerts you when Reincarnation is ready
+* Warns you when your supply of ankhs is running low
+* Restocks ankhs when visiting reagent vendors
 
 ------------------------------------------------------------------------
 Download:
 
-- http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-- http://www.curse.com/downloads/details/ankhup/
+* http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+* http://www.curse.com/downloads/details/ankhup/
 
 ------------------------------------------------------------------------
 Feedback:
@@ -40,21 +39,25 @@ was written by Starforce of Shattered Hand (EU).
 ------------------------------------------------------------------------
 License:
 
-Copyright © 2008-2009 Alyssa S. Kinley, a.k.a Phanx
+Copyright ©2008–2009 Alyssa "Phanx" Kinley
 
 The contents of this addon, excluding third-party resources, are copyrighted
-to its author with all rights reserved under United States and international 
-copyright law. You are hereby granted the following permissions:
+to its author with all rights reserved under United States copyright law and
+international treaty. Copyright law specifies these rights and restrictions:
 
-1. You MAY download, install, run, and make modifications to this addon
-   for your own personal use only.
+You may download, install, and run this addon for private use.
 
-2. You MAY NOT redistribute this addon, modified or unmodified, including
-   as part of a compilation, without the express prior written consent of
-   its author.
+You may NOT redistribute this addon, with or without modification, including
+as part of a compilation, without the written prior consent of its author.
 
-3. You MAY use code from this addon in your own addon, in whole or in part,
-   provided that the title, file names, and source code of your addon
-   contain no references to the name of this addon or its author.
+The author of this addon hereby grants you the following additional rights:
+
+You may make modifications to a local copy of this addon for private use.
+
+You may use source code from this addon, in whole or in part, in your own
+addon or for any other purpose, provided that no references to the name of
+this addon or its author appear in the title, source code, or file names of
+your project, and that the names of this addon and its author are not used
+to promote your project.
 
 ------------------------------------------------------------------------

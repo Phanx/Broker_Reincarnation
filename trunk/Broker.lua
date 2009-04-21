@@ -1,12 +1,17 @@
 --[[--------------------------------------------------------------------
-	AnkhUp: a shaman Reincarnation monitor
-	by Phanx <addons@phanx.net>
+	AnkhUp
+	A shaman Reincarnation monitor and ankh management helper
+	by Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	Copyright (c) 2005-2009 Alyssa S. Kinley, a.k.a. Phanx
+	Copyright ©2006–2009 Alyssa "Phanx" Kinley
 	See included README for license terms and additional information.
+
+	This file adds a DataBroker feed for AnkhUp.
 ----------------------------------------------------------------------]]
 
-if not AnkhUp or not LibStub("LibDataBroker-1.1", true) then return end
+assert(AnkhUp, "AnkhUp not found!")
+
+if not LibStub:GetLibrary("LibDataBroker-1.1", true) then return end
 
 ------------------------------------------------------------------------
 
