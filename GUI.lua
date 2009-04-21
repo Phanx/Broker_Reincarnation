@@ -1,12 +1,15 @@
 --[[--------------------------------------------------------------------
-	AnkhUp: a shaman Reincarnation monitor
+	AnkhUp
+	A shaman Reincarnation monitor and ankh management helper
 	by Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	Copyright (c) 2005-2009 Alyssa Kinley, aka Phanx
-	See the included README text file for license and additional information.
+	Copyright ©2006–2009 Alyssa "Phanx" Kinley
+	See included README for license terms and additional information.
+
+	This file provides a standalone monitor window for AnkhUp.
 ----------------------------------------------------------------------]]
 
-if not AnkhUp then return end
+assert(AnkhUp, "AnkhUp not found!")
 
 ------------------------------------------------------------------------
 
@@ -58,11 +61,12 @@ end
 
 ------------------------------------------------------------------------
 
+-- GetTooltipAnchor function by Tekkub
 local function GetTooltipAnchor(frame)
-	local x,y = frame:GetCenter()
+	local x, y = frame:GetCenter()
 	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
-	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
-	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
+	local hhalf = (x > UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < UIParent:GetWidth() / 3) and "LEFT" or ""
+	local vhalf = (y > UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
 	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 end
 
@@ -79,7 +83,7 @@ frame:SetScript("OnLeave", function(self)
 end)
 
 frame:SetScript("OnClick", function(self, btn)
-	if curr and objects[curr] and objects[curr].OnClick and IsAltKeyDown() then
+	if curr and objects[curr] and objects[curr].OnClick then
 		GameTooltip:Hide()
 		objects[curr].OnClick(self, btn)
 	end
@@ -87,6 +91,7 @@ end)
 
 ------------------------------------------------------------------------
 
+-- GetUIParentAnchor function by Tekkub
 local function GetUIParentAnchor(frame)
 	local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), frame:GetCenter()
 	local hhalf, vhalf = (x > w/2) and "RIGHT" or "LEFT", (y > h/2) and "TOP" or "BOTTOM"
@@ -97,10 +102,10 @@ local function GetUIParentAnchor(frame)
 end
 
 frame:SetScript("OnDragStart", function(self)
-	if IsAltKeyDown() then
-		self.isMoving = true
-		self:StartMoving()
-	end
+	if db.lock then return end
+
+	self.isMoving = true
+	self:StartMoving()
 end)
 
 frame:SetScript("OnDragStop", function(self)
@@ -132,6 +137,7 @@ function AnkhUp:PLAYER_LOGIN()
 	local self = frame
 
 	local defaults = {
+		lock = false,
 		point = "CENTER",
 		scale = 1,
 		show = true,
