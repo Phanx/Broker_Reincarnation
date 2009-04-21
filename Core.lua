@@ -159,6 +159,8 @@ function AnkhUp:CHARACTER_POINTS_CHANGED()
 	end
 end
 
+AnkhUp.PLAYER_TALENT_UPDATE = AnkhUp.CHARACTER_POINTS_CHANGED
+
 ------------------------------------------------------------------------
 
 function AnkhUp:PLAYER_ALIVE()
@@ -170,7 +172,7 @@ end
 
 function AnkhUp:PLAYER_LEVEL_UP()
 	Debug(1, "PLAYER_LEVEL_UP")
-	if UnitLevel("player") > 29 then
+	if UnitLevel("player") >= 30 then
 		UpdateBookID()
 		if bookID ~= 0 then
 			self:RegisterEvent("PLAYER_ALIVE")
@@ -181,6 +183,7 @@ function AnkhUp:PLAYER_LEVEL_UP()
 			end
 		end
 		self:RegisterEvent("CHARACTER_POINTS_CHANGED")
+		self:RegisterEvent("PLAYER_TALENT_UPDATE")
 		self:RegisterEvent("SPELLS_CHANGED")
 		self:UnregisterEvent("PLAYER_LEVEL_UP")
 	end
