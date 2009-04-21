@@ -27,8 +27,6 @@ Options:SetScript("OnShow", function(self)
 	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
 	self.CreateSlider = LibStub:GetLibrary("PhanxConfig-Slider").CreateSlider
 
-	-------------------------------------------------------------------
-
 	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
 	title:SetPoint("TOPRIGHT", -16, -16)
@@ -43,11 +41,11 @@ Options:SetScript("OnShow", function(self)
 	notes:SetNonSpaceWrap(true)
 	notes:SetText(L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
 
-	-------------------------------------------------------------------
-
-	local low = self:CreateSlider(L["Low ankh warning"], 0, 20, 1)
+	local low = self:CreateSlider(L["Warning threshold"], 0, 20, 5)
 	low.hint = L["Show a warning dialog when you have fewer than this number of ankhs (set to 0 to disable)"]
-	low:GetParent():SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 6, -8)
+	low.container:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
+	low.value:SetText(db.low)
+	low:SetValue(db.low)
 	low:SetScript("OnValueChanged", function(self)
 		local value = math.floor(self:GetValue() + 0.5)
 		self.value:SetText(value)
@@ -55,11 +53,11 @@ Options:SetScript("OnShow", function(self)
 		AnkhUp:BAG_UPDATE()
 	end)
 
-	-------------------------------------------------------------------
-
-	local buy = self:CreateSlider(L["Restock ankhs"], 0, 20, 1)
+	local buy = self:CreateSlider(L["Restock quantity"], 0, 20, 5)
 	buy.hint = L["Restock ankhs up to a total of this number when interacting with vendors (set to 0 to disable)"]
-	buy:GetParent():SetPoint("TOPLEFT", low, "BOTTOMLEFT", 0, -8)
+	buy.container:SetPoint("TOPLEFT", low.container, "BOTTOMLEFT", 0, -8)
+	buy.value:SetText(db.buy)
+	buy:SetValue(db.buy)
 	buy:SetScript("OnValueChanged", function(self)
 		local value = math.floor(self:GetValue() + 0.5)
 		self.value:SetText(value)
@@ -71,33 +69,30 @@ Options:SetScript("OnShow", function(self)
 		end
 	end)
 
-	-------------------------------------------------------------------
-
 	local quiet = self:CreateCheckbox(L["Notify when restocking"])
 	quiet.hint = L["Enable notification in the chat frame when restocking ankhs"]
-	quiet:SetPoint("TOPLEFT", buy, "BOTTOMLEFT", -4, -12)
+	quiet:SetPoint("TOPLEFT", buy.container, "BOTTOMLEFT", 0, -8)
+	quiet:SetChecked(db.checked)
 	quiet:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		db.quiet = not checked
 	end)
 
-	-------------------------------------------------------------------
-
 	local ready = self:CreateCheckbox(L["Notify when ready"])
 	ready.hint = L["Enable notification in the raid warning frame when Reincarnation becomes ready"]
 	ready:SetPoint("TOPLEFT", quiet, "BOTTOMLEFT", 0, -8)
+	ready:SetChecked(db.ready)
 	ready:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		db.ready = checked
 	end)
 
-	-------------------------------------------------------------------
-
 	local show = self:CreateCheckbox(L["Show monitor"])
 	show.hint = L["Show a standalone monitor window for your Reincarnation cooldown"]
-	show:SetPoint("TOP", notes, "BOTTOM", 0, -16)
+	show:SetPoint("TOPLEFT", notes, "BOTTOM", 0, -16)
+	show:SetChecked(db.frame.show)
 	show:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
@@ -109,22 +104,19 @@ Options:SetScript("OnShow", function(self)
 		end
 	end)
 
-	-------------------------------------------------------------------
-
-	local show = self:CreateCheckbox(L["Lock monitor"])
-	show.hint = L["Lock the monitor window in place, preventing dragging"]
-	show:SetPoint("TOP", notes, "BOTTOM", 0, -16)
-	show:SetScript("OnClick", function(self)
+	local lock = self:CreateCheckbox(L["Lock monitor"])
+	lock.hint = L["Lock the monitor window in place, preventing dragging"]
+	lock:SetPoint("TOPLEFT", show, "BOTTOMLEFT", 0, -8)
+	lock:SetChecked(db.frame.lock)
+	lock:SetScript("OnClick", function(self)
 		local checked = self:GetChecked() and true or false
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		db.frame.lock = checked
 	end)
 
-	-------------------------------------------------------------------
-
 	local scale = self:CreateSlider("Scale", 0.05, 3, 0.05, true)
 	scale.hint = L["Adjust the size of the monitor window"]
-	scale:GetParent():SetPoint("TOPLEFT", show, "BOTTOMLEFT", 4, -12)
+	scale.container:SetPoint("TOPLEFT", lock, "BOTTOMLEFT", 0, -8)
 	scale:SetScript("OnValueChanged", function(self)
 		local value = math.floor(self:GetValue() * 100 + 0.5) / 100
 		db.frame.scale = value
@@ -132,18 +124,19 @@ Options:SetScript("OnShow", function(self)
 		AnkhUpFrame:SetScale(value)
 	end)
 
+	self:SetScript("OnShow", nil)
 end)
 
 ------------------------------------------------------------------------
 
-AnkhUp.configPanel = panel
+AnkhUp.configPanel = Options
 
-InterfaceOptions_AddCategory(panel)
+InterfaceOptions_AddCategory(Options)
 
-LibStub("tekKonfig-AboutPanel").new(panel.name, "AnkhUp")
+LibStub:GetLibrary("tekKonfig-AboutPanel").new(Options.name, "AnkhUp")
 
 SLASH_ANKHUP1 = "/ankhup"
 SLASH_ANKHUP2 = "/aup"
-SlashCmdList.ANKHUP = function() InterfaceOptionsFrame_OpenToCategory(panel) end
+SlashCmdList.ANKHUP = function() InterfaceOptionsFrame_OpenToCategory(Options) end
 
 ------------------------------------------------------------------------
