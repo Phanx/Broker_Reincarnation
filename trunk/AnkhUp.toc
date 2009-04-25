@@ -22,8 +22,8 @@
 Lib\LibStub.lua
 Lib\CallbackHandler-1.0.lua
 Lib\LibDataBroker-1.1.lua
-Lib\PhanxConfig-Checkbox.lua
-Lib\PhanxConfig-Slider.lua
+# Lib\PhanxConfig-Checkbox.lua
+# Lib\PhanxConfig-Slider.lua
 Lib\tekKonfigAboutPanel.lua
 
 Localization.lua

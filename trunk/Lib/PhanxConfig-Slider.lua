@@ -39,13 +39,13 @@ function lib.CreateSlider(parent, name, lowvalue, highvalue, valuestep, percent)
 	frame:SetWidth(144)
 	frame:SetHeight(42)
 
---	local bg = frame:CreateTexture(nil, "BACKGROUND")
---	bg:SetAllPoints(frame)
---	bg:SetTexture(0, 0, 0)
+	local bg = frame:CreateTexture(nil, "BACKGROUND")
+	bg:SetAllPoints(frame)
+	bg:SetTexture(0, 0, 0)
 
 	local slider = CreateFrame("Slider", nil, frame)
-	slider:SetPoint("LEFT")
-	slider:SetPoint("RIGHT")
+	slider:SetPoint("LEFT", 5, 0)
+	slider:SetPoint("RIGHT", -5, 0)
 	slider:SetHeight(17)
 	slider:SetHitRectInsets(0, 0, -10, -10)
 	slider:SetOrientation("HORIZONTAL")
@@ -59,7 +59,7 @@ function lib.CreateSlider(parent, name, lowvalue, highvalue, valuestep, percent)
 	label:SetText(name)
 
 	local low = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-	low:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", -4, 3)
+	low:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 0, 3)
 	if percent then
 		low:SetFormattedText("%d%%", lowvalue * 100)
 	else
@@ -67,7 +67,7 @@ function lib.CreateSlider(parent, name, lowvalue, highvalue, valuestep, percent)
 	end
 
 	local high = slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-	high:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", 4, 3)
+	high:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", 0, 3)
 	if percent then
 		high:SetFormattedText("%d%%", highvalue * 100)
 	else
@@ -86,6 +86,7 @@ function lib.CreateSlider(parent, name, lowvalue, highvalue, valuestep, percent)
 	slider:SetScript("OnEnter", OnEnter)
 	slider:SetScript("OnLeave", OnLeave)
 
+	slider.container = frame
 	slider.label = label
 	slider.low = low
 	slider.high = high

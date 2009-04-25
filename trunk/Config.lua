@@ -18,10 +18,8 @@ Options.name = GetAddOnMetadata("AnkhUp", "Title")
 Options:Hide()
 
 Options:SetScript("OnShow", function(self)
-	local db
-	local shown
-	local cache = { }
-
+	local AnkhUp = AnkhUp
+	local db = AnkhUpDB
 	local L = AnkhUp.L
 
 	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
@@ -41,9 +39,30 @@ Options:SetScript("OnShow", function(self)
 	notes:SetNonSpaceWrap(true)
 	notes:SetText(L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
 
+	local ready = self:CreateCheckbox(L["Notify when ready"])
+	ready.hint = L["Enable notification in the raid warning frame when Reincarnation becomes ready"]
+	ready:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
+	ready:SetChecked(db.ready)
+	ready:SetScript("OnClick", function(self)
+		local checked = self:GetChecked() and true or false
+		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+		db.ready = checked
+	end)
+
+	local quiet = self:CreateCheckbox(L["Notify when restocking"])
+	quiet.hint = L["Enable notification in the chat frame when restocking ankhs."]
+	quiet:SetPoint("TOPLEFT", ready, "BOTTOMLEFT", 0, -8)
+	quiet:SetChecked(db.checked)
+	quiet:SetScript("OnClick", function(self)
+		local checked = self:GetChecked() and true or false
+		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+		db.quiet = not checked
+	end)
+
 	local low = self:CreateSlider(L["Warning threshold"], 0, 20, 5)
-	low.hint = L["Show a warning dialog when you have fewer than this number of ankhs (set to 0 to disable)"]
-	low.container:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
+	low.hint = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."]
+	low.container:SetPoint("TOPLEFT", quiet, "BOTTOMLEFT", 2, -8)
+	low.container:SetPoint("TOPRIGHT", notes, "BOTTOM", -10, -16 - ready:GetHeight() - 8 - quiet:GetHeight() - 8)
 	low.value:SetText(db.low)
 	low:SetValue(db.low)
 	low:SetScript("OnValueChanged", function(self)
@@ -54,8 +73,9 @@ Options:SetScript("OnShow", function(self)
 	end)
 
 	local buy = self:CreateSlider(L["Restock quantity"], 0, 20, 5)
-	buy.hint = L["Restock ankhs up to a total of this number when interacting with vendors (set to 0 to disable)"]
+	buy.hint = L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."]
 	buy.container:SetPoint("TOPLEFT", low.container, "BOTTOMLEFT", 0, -8)
+	buy.container:SetPoint("TOPRIGHT", low.container, "BOTTOMRIGHT", 0, -8)
 	buy.value:SetText(db.buy)
 	buy:SetValue(db.buy)
 	buy:SetScript("OnValueChanged", function(self)
@@ -69,28 +89,8 @@ Options:SetScript("OnShow", function(self)
 		end
 	end)
 
-	local quiet = self:CreateCheckbox(L["Notify when restocking"])
-	quiet.hint = L["Enable notification in the chat frame when restocking ankhs"]
-	quiet:SetPoint("TOPLEFT", buy.container, "BOTTOMLEFT", 0, -8)
-	quiet:SetChecked(db.checked)
-	quiet:SetScript("OnClick", function(self)
-		local checked = self:GetChecked() and true or false
-		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-		db.quiet = not checked
-	end)
-
-	local ready = self:CreateCheckbox(L["Notify when ready"])
-	ready.hint = L["Enable notification in the raid warning frame when Reincarnation becomes ready"]
-	ready:SetPoint("TOPLEFT", quiet, "BOTTOMLEFT", 0, -8)
-	ready:SetChecked(db.ready)
-	ready:SetScript("OnClick", function(self)
-		local checked = self:GetChecked() and true or false
-		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
-		db.ready = checked
-	end)
-
 	local show = self:CreateCheckbox(L["Show monitor"])
-	show.hint = L["Show a standalone monitor window for your Reincarnation cooldown"]
+	show.hint = L["Show a standalone monitor window for your Reincarnation cooldown."]
 	show:SetPoint("TOPLEFT", notes, "BOTTOM", 0, -16)
 	show:SetChecked(db.frame.show)
 	show:SetScript("OnClick", function(self)
@@ -105,7 +105,7 @@ Options:SetScript("OnShow", function(self)
 	end)
 
 	local lock = self:CreateCheckbox(L["Lock monitor"])
-	lock.hint = L["Lock the monitor window in place, preventing dragging"]
+	lock.hint = L["Lock the monitor window in place, preventing dragging."]
 	lock:SetPoint("TOPLEFT", show, "BOTTOMLEFT", 0, -8)
 	lock:SetChecked(db.frame.lock)
 	lock:SetScript("OnClick", function(self)
@@ -114,9 +114,12 @@ Options:SetScript("OnShow", function(self)
 		db.frame.lock = checked
 	end)
 
-	local scale = self:CreateSlider("Scale", 0.05, 3, 0.05, true)
-	scale.hint = L["Adjust the size of the monitor window"]
-	scale.container:SetPoint("TOPLEFT", lock, "BOTTOMLEFT", 0, -8)
+	local scale = self:CreateSlider(L["Monitor scale"], 0.5, 2, 0.05, true)
+	scale.hint = L["Adjust the size of the monitor window."]
+	scale.container:SetPoint("TOPLEFT", lock, "BOTTOMLEFT", 2, -8)
+	scale.container:SetPoint("TOPRIGHT", notes, "BOTTOMLEFT", -2, -16 - show:GetHeight() - 8 - lock:GetHeight() - 8)
+	scale.value:SetFormattedText("%.0f%%", db.frame.scale * 100)
+	scale:SetValue(db.frame.scale)
 	scale:SetScript("OnValueChanged", function(self)
 		local value = math.floor(self:GetValue() * 100 + 0.5) / 100
 		db.frame.scale = value
