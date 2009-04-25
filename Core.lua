@@ -13,10 +13,6 @@ end
 
 ------------------------------------------------------------------------
 
-local VERSION = GetAddOnMetadata("AnkhUp", "Version")
-
-------------------------------------------------------------------------
-
 local L = setmetatable(AnkhUpStrings or {}, { __index = function(t, k) rawset(t, k, k) return k end })
 
 L["AnkhUp"] = GetAddOnMetadata("AnkhUp", "Title")
@@ -25,21 +21,21 @@ L["Reincarnation"] = GetSpellInfo(20608)
 
 ------------------------------------------------------------------------
 
-local PREFIX = "|cff00ddba"..L["AnkhUp"]..":|r "
+L["AnkhUp: "] = "|cff00ddba" .. L["AnkhUp"] .. ":|r "
 
 local function Print(str, ...)
-	if select("#", ...) > 0 then
+	if select(1, ...) then
 		str = str:format(...)
 	end
-	ChatFrame1:AddMessage(PREFIX..str)
+	print(L["AnkhUp: "] .. str)
 end
 
 local function Debug(lvl, str, ...)
 	if lvl > 0 then return end
-	if select("#", ...) > 0 then
+	if select(1, ...) then
 		str = str:format(...)
 	end
-	ChatFrame1:AddMessage(PREFIX.."[DEBUG] "..str)
+	print("[DEBUG] AnkhUp: " .. str)
 end
 
 ------------------------------------------------------------------------
@@ -100,6 +96,7 @@ end
 ------------------------------------------------------------------------
 
 local AnkhUp = CreateFrame("Frame", "AnkhUp")
+AnkhUp:Hide()
 AnkhUp.L = L
 
 local timer = 0
@@ -114,10 +111,9 @@ AnkhUp:SetScript("OnUpdate", function(self, elapsed)
 		timer = 0
 	end
 end)
-AnkhUp:Hide()
 
 AnkhUp:SetScript("OnEvent", function(self, event, ...)
-	if self[event] then return self[event](self, ...) end
+	return self[event] and self[event](self, ...)
 end)
 
 ------------------------------------------------------------------------
