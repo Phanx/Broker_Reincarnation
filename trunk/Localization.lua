@@ -161,7 +161,7 @@ if locale == "frFR" then
 	L["Show monitor"] = "Afficher moniteur"
 	L["Show a small, movable monitor window for your Reincarnation cooldown."] = "Affiche une petite fenêtre de contrôle déplaçable pour le temps de recharge de Réincarnation."
 	L["Monitor scale"] = "Taille d'moniteur"
-	L["Adjust the size of the monitor window"] = "Règle la taille du moniteur"
+	L["Adjust the size of the monitor window."] = "Règle la taille du moniteur"
 return end
 
 --[[--------------------------------------------------------------------
