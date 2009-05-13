@@ -69,7 +69,10 @@ Options:SetScript("OnShow", function(self)
 		local value = math.floor(self:GetValue() + 0.5)
 		self.value:SetText(value)
 		db.low = value
-		AnkhUp:BAG_UPDATE()
+		AnkhUp:DispatchCallbacks("AnkhsChanged")
+	--	if GetItemCount(17030) < db.low then
+	--		AnkhUp:DispatchCallbacks("AnkhsLow")
+	--	end
 	end)
 
 	local buy = self:CreateSlider(L["Restock quantity"], 0, 20, 5)
@@ -117,7 +120,7 @@ Options:SetScript("OnShow", function(self)
 	local scale = self:CreateSlider(L["Monitor scale"], 0.5, 2, 0.05, true)
 	scale.hint = L["Adjust the size of the monitor window."]
 	scale.container:SetPoint("TOPLEFT", lock, "BOTTOMLEFT", 2, -8)
-	scale.container:SetPoint("TOPRIGHT", notes, "BOTTOMLEFT", -2, -16 - show:GetHeight() - 8 - lock:GetHeight() - 8)
+	scale.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", -2, -16 - show:GetHeight() - 8 - lock:GetHeight() - 8)
 	scale.value:SetFormattedText("%.0f%%", db.frame.scale * 100)
 	scale:SetValue(db.frame.scale)
 	scale:SetScript("OnValueChanged", function(self)
@@ -125,6 +128,9 @@ Options:SetScript("OnShow", function(self)
 		db.frame.scale = value
 		scale.value:SetFormattedText("%.0f%%", value * 100)
 		AnkhUpFrame:SetScale(value)
+	--	local s = AnkhUpFrame:GetEffectiveScale()
+	--	AnkhUpFrame:ClearAllPoints()
+	--	AnkhUpFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", db.x / s, db.y / s)
 	end)
 
 	self:SetScript("OnShow", nil)

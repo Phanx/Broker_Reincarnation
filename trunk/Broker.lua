@@ -15,146 +15,174 @@ if not LibStub:GetLibrary("LibDataBroker-1.1", true) then return end
 
 ------------------------------------------------------------------------
 
-local HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+local HINT = "Click to open the AnkhUp configuration panel."
 
 if GetLocale() == "deDE" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "esES" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "frFR" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "ruRU" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "koKR" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "zhCN" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 elseif GetLocale() == "zhTW" then
-	HINT = "|cffff0000Click|r to open the AnkhUp configuration panel."
+	HINT = "Click to open the AnkhUp configuration panel."
 end
 
 ------------------------------------------------------------------------
 
+local format = string.format
+
 local AnkhUp = AnkhUp
-local TITLE = GetAddOnMetadata("AnkhUp", "Title")
-local VERSION = GetAddOnMetadata("AnkhUp", "Version")
-local L, db, ankhs, cooldown, ready
+local L = AnkhUp.L
+
+local db
+local ankhstring = ""
 
 ------------------------------------------------------------------------
 
 local obj = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 	type = "data source",
 	icon = "Interface\\AddOns\\AnkhUp\\Ankh",
-	label = TITLE,
-	text = "Loading...",
+	label = GetAddOnMetadata("AnkhUp", "Title"),
+	text = "|cff999999Inactive|r",
+	OnClick = function(self, button)
+		if AnkhUp.configPanel then
+			InterfaceOptionsFrame_OpenToCategory(AnkhUp.configPanel)
+		end
+	end,
+	OnTooltipShow = function(tooltip)
+		tooltip:AddLine(L["AnkhUp"])
+
+		local cooldown, maxcooldown = AnkhUp:GetCooldown()
+
+		if maxcooldown == 0 then
+			tooltip:AddLine(L["You have not yet learned the Reincarnation ability."], 0.6, 0.6, 0.6)
+		else
+		--	if not AnkhUp:HasGlyph() then
+				tooltip:AddDoubleLine(L["Ankhs"], ankhstring)
+		--	end
+
+			if cooldown > 0 then
+				tooltip:AddDoubleLine(L["Ready in..."], string.format(SecondsToTimeAbbrev(cooldown)), nil, nil, nil, 1, 0.25, 0.25)
+			else
+				tooltip:AddDoubleLine(L["Reincarnation is..."], L["Ready"], nil, nil, nil, 0.25, 1, 0.25)
+			end
+
+			tooltip:AddDoubleLine(L["Cooldown"], string.format(SecondsToTimeAbbrev(maxcooldown)), nil, nil, nil, 1, 1, 1)
+
+			if db.last > 0 then
+				tooltip:AddDoubleLine(L["Last Reincarnated"], date(L["%I:%M%p %A, %d %B, %Y"], db.last), nil, nil, nil, 1, 1, 1)
+			else
+				tooltip:AddDoubleLine(L["Last Reincarnated"], L["Unknown"], nil, nil, nil, 0.6, 0.6, 0.6)
+			end
+		end
+
+		if AnkhUp.configFrame then
+			tooltip:AddLine(" ")
+			tooltip:AddLine(HINT, 0.25, 1, 0.25)
+		end
+	end,
 })
 
 ------------------------------------------------------------------------
 
-local a = CreateFrame("Frame", nil, WorldFrame)
-a:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
-a:RegisterEvent("PLAYER_ENTERING_WORLD")
+local AnkhUpBroker = CreateFrame("Frame")
+AnkhUpBroker:Hide()
+
+AnkhUp.Broker = AnkhUpBroker
+AnkhUp.Broker.obj = obj
 
 ------------------------------------------------------------------------
 
-function a:PLAYER_ENTERING_WORLD()
-	L = AnkhUp.L
+function AnkhUpBroker:Initialize()
+	self.Initialize = nil
+
 	db = AnkhUpDB
-	ready = AnkhUp:GetDowntime() == 0
 
-	obj.OnClick = function(self, btn)
-		if AnkhUp.configPanel then
-			InterfaceOptionsFrame_OpenToCategory(AnkhUp.configPanel)
-		end
-	end
-
-	obj.OnTooltipShow = function(tooltip)
-		tooltip:AddLine(L["AnkhUp"])
-		tooltip:AddDoubleLine(L["Ankhs"], ankhs)
-
-		local downtime = AnkhUp:GetDowntime()
-		if downtime > 0 then
-			tooltip:AddDoubleLine(L["Ready in..."], "|cffff7f7f"..string.format(SecondsToTimeAbbrev(downtime)).."|r")
-		else
-			tooltip:AddDoubleLine(L["Reincarnation is..."], "|cff7fff7f"..L["Ready"].."!|r")
-		end
-
-		tooltip:AddDoubleLine(L["Cooldown"], "|cffffffff"..cooldown.."m|r")
-		tooltip:AddDoubleLine(L["Last Reincarnated"], db.last and date("|cffffffff"..L["%I:%M%p %A, %d %B, %Y"].."|r", AnkhUp:GetLast()) or "|cffffff7f"..L["Unknown"].."|r")
-
-		if AnkhUp.configFrame then
-			tooltip:AddLine(" ")
-			tooltip:AddLine(HINT)
-		end
+	if AnkhUp.frame then
+		AnkhUp.frame:RegisterObject("AnkhUp")
 	end
 
 	self:AnkhsChanged()
-	self:CooldownChanged()
 
-	if ready then
+	if AnkhUp:GetCooldown() == 0 then
 		self:ReincarnationReady()
 	else
 		self:ReincarnationUsed()
 	end
-
-	AnkhUp:RegisterCallback("AnkhsChanged", self, "AnkhsChanged")
-	AnkhUp:RegisterCallback("CooldownChanged", self, "CooldownChanged")
-	AnkhUp:RegisterCallback("ReincarnationUsed", self, "ReincarnationUsed")
-	AnkhUp:RegisterCallback("ReincarnationReady", self, "ReincarnationReady")
-
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	self.PLAYER_ENTERING_WORLD = nil
 end
 
 ------------------------------------------------------------------------
 
-function a:AnkhsChanged()
-	ankhs = GetItemCount(17030)
-	if db.low > 0 then
-		if ankhs > db.low then
-			ankhs = "|cff7fff7f"..ankhs.."|r"
-		elseif ankhs > 0 then
-			ankhs = "|cffffff7f"..ankhs.."|r"
-		else
-			ankhs = "|cffff7f7f"..ankhs.."|r"
-		end
-	else
-		ankhs = "|cff7f7f7f"..ankhs.."|r"
-	end
-end
-
-------------------------------------------------------------------------
-
-function a:CooldownChanged()
-	cooldown = AnkhUp:GetCooldown()
-end
-
-------------------------------------------------------------------------
+local NOT_READY = "%s |cffff3f3f(%s)"
+local READY = "%s |cff3fff3f(" .. L["Ready"] .. ")|r"
 
 local counter = 0
-local function update(self, elapsed)
-	counter = counter + elapsed
+function AnkhUpBroker:Update(elapsed)
+	counter = counter + (elapsed or 1000)
 	if counter > 0.2 then
-		if not ready then
-			local downtime = AnkhUp:GetDowntime()
-			obj.text = "|cffff7f7f" .. date("%M:%S", downtime) .. " (|r" .. ankhs .. "|cffff7f7f)|r"
+		local cooldown = AnkhUp:GetCooldown()
+		if cooldown == 0 then
+			obj.text = format(READY, ankhstring)
 		else
-			obj.text = "|cff7fff7f" .. L["Ready"] .. " (|r" .. ankhs .. "|cff7fff7f)|r"
+			obj.text = format(NOT_READY, ankhstring, date("%M:%S", cooldown))
 		end
 		counter = 0
 	end
 end
 
-function a:ReincarnationUsed()
-	self:SetScript("OnUpdate", update)
-	ready = false
-	update(self, 1000)
+AnkhUpBroker:SetScript("OnUpdate", AnkhUpBroker.Update)
+
+function AnkhUpBroker:ReincarnationUsed()
+	if self.Initialize then return self:Initialize() end
+
+	self:Show()
 end
 
-function a:ReincarnationReady()
-	self:SetScript("OnUpdate", nil)
-	ready = true
-	update(self, 1000)
+function AnkhUpBroker:ReincarnationReady()
+	if self.Initialize then return self:Initialize() end
+
+	self:Hide()
+	self:Update()
 end
+
+------------------------------------------------------------------------
+
+local ANKHS = "|cff%s%s|r"
+
+local GREEN = "3fff3f"
+local YELLOW = "ffff3f"
+local RED = "ff3f3f"
+
+function AnkhUpBroker:AnkhsChanged()
+	if self.Initialize then return self:Initialize() end
+
+	local ankhs = GetItemCount(17030)
+	if db.low > 0 then
+		if ankhs > db.low then
+			ankhstring = format(ANKHS, GREEN, ankhs)
+		elseif ankhs > 0 then
+			ankhstring = format(ANKHS, YELLOW, ankhs)
+		else
+			ankhstring = format(ANKHS, RED, ankhs)
+		end
+	else
+		ankhstring = format(ANKHS, GREEN, ankhs)
+	end
+
+	self:Update()
+end
+
+------------------------------------------------------------------------
+
+AnkhUp:RegisterCallback("AnkhsChanged", "AnkhsChanged", AnkhUpBroker)
+AnkhUp:RegisterCallback("AnkhsLow", "AnkhsChanged", AnkhUpBroker)
+AnkhUp:RegisterCallback("ReincarnationUsed", "ReincarnationUsed", AnkhUpBroker)
+AnkhUp:RegisterCallback("ReincarnationReady", "ReincarnationReady", AnkhUpBroker)
 
 ------------------------------------------------------------------------
