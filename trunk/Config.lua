@@ -142,10 +142,9 @@ AnkhUp.configPanel = Options
 
 InterfaceOptions_AddCategory(Options)
 
-LibStub:GetLibrary("tekKonfig-AboutPanel").new(Options.name, "AnkhUp")
+LibStub("LibAboutPanel").new(Options.name, "AnkhUp")
 
 SLASH_ANKHUP1 = "/ankhup"
-SLASH_ANKHUP2 = "/aup"
 SlashCmdList.ANKHUP = function() InterfaceOptionsFrame_OpenToCategory(Options) end
 
 ------------------------------------------------------------------------

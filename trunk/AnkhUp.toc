@@ -19,12 +19,12 @@
 
 ## SavedVariablesPerCharacter: AnkhUpDB
 
-Lib\LibStub.lua
-Lib\CallbackHandler-1.0.lua
-Lib\LibDataBroker-1.1.lua
-# Lib\PhanxConfig-Checkbox.lua
-# Lib\PhanxConfig-Slider.lua
-Lib\tekKonfigAboutPanel.lua
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
 
 Localization.lua
 Core.lua
