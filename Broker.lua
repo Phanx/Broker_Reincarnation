@@ -35,7 +35,9 @@ end
 
 ------------------------------------------------------------------------
 
+local date = date
 local format = string.format
+local SecondsToTimeAbbrev = SecondsToTimeAbbrev
 
 local AnkhUp = AnkhUp
 local L = AnkhUp.L
@@ -63,20 +65,20 @@ local obj = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 		if maxcooldown == 0 then
 			tooltip:AddLine(L["You have not yet learned the Reincarnation ability."], 0.6, 0.6, 0.6)
 		else
-		--	if not AnkhUp:HasGlyph() then
+			if not AnkhUp:HasGlyph() then
 				tooltip:AddDoubleLine(L["Ankhs"], ankhstring)
-		--	end
+			end
 
 			if cooldown > 0 then
-				tooltip:AddDoubleLine(L["Ready in..."], string.format(SecondsToTimeAbbrev(cooldown)), nil, nil, nil, 1, 0.25, 0.25)
+				tooltip:AddDoubleLine(L["Ready in..."], format(SecondsToTimeAbbrev(cooldown)), nil, nil, nil, 1, 0.25, 0.25)
 			else
 				tooltip:AddDoubleLine(L["Reincarnation is..."], L["Ready"], nil, nil, nil, 0.25, 1, 0.25)
 			end
 
-			tooltip:AddDoubleLine(L["Cooldown"], string.format(SecondsToTimeAbbrev(maxcooldown)), nil, nil, nil, 1, 1, 1)
+			tooltip:AddDoubleLine(L["Cooldown"], format(SecondsToTimeAbbrev(maxcooldown)), nil, nil, nil, 1, 1, 1)
 
 			if db.last > 0 then
-				tooltip:AddDoubleLine(L["Last Reincarnated"], date(L["%I:%M%p %A, %d %B, %Y"], db.last), nil, nil, nil, 1, 1, 1)
+				tooltip:AddDoubleLine(L["Last Reincarnated"], date(L["%I:%M %p %A, %B %d, %Y"], db.last), nil, nil, nil, 1, 1, 1)
 			else
 				tooltip:AddDoubleLine(L["Last Reincarnated"], L["Unknown"], nil, nil, nil, 0.6, 0.6, 0.6)
 			end

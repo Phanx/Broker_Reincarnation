@@ -46,6 +46,7 @@ local bookID = 0
 local cooldown = 0
 local maxCooldown = 0
 local startTime = 0
+local glyph = false
 
 ------------------------------------------------------------------------
 
@@ -271,6 +272,40 @@ function AnkhUp:PLAYER_TALENT_UPDATE()
 end
 
 ------------------------------------------------------------------------
+--	Update glyphs
+
+function AnkhUp:GLYPH_CHANGED()
+	Debug(1, "GLYPH_CHANGED")
+
+	local newglyph
+	for i = 1, GetNumGlyphSockets() do
+		local _, _, id = GetGlyphSocketInfo(i)
+		if id == 58059 then -- Glyph of Renewed Life
+			newglyph = true
+			break
+		end
+	end
+
+	if newglyph and not glyph then
+		glyph = newglyph
+		self:UnregisterEvent("BAG_UPDATE")
+		self:RegisterEvent("GLYPH_ADDED")
+		self:RegisterEvent("GLYPH_CHANGED")
+		self:RegisterEvent("GLYPH_REMOVED")
+		self:DispatchCallbacks("GlyphChanged")
+	elseif glyph and not newglyph then
+		self:UnregisterEvent("GLYPH_ADDED")
+		self:UnregisterEvent("GLYPH_CHANGED")
+		self:UnregisterEvent("GLYPH_REMOVED")
+		self:RegisterEvent("BAG_UPDATE")
+		self:DispatchCallbacks("GlyphChanged")
+	end
+end
+
+AnkhUp.GLYPH_ADDED = AnkhUp.GLYPH_CHANGED
+AnkhUp.GLYPH_REMOVED = AnkhUp.GLYPH_CHANGED
+
+------------------------------------------------------------------------
 --	Update events
 
 function AnkhUp:SPELLS_CHANGED()
@@ -279,7 +314,6 @@ function AnkhUp:SPELLS_CHANGED()
 	if bookID > 0 then
 		UpdateMaxCooldown()
 		UpdateCooldown()
-		Debug(2, "cooldown: %d, maxcooldown: %d", cooldown, maxcooldown)
 		if cooldown == 0 then
 			self:DispatchCallbacks("ReincarnationReady")
 		else
@@ -287,8 +321,13 @@ function AnkhUp:SPELLS_CHANGED()
 			self:Show()
 		end
 
+		self:GLYPH_CHANGED()
+		if not glyph then
+			self:RegisterEvent("BAG_UPDATE")
+			self:DispatchCallbacks("GlyphChanged")
+		end
+
 		self:RegisterEvent("PLAYER_DEAD")
-		self:RegisterEvent("BAG_UPDATE")
 		self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 		self:RegisterEvent("CHARACTER_POINTS_CHANGED")
 		self:RegisterEvent("PLAYER_TALENT_UPDATE")
@@ -345,6 +384,7 @@ local callbacks = {
 	["AnkhsChanged"] = { },
 	["AnkhsLow"] = { },
 	["CooldownChanged"] = { },
+	["GlyphChanged"] = { },
 	["ReincarnationReady"] = { },
 	["ReincarnationUsed"] = { },
 }
@@ -398,6 +438,7 @@ end
 --	Public API
 
 function AnkhUp:GetCooldown() return cooldown, maxcooldown end
+function AnkhUp:HasGlyph() return glyph end
 
 ------------------------------------------------------------------------
 --	Misc
