@@ -7,8 +7,9 @@
 ## X-Copyright: Copyright ©2006–2009 Alyssa "Phanx" Kinley
 ## X-License: Do not redistribute. See README for full license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-## X-CompatibleLocales: enUS, enGB, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, enGB
+
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
+## X-Localizations: enUS, frFR
 
 ## Author: Phanx
 ## X-Email: addons AT phanx net
