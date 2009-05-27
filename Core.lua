@@ -40,13 +40,14 @@ end
 
 ------------------------------------------------------------------------
 
+local db
+local glyph = false
 local aliveTime = 0
 local ankhs = 0
 local bookID = 0
 local cooldown = 0
 local maxCooldown = 0
 local startTime = 0
-local glyph = false
 
 ------------------------------------------------------------------------
 

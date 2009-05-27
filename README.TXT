@@ -1,7 +1,8 @@
 ------------------------------------------------------------------------
+Description:
 
-AnkhUp provides a Reincarnation monitor and basic ankh management
-for shaman characters.
+AnkhUp is a World of Warcraft user interface addon for shaman characters
+to provide a Reincarnation cooldown monitor and related features.
 
 ------------------------------------------------------------------------
 Features:
@@ -10,6 +11,7 @@ Features:
 * Alerts you when Reincarnation is ready
 * Warns you when your supply of ankhs is running low
 * Restocks ankhs when visiting reagent vendors
+* Remembers the date and time you last used Reincarnation
 
 ------------------------------------------------------------------------
 Download:
@@ -26,9 +28,9 @@ download page to report specific problems and request specific features.
 Use the comments section on the download page for general feedback only.
 
 If private communication is necessary, I can be contacted...
-- by email: addons AT phanx net
-- by in-game mail: Phanx on US Blackrock Horde
-- by private message: Phanx on wowinterface.com or wowace.com
+* by email: addons AT phanx net
+* by in-game mail: Phanx on US Blackrock Horde
+* by private message: Phanx on wowinterface.com or wowace.com
 
 ------------------------------------------------------------------------
 Credits:
