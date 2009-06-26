@@ -25,6 +25,7 @@ local start = 0
 local L = setmetatable(AnkhUpStrings or { }, { __index = function(t, k) t[k] = k return k end })
 if AnkhUpStrings then AnkhUpStrings = nil end
 
+L["AnkhUp"] = GetAddOnMetadata("AnkhUp", "Title")
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
 L["Reincarnation"] = GetSpellInfo(20608)
 
@@ -46,8 +47,8 @@ end
 AnkhUp.feed = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 	type = "data source",
 	icon = "Interface\\AddOns\\AnkhUp\\Ankh",
-	label = "AnkhUp",
-	text = "Loading...",
+	label = L["AnkhUp"],
+	text = L["Unknown"],
 	OnClick = function(self, button)
 		if button == "RightButton" then
 			if AnkhUp.options then
@@ -62,11 +63,11 @@ AnkhUp.feed = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 
 function AnkhUp:UpdateText()
 	if duration == 0 then
-		self.feed.text = "|cff999999Unknown|r"
+		self.feed.text = string.format("|cff999999%s|r", L["Unknown"])
 	elseif glyph and cooldown > 0 then
 		self.feed.text = string.format("|cffff3333%s|r", string.format(SecondsToTimeAbbrev(cooldown)))
 	elseif glyph then
-		self.feed.text = "|cff33ff33Ready|r"
+		self.feed.text = string.format("|cff33ff33%s|r", L["Ready"])
 	else
 		local color
 		if ankhs > db.low then
@@ -79,7 +80,7 @@ function AnkhUp:UpdateText()
 		if cooldown > 0 then
 			self.feed.text = string.format("|cff%s%d|r|cff999999 / |r|cffff3333%s|r", color, ankhs, string.format(SecondsToTimeAbbrev(cooldown)))
 		else
-			self.feed.text = string.format("|cff%s%d|r|cff999999 / |r|cff33ff33Ready|r", color, ankhs)
+			self.feed.text = string.format("|cff%s%d|r|cff999999 / |r|cff33ff33%s|r", color, ankhs, L["Ready"])
 		end
 	end
 end
@@ -87,7 +88,7 @@ end
 function AnkhUp:UpdateTooltip(tooltip)
 	if not tooltip then tooltip = GameTooltip end
 
-	tooltip:AddLine("AnkhUp", 1, 0.8, 0)
+	tooltip:AddLine(L["AnkhUp"], 1, 0.8, 0)
 
 	if not glyph then
 		local r, g, b
@@ -98,25 +99,25 @@ function AnkhUp:UpdateTooltip(tooltip)
 		else
 			r, g, b = 1, 0.2, 0.2
 		end
-		tooltip:AddDoubleLine("Ankhs:", ankhs, 1, 0.8, 0, r, g, b)
+		tooltip:AddDoubleLine(string.format("%s:", L["Ankhs]"), ankhs, 1, 0.8, 0, r, g, b)
 	end
 
 	if cooldown > 0 then
-		tooltip:AddDoubleLine("Cooldown:", string.format(SecondsToTimeAbbrev(cooldown)), 1, 0.8, 0, 1, 0.2, 0.2)
+		tooltip:AddDoubleLine(string.format("%s:", "Remaining:"), string.format(SecondsToTimeAbbrev(cooldown)), 1, 0.8, 0, 1, 0.2, 0.2)
 	else
-		tooltip:AddDoubleLine("Cooldown:", "Ready!", 1, 0.8, 0, 0.2, 1, 0.2)
+		tooltip:AddDoubleLine(string.format("%s:", "Remaining:"), string.format("%s!", L["Ready"]), 1, 0.8, 0, 0.2, 1, 0.2)
 	end
 
-	tooltip:AddDoubleLine("Duration:", string.format(SecondsToTimeAbbrev(duration)), 1, 0.8, 0, 1, 1, 1)
+	tooltip:AddDoubleLine(string.format("%s:", "Cooldown:"), string.format(SecondsToTimeAbbrev(duration)), 1, 0.8, 0, 1, 1, 1)
 
 	if db.last > 0 then
-		tooltip:AddLine("Last Reincarnated:", 1, 0.8, 0)
-		tooltip:AddDoubleLine(" ", date("%I:%M %p %A, %B %d, %Y", db.last), nil, nil, nil, 1, 1, 1)
+		tooltip:AddLine(string.format("%s:", "Last Reincarnated:"), 1, 0.8, 0)
+		tooltip:AddDoubleLine(" ", date(L["%I:%M %p %A, %B %d, %Y"], db.last), nil, nil, nil, 1, 1, 1)
 	end
 
 	if self.options then
 		tooltip:AddLine(" ")
-		tooltip:AddLine("Right-click for options", 0.2, 1, 0.2)
+		tooltip:AddLine(L["Right-click for options."], 0.2, 1, 0.2)
 	end
 end
 
@@ -411,7 +412,7 @@ function AnkhUp:MERCHANT_SHOW()
 				local need = db.buy - ankhs
 				if need > 0 then
 					if not db.quiet then
-						print(string.format("Buying %d ankhs.", need))
+						print(string.format(L["Buying %d ankhs."], need))
 					end
 					while need > 10 do
 						BuyMerchantItem(i, 10)
