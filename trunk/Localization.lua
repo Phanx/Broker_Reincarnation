@@ -26,8 +26,7 @@ if locale == "deDE" then
 	L["Ankh"] = "Ankh"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -35,7 +34,7 @@ if locale == "deDE" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -52,6 +51,8 @@ if locale == "deDE" then
 --	L["Lock the monitor window in place, preventing dragging"] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window"] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -65,8 +66,7 @@ if locale == "esES" then
 	L["Ankh"] = "Ankh"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -74,7 +74,7 @@ if locale == "esES" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -91,6 +91,8 @@ if locale == "esES" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -103,8 +105,7 @@ if locale == "esMX" then
 	L["Ankh"] = "Ankh"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -112,7 +113,7 @@ if locale == "esMX" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -129,6 +130,8 @@ if locale == "esMX" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -142,16 +145,15 @@ if locale == "frFR" then
 	L["Ankh"] = "Ankh"
 
 	L["Ankhs"] = "Ankhs"
-	L["Ready in..."] = "Disponible dans..."
-	L["Reincarnation is..."] = "Réincarnation est..."
+	L["Remaining"] = "Disponible dans..."
 	L["Ready"] = "Disponible"
 	L["Cooldown"] = "Recharge"
 	L["Last Reincarnated"] = "Dernière réincarnation"
-	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p, %A %d %B %Y"
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p, %A %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 	L["You only have %d ankhs left. Don't forget to restock!"] = "Il ne vous reste que %d ankhs. N'oubliez pas d'en racheter!"
 	L["Buying %d ankhs."] = "Achat de %d ankhs."
-	L["Reincarnation ready!"] = "Réincarnation disponible!"
+	L["Reincarnation is ready!"] = "Réincarnation est disponible!"
 
 	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Cette fenêtre vous permet de configurer les options pour contrôler votre Réincarnation et gérer vos Ankhs"
 	L["Low ankh warning"] = "Alerte ankhs"
@@ -166,6 +168,8 @@ if locale == "frFR" then
 	L["Show a small, movable monitor window for your Reincarnation cooldown."] = "Affiche une petite fenêtre de contrôle déplaçable pour le temps de recharge de Réincarnation."
 	L["Monitor scale"] = "Taille d'moniteur"
 	L["Adjust the size of the monitor window."] = "Règle la taille du moniteur"
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -179,8 +183,7 @@ if locale == "ruRU" then
 	L["Ankh"] = "Крестов"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -188,7 +191,7 @@ if locale == "ruRU" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -205,6 +208,8 @@ if locale == "ruRU" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -218,8 +223,7 @@ if locale == "koKR" then
 	L["Ankh"] = "십자가"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -227,7 +231,7 @@ if locale == "koKR" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -244,6 +248,8 @@ if locale == "koKR" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -257,8 +263,7 @@ if locale == "zhCN" then
 	L["Ankh"] = "十字章"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -266,7 +271,7 @@ if locale == "zhCN" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -283,6 +288,8 @@ if locale == "zhCN" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 --[[--------------------------------------------------------------------
@@ -296,8 +303,7 @@ if locale == "zhTW" then
 	L["Ankh"] = "十字章"
 
 --	L["Ankhs"] = ""
---	L["Ready in..."] = ""
---	L["Reincarnation is..."] = ""
+--	L["Remaining"] = ""
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
@@ -305,7 +311,7 @@ if locale == "zhTW" then
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
---	L["Reincarnation ready!"] = ""
+--	L["Reincarnation is ready!"] = ""
 
 --	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
 --	L["Low ankh warning"] = ""
@@ -322,6 +328,8 @@ if locale == "zhTW" then
 --	L["Lock the monitor window in place, preventing dragging."] = ""
 --	L["Monitor scale"] = ""
 --	L["Adjust the size of the monitor window."] = ""
+
+--	L["Right-click for options."] = ""
 return end
 
 ------------------------------------------------------------------------
