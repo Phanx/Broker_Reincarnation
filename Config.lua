@@ -1,6 +1,6 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	A shaman Reincarnation monitor and ankh management helper
+	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	Copyright ©2006–2009 Alyssa "Phanx" Kinley
@@ -10,8 +10,6 @@
 ----------------------------------------------------------------------]]
 
 assert(AnkhUp, "AnkhUp not found!")
-
-------------------------------------------------------------------------
 
 local Options = CreateFrame("Frame", nil, UIParent)
 Options.name = GetAddOnMetadata("AnkhUp", "Title")
@@ -28,6 +26,7 @@ Options:SetScript("OnShow", function(self)
 	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
 	title:SetPoint("TOPRIGHT", -16, -16)
+	title:SetJustifyH("LEFT")
 	title:SetText(self.name)
 
 	local notes = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
@@ -69,10 +68,6 @@ Options:SetScript("OnShow", function(self)
 		local value = math.floor(self:GetValue() + 0.5)
 		self.value:SetText(value)
 		db.low = value
-		AnkhUp:DispatchCallbacks("AnkhsChanged")
-	--	if GetItemCount(17030) < db.low then
-	--		AnkhUp:DispatchCallbacks("AnkhsLow")
-	--	end
 	end)
 
 	local buy = self:CreateSlider(L["Restock quantity"], 0, 20, 5)
@@ -101,9 +96,9 @@ Options:SetScript("OnShow", function(self)
 		PlaySound(checked and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
 		db.frame.show = checked
 		if checked then
-			AnkhUpFrame:Show()
+			AnkhUp.frame:Show()
 		else
-			AnkhUpFrame:Hide()
+			AnkhUp.frame:Hide()
 		end
 	end)
 
@@ -127,10 +122,10 @@ Options:SetScript("OnShow", function(self)
 		local value = math.floor(self:GetValue() * 100 + 0.5) / 100
 		db.frame.scale = value
 		scale.value:SetFormattedText("%.0f%%", value * 100)
-		AnkhUpFrame:SetScale(value)
-	--	local s = AnkhUpFrame:GetEffectiveScale()
-	--	AnkhUpFrame:ClearAllPoints()
-	--	AnkhUpFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", db.x / s, db.y / s)
+		AnkhUp.frame:SetScale(value)
+	--	local s = AnkhUp.frame:GetEffectiveScale()
+	--	AnkhUp.frame:ClearAllPoints()
+	--	AnkhUp.frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", db.x / s, db.y / s)
 	end)
 
 	self:SetScript("OnShow", nil)
@@ -138,7 +133,7 @@ end)
 
 ------------------------------------------------------------------------
 
-AnkhUp.configPanel = Options
+AnkhUp.options = Options
 
 InterfaceOptions_AddCategory(Options)
 

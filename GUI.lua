@@ -1,52 +1,22 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	A shaman Reincarnation monitor and ankh management helper
+	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	Copyright ©2006–2009 Alyssa "Phanx" Kinley
 	See included README for license terms and additional information.
 
-	This file provides a standalone monitor window for AnkhUp.
+	This file provides a standalone display frame for AnkhUp.
 ----------------------------------------------------------------------]]
 
 assert(AnkhUp, "AnkhUp not found!")
 
-------------------------------------------------------------------------
+function AnkhUp:SetupFrame()
+	local curr
+	local objects = {}
+	local DataBroker = LibStub("LibDataBroker-1.1")
 
-local db
-local curr
-local objects = {}
-local DataBroker = LibStub:GetLibrary("LibDataBroker-1.1")
-
-local AnkhUpFrame = CreateFrame("Button", "AnkhUpFrame", UIParent)
-AnkhUpFrame.icon = AnkhUpFrame:CreateTexture(nil, "ARTWORK")
-AnkhUpFrame.text = AnkhUpFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-
-AnkhUp.frame = AnkhUpFrame
-
-------------------------------------------------------------------------
-
-local function updateDisplay(event, name, attr, value, dataobj)
-	if type(event) == "table" then
-		dataobj = event
-	end
-	if dataobj == objects[curr] then
-		AnkhUpFrame.text:SetText(dataobj.text)
-	end
-end
-
-function AnkhUpFrame:RegisterObject(name)
-	assert(DataBroker:GetDataObjectByName(name), "AnkhUp: '"..name.."' is not a valid data object")
-	tinsert(objects, DataBroker:GetDataObjectByName(name))
-	DataBroker.RegisterCallback(AnkhUpFrame, "LibDataBroker_AttributeChanged_"..name.."_text", updateDisplay)
-	curr = #objects
-end
-
-------------------------------------------------------------------------
-
-local orig = AnkhUp.PLAYER_LOGIN
-function AnkhUp:PLAYER_LOGIN()
-	orig(self)
+	-----
 
 	local defaults = {
 		lock = false,
@@ -54,43 +24,50 @@ function AnkhUp:PLAYER_LOGIN()
 		scale = 1,
 		show = true,
 	}
-	if not AnkhUpDB.frame then
-		AnkhUpDB.frame = defaults
-		db = AnkhUpDB.frame
-	else
-		db = AnkhUpDB.frame
-		for k, v in pairs(defaults) do
-			if db[k] == nil or type(db[k]) ~= type(v) then
-				db[k] = v
-			end
+
+	if not AnkhUpDB.frame then AnkhUpDB.frame = { } end
+	local db = AnkhUpDB.frame
+
+	for k, v in pairs(defaults) do
+		if type(db[k]) ~= type(v) then
+			db[k] = v
 		end
 	end
 
-	local self = AnkhUpFrame
+	-----
 
-	self:SetBackdrop(GameTooltip:GetBackdrop())
-	self:SetBackdropColor(GameTooltip:GetBackdropColor())
-	self:SetBackdropBorderColor(GameTooltip:GetBackdropBorderColor())
+	local frame = CreateFrame("Button", nil, UIParent)
+	self.frame = frame
 
-	self:SetFrameStrata("BACKGROUND")
-	self:SetWidth(110)
-	self:SetHeight(32)
-	self:SetScale(db.scale)
-	self:SetPoint(db.point, db.x, db.y)
+	frame:SetBackdrop({
+		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
+		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	frame:SetBackdropColor(0, 0, 0, 0.9)
+	frame:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 
-	self.icon:SetPoint("LEFT", self, 4, 0)
-	self.icon:SetWidth(24)
-	self.icon:SetHeight(24)
-	self.icon:SetTexture("Interface\\AddOns\\AnkhUp\\Ankh")
+	frame:SetFrameStrata("BACKGROUND")
+	frame:SetWidth(110)
+	frame:SetHeight(32)
+	frame:SetScale(db.scale)
+	frame:SetPoint(db.point, db.x, db.y)
 
-	self.text:SetPoint("LEFT", self.icon, "RIGHT", 4, 0)
-	self.text:SetPoint("RIGHT", self, -8, 0)
-	self.text:SetJustifyH("LEFT")
-	self.text:SetShadowOffset(1, -1)
+	local icon = frame:CreateTexture(nil, "ARTWORK")
+	icon:SetPoint("LEFT", frame, 4, 0)
+	icon:SetWidth(24)
+	icon:SetHeight(24)
+	icon:SetTexture("Interface\\AddOns\\AnkhUp\\Ankh")
+	frame.icon = icon
 
-	-------------------------------------------------------------------
+	local text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	text:SetPoint("LEFT", icon, "RIGHT", 4, 0)
+	text:SetPoint("RIGHT", frame, -8, 0)
+	text:SetJustifyH("LEFT")
+	text:SetShadowOffset(1, -1)
+	frame.text = text
 
-	self:RegisterForClicks("AnyUp")
+	-----
 
 	-- GetTooltipAnchor function by Tekkub
 	local function GetTooltipAnchor(frame)
@@ -101,7 +78,7 @@ function AnkhUp:PLAYER_LOGIN()
 		return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 	end
 
-	self:SetScript("OnEnter", function(self)
+	frame:SetScript("OnEnter", function(self)
 		if curr and objects[curr] and objects[curr].OnTooltipShow then
 			GameTooltip:SetOwner(self, GetTooltipAnchor(self))
 			objects[curr].OnTooltipShow(GameTooltip)
@@ -109,18 +86,22 @@ function AnkhUp:PLAYER_LOGIN()
 		end
 	end)
 
-	self:SetScript("OnLeave", function(self)
+	frame:SetScript("OnLeave", function(self)
 		GameTooltip:Hide()
 	end)
 
-	self:SetScript("OnClick", function(self, button)
+	-----
+
+	frame:RegisterForClicks("AnyUp")
+
+	frame:SetScript("OnClick", function(self, button)
 		if curr and objects[curr] and objects[curr].OnClick then
 			GameTooltip:Hide()
 			objects[curr].OnClick(self, button)
 		end
 	end)
 
-	-------------------------------------------------------------------
+	-----
 
 	-- GetUIParentAnchor function by Tekkub
 	local function GetUIParentAnchor(frame)
@@ -132,16 +113,16 @@ function AnkhUp:PLAYER_LOGIN()
 		return vhalf..hhalf, dx, dy
 	end
 
-	self:RegisterForDrag("LeftButton")
-	self:SetMovable(true)
-	self:SetClampedToScreen(true)
+	frame:SetMovable(true)
+	frame:SetClampedToScreen(true)
+	frame:RegisterForDrag("LeftButton")
 
-	self:SetScript("OnDragStart", function(self)
+	frame:SetScript("OnDragStart", function(self)
 		self:GetScript("OnLeave")(self)
 		self:StartMoving()
 	end)
 
-	self:SetScript("OnDragStop", function(self)
+	frame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
 
 		db.point, db.x, db.y = GetUIParentAnchor(self)
@@ -151,17 +132,39 @@ function AnkhUp:PLAYER_LOGIN()
 		self:GetScript("OnEnter")(self)
 	end)
 
-	self:SetScript("OnHide", function(self)
+	frame:SetScript("OnHide", function(self)
 		self:StopMovingOrSizing()
 	end)
 
-	-------------------------------------------------------------------
+	-----
+
+	local function updateDisplay(event, name, attr, value, dataobj)
+		if type(event) == "table" then
+			dataobj = event
+		end
+		if dataobj == objects[curr] then
+			text:SetText(dataobj.text)
+		end
+	end
+
+	function frame:RegisterObject(name)
+		assert(DataBroker:GetDataObjectByName(name), "AnkhUp: '"..name.."' is not a valid data object")
+		tinsert(objects, DataBroker:GetDataObjectByName(name))
+		DataBroker.RegisterCallback(frame, "LibDataBroker_AttributeChanged_" .. name .. "_text", updateDisplay)
+		curr = #objects
+	end
+
+	frame:RegisterObject("AnkhUp")
+
+	-----
 
 	if db.show then
-		self:Show()
+		frame:Show()
 	else
-		self:Hide()
+		frame:Hide()
 	end
-end
 
-------------------------------------------------------------------------
+	-----
+
+	self.SetupFrame = nil
+end
