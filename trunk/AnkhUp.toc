@@ -1,11 +1,11 @@
 ## Interface: 30100
-## Version: 3.1.1.wowi:revision-beta
+## Version: 3.1.2.wowi:revision-beta
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
 ## X-Category: Shaman
 ## X-Copyright: Copyright ©2006–2009 Alyssa "Phanx" Kinley
-## X-License: Do not redistribute. See README for full license terms.
+## X-License: All Rights Reserved. Do not redistribute. See README for license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
@@ -20,15 +20,14 @@
 
 ## SavedVariablesPerCharacter: AnkhUpDB
 
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
-Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
-Libs\LibAboutPanel\LibAboutPanel.lua
+# Libs\LibStub\LibStub.lua
+# Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+# Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+# Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+# Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+# Libs\LibAboutPanel\LibAboutPanel.lua
 
 Localization.lua
 Core.lua
 GUI.lua
-Broker.lua
 Config.lua

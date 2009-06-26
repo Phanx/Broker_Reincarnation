@@ -9,9 +9,11 @@ Features:
 
 * Accurate, unobtrusive Reincarnation cooldown monitor
 * Alerts you when Reincarnation is ready
-* Warns you when your supply of ankhs is running low
+* Warns you when you're running low on ankhs
 * Restocks ankhs when visiting reagent vendors
 * Remembers the date and time you last used Reincarnation
+* Integrated DataBroker feed for use with your favorite display
+* Optional, standalone display window
 
 ------------------------------------------------------------------------
 Download:

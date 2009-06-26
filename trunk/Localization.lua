@@ -1,6 +1,6 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	A shaman Reincarnation monitor and ankh management helper
+	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	Copyright ©2006–2009 Alyssa "Phanx" Kinley
