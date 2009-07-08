@@ -99,7 +99,7 @@ function AnkhUp:UpdateTooltip(tooltip)
 		else
 			r, g, b = 1, 0.2, 0.2
 		end
-		tooltip:AddDoubleLine(string.format("%s:", L["Ankhs]"), ankhs, 1, 0.8, 0, r, g, b)
+		tooltip:AddDoubleLine(string.format("%s:", L["Ankhs"]), ankhs, 1, 0.8, 0, r, g, b)
 	end
 
 	if cooldown > 0 then
