@@ -16,6 +16,7 @@ end
 local alive = 0
 local ankhs = -1
 local cooldown = 0
+local db
 local duration = 0
 local glyph = false
 local start = 0
