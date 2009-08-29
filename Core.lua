@@ -436,7 +436,6 @@ StaticPopupDialogs["LOW_ANKH_ALERT"] = {
 	showAlert = 1,
 	timeout = 0,
 	OnShow = function(self)
-		print("StaticPopup: LOW_ANKH_ALERT")
 		local icon = _G[self:GetName() .. "AlertIcon"]
 		if icon then
 			icon:SetWidth(48)
