@@ -409,7 +409,7 @@ function AnkhUp:MERCHANT_SHOW()
 
 	if not glyph and db.buy > 0 then
 		for i = 1, GetMerchantNumItems() do
-			if GetMerchantItemInfo(i) == "Ankh" then
+			if GetMerchantItemInfo(i) == L["Ankh"] then
 				local need = db.buy - ankhs
 				if need > 0 then
 					if not db.quiet then
