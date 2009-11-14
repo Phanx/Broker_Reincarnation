@@ -16,7 +16,7 @@ AnkhUpStrings = {}
 local L = AnkhUpStrings
 
 --[[--------------------------------------------------------------------
-	German
+	German / Deutsch
 	Last updated: 2009-10-22 by Gyffes
 	Contributors:
 		Gyffes - www.ihl-gilneas.de
@@ -30,7 +30,7 @@ if locale == "deDE" then
 	L["Ready"] = "Bereit"
 	L["Cooldown"] = "Cooldown"
 	L["Last Reincarnated"] = "Letzte Reinkarnation"
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 	L["You only have %d ankhs left. Don't forget to restock!"] = "Du hast nur noch %d Ankhs. Vergiss nicht, sie aufzufüllen!"
 	L["Buying %d ankhs."] = "Kaufe %d Ankhs."
@@ -56,7 +56,7 @@ if locale == "deDE" then
 return end
 
 --[[--------------------------------------------------------------------
-	Spanish
+	Spanish / Español
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -70,7 +70,7 @@ if locale == "esES" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
@@ -96,7 +96,7 @@ if locale == "esES" then
 return end
 
 --[[--------------------------------------------------------------------
-	Latin American Spanish
+	Latin American Spanish / Español
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -109,7 +109,7 @@ if locale == "esMX" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
@@ -135,7 +135,7 @@ if locale == "esMX" then
 return end
 
 --[[--------------------------------------------------------------------
-	French
+	French / Français
 	Last updated: 2009-04-25 by Itania
 	Contributors:
 		Itania @ WoWInterface
@@ -173,7 +173,7 @@ if locale == "frFR" then
 return end
 
 --[[--------------------------------------------------------------------
-	Russian
+	Russian / Русский
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -187,7 +187,7 @@ if locale == "ruRU" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
@@ -213,7 +213,7 @@ if locale == "ruRU" then
 return end
 
 --[[--------------------------------------------------------------------
-	Korean
+	Korean / 한국어
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -227,7 +227,7 @@ if locale == "koKR" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
@@ -253,7 +253,7 @@ if locale == "koKR" then
 return end
 
 --[[--------------------------------------------------------------------
-	Simplified Chinese
+	Simplified Chinese / 简体中文
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -267,7 +267,7 @@ if locale == "zhCN" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
@@ -293,7 +293,7 @@ if locale == "zhCN" then
 return end
 
 --[[--------------------------------------------------------------------
-	Traditional Chinese
+	Traditional Chinese / 正體中文
 	Last updated: YYYY-MM-DD by YourName
 	Contributors:
 		Add your name and any other info here
@@ -307,7 +307,7 @@ if locale == "zhTW" then
 --	L["Ready"] = ""
 --	L["Cooldown"] = ""
 --	L["Last Reincarnated"] = ""
---	L["%I:%M %p %A, %B %d, %Y"] = "" -- See table at http://www.lua.org/pil/22.1.html
+	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
 --	L["You only have %d ankhs left. Don't forget to restock!"] = ""
 --	L["Buying %d ankhs."] = ""
