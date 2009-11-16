@@ -9,7 +9,7 @@
 	This file provides a standalone display frame for AnkhUp.
 ----------------------------------------------------------------------]]
 
-assert(AnkhUp, "AnkhUp not found!")
+if not AnkhUp then return end
 
 function AnkhUp:SetupFrame()
 	local curr
