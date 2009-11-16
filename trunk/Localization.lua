@@ -57,7 +57,7 @@ return end
 
 --[[--------------------------------------------------------------------
 	Spanish / Español
-	Last updated: YYYY-MM-DD by YourName
+	Last updated: 2009-11-16 by Phanx
 	Contributors:
 		Add your name and any other info here
 ----------------------------------------------------------------------]]
@@ -66,72 +66,72 @@ if locale == "esES" then
 	L["Ankh"] = "Ankh"
 
 	L["Ankhs"] = "Ankhs"
---	L["Remaining"] = ""
---	L["Ready"] = ""
---	L["Cooldown"] = ""
---	L["Last Reincarnated"] = ""
+	L["Remaining"] = "Restantes"
+	L["Ready"] = "Listo"
+	L["Cooldown"] = "Reutilización"
+	L["Last Reincarnated"] = "Reencarnación utilizó por última vez"
 	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
---	L["You only have %d ankhs left. Don't forget to restock!"] = ""
---	L["Buying %d ankhs."] = ""
---	L["Reincarnation is ready!"] = ""
+	L["You only have %d ankhs left. Don't forget to restock!"] = "Usted tiene sólo %s ankhs. No se olvide de comprar más!"
+	L["Buying %d ankhs."] = "Comprar %s ankhs."
+	L["Reincarnation is ready!"] = "Reencarnación está listo!"
 
---	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
---	L["Low ankh warning"] = ""
---	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = ""
---	L["Restock ankhs"] = ""
---	L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."] = ""
---	L["Notify when restocking"] = ""
---	L["Enable notification in the chat frame when restocking ankhs."] = ""
---	L["Notify when ready"] = ""
---	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = ""
---	L["Show monitor"] = ""
---	L["Show a standalone monitor window for your Reincarnation cooldown."] = ""
---	L["Lock monitor"] = ""
---	L["Lock the monitor window in place, preventing dragging."] = ""
---	L["Monitor scale"] = ""
---	L["Adjust the size of the monitor window."] = ""
+	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este panel se permite configurar las opciones para seguir pasos de la Reencarnación y sus ankhs."
+	L["Low ankh warning"] = "Aviso de ankhs"
+	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = "Mostrar un aviso cuando tienes menos de este número de ankhs. Poner a 0 para desactivar la aviso."
+	L["Restock ankhs"] = "Comprar ankhs"
+	L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."] = "Comprar ankhs para un total de este número cuando se habla a los vendedores. Poner a 0 para desactivar la compra."
+	L["Notify when restocking"] = "Notificación cuando comprar"
+	L["Enable notification in the chat frame when restocking ankhs."] = "Mostrar una notificación cuando se compra más ankhs."
+	L["Notify when ready"] = "Notificación cuando listo"
+	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = "Mostrar una notificación cuando la Reencarnación está listo."
+	L["Show monitor"] = "Aparecen el monitor"
+	L["Show a standalone monitor window for your Reincarnation cooldown."] = "Aparecen un monitor para reutilización de la Reencarnación."
+	L["Lock monitor"] = "Mantener el monitor"
+	L["Lock the monitor window in place, preventing dragging."] = "Mantener el monitor, que no se puede mover."
+	L["Monitor scale"] = "Tamaño del monitor"
+	L["Adjust the size of the monitor window."] = "Aumentar o disminuir el tamaño del monitor."
 
---	L["Right-click for options."] = ""
+	L["Right-click for options."] = "Right-Click para opciones."
 return end
 
 --[[--------------------------------------------------------------------
-	Latin American Spanish / Español
-	Last updated: YYYY-MM-DD by YourName
+	Latin American Spanish / Español Latinoaméricano
+	Last updated: 2009-11-16 by Phanx
 	Contributors:
 		Add your name and any other info here
 ----------------------------------------------------------------------]]
 if locale == "esMX" then
 	L["Ankh"] = "Ankh"
 
---	L["Ankhs"] = ""
---	L["Remaining"] = ""
---	L["Ready"] = ""
---	L["Cooldown"] = ""
---	L["Last Reincarnated"] = ""
+	L["Ankhs"] = "Ankhs"
+	L["Remaining"] = "Restantes"
+	L["Ready"] = "Listo"
+	L["Cooldown"] = "Reutilización"
+	L["Last Reincarnated"] = "Reencarnación utilizó por última vez"
 	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
---	L["You only have %d ankhs left. Don't forget to restock!"] = ""
---	L["Buying %d ankhs."] = ""
---	L["Reincarnation is ready!"] = ""
+	L["You only have %d ankhs left. Don't forget to restock!"] = "Tu tienes sólo %s ankhs. No te olvides de comprar más!"
+	L["Buying %d ankhs."] = "Comprar %s ankhs."
+	L["Reincarnation is ready!"] = "Reencarnación está listo!"
 
---	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = ""
---	L["Low ankh warning"] = ""
---	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = ""
---	L["Restock ankhs"] = ""
---	L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."] = ""
---	L["Notify when restocking"] = ""
---	L["Enable notification in the chat frame when restocking ankhs."] = ""
---	L["Notify when ready"] = ""
---	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = ""
---	L["Show monitor"] = ""
---	L["Show a standalone monitor window for your Reincarnation cooldown."] = ""
---	L["Lock monitor"] = ""
---	L["Lock the monitor window in place, preventing dragging."] = ""
---	L["Monitor scale"] = ""
---	L["Adjust the size of the monitor window."] = ""
+	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este panel te permites configurar las opciones para seguir pasos de la Reencarnación y tus ankhs."
+	L["Low ankh warning"] = "Aviso de ankhs"
+	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = "Mostrar un aviso cuando tienes menos de este número de ankhs. Pone a 0 para desactivar la aviso."
+	L["Restock ankhs"] = "Comprar ankhs"
+	L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."] = "Comprar ankhs para un total de este número cuando te hablas a los vendedores. Pone a 0 para desactivar la compra."
+	L["Notify when restocking"] = "Notificación cuando comprar"
+	L["Enable notification in the chat frame when restocking ankhs."] = "Mostrar una notificación cuando te compras más ankhs."
+	L["Notify when ready"] = "Notificación cuando listo"
+	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = "Mostrar una notificación cuando Reencarnación está listo."
+	L["Show monitor"] = "Aparecen el monitor"
+	L["Show a standalone monitor window for your Reincarnation cooldown."] = "Aparecen un monitor para reutilización de Reencarnación."
+	L["Lock monitor"] = "Mantener el monitor"
+	L["Lock the monitor window in place, preventing dragging."] = "Mantener el monitor, que no te puedes mover."
+	L["Monitor scale"] = "Tamaño del monitor"
+	L["Adjust the size of the monitor window."] = "Aumentar o disminuir el tamaño del monitor."
 
---	L["Right-click for options."] = ""
+	L["Right-click for options."] = "Right-Click para opciones."
 return end
 
 --[[--------------------------------------------------------------------

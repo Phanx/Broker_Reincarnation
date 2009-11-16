@@ -9,7 +9,7 @@
 	This file provides a configuration GUI for AnkhUp.
 ----------------------------------------------------------------------]]
 
-assert(AnkhUp, "AnkhUp not found!")
+if not AnkhUp then return end
 
 local Options = CreateFrame("Frame", nil, UIParent)
 Options.name = GetAddOnMetadata("AnkhUp", "Title")
