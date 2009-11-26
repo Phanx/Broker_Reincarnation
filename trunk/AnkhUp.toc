@@ -18,7 +18,7 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Class: SHAMAN
 
-## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1, PhanxConfigWidgets
+## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1
 ## SavedVariablesPerCharacter: AnkhUpDB
 
 Libs\LibStub\LibStub.lua
