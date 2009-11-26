@@ -17,9 +17,9 @@ local L = AnkhUpStrings
 
 --[[--------------------------------------------------------------------
 	German / Deutsch
-	Last updated: 2009-10-22 by Gyffes
+	Last updated: 2009-10-24 by Gyffes
 	Contributors:
-		Gyffes - www.ihl-gilneas.de
+		Gyffes < www.ihl-gilneas.de >
 ----------------------------------------------------------------------]]
 
 if locale == "deDE" then
@@ -41,9 +41,9 @@ if locale == "deDE" then
 	L["Show a warning dialog when you have fewer than this number of ankhs (set to 0 to disable)"] = "Zeigt eine Warnung wenn du weniger Ankhs hast als eingestellt. Stelle auf 0 zum Deaktivieren."
 	L["Restock ankhs"] = "Ankhs auffüllen"
 	L["Restock ankhs up to a total of this number when interacting with vendors (set to 0 to disable)"] = "Kaufe Automatisch Ankhs beim Händler bis die eingestellte Menge im Inventar ist."
-	L["Notify when restocking"] = "Benachrichtigung beim auffüllen."
+	L["Notify when restocking"] = "Meldung beim auffüllen"
 	L["Enable notification in the chat frame when restocking ankhs"] = "Sendet eine Benachrichtigung ins Chatfenster."
-	L["Notify when ready"] = "Benachrichtige wenn Bereit"
+	L["Notify when ready"] = "Melde wenn Bereit"
 	L["Enable notification in the raid warning frame when Reincarnation becomes ready"] = "Benachrichtigt dich wenn die Reinkarnation wieder bereit ist."
 	L["Show monitor"] = "Zeige Fenster"
 	L["Show a standalone monitor window for your Reincarnation cooldown"] = "Zeigt ein Standalone-Monitor-Fenster für dein Reinkarnation Cooldown."
