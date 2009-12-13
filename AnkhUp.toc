@@ -5,7 +5,7 @@
 ## Notes: A shaman Reincarnation monitor.
 ## X-Category: Shaman
 ## X-Copyright: Copyright ©2006–2009 Alyssa "Phanx" Kinley
-## X-License: All Rights Reserved. Do not redistribute. See README for license terms.
+## X-License: Do not redistribute. See README for license terms.
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
