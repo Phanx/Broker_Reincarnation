@@ -2,9 +2,9 @@
 	AnkhUp
 	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
+	Copyright © 2006–2009 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	Copyright ©2006–2009 Alyssa "Phanx" Kinley
-	See included README for license terms and additional information.
+	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 
 	This file provides a configuration GUI for AnkhUp.
 ----------------------------------------------------------------------]]
@@ -136,10 +136,11 @@ end)
 AnkhUp.options = Options
 
 InterfaceOptions_AddCategory(Options)
-
 LibStub("LibAboutPanel").new(Options.name, "AnkhUp")
 
 SLASH_ANKHUP1 = "/ankhup"
-SlashCmdList.ANKHUP = function() InterfaceOptionsFrame_OpenToCategory(Options) end
+SlashCmdList.ANKHUP = function()
+	InterfaceOptionsFrame_OpenToCategory(Options)
+end
 
 ------------------------------------------------------------------------

@@ -2,9 +2,9 @@
 	AnkhUp
 	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
+	Copyright © 2006–2009 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	Copyright ©2006–2009 Alyssa "Phanx" Kinley. All Rights Reserved.
-	See accompanying README for license terms and other information.
+	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
 
 if select(2, UnitClass("player")) ~= "SHAMAN" then
@@ -23,8 +23,15 @@ local start = 0
 
 ------------------------------------------------------------------------
 
-local L = setmetatable(AnkhUpStrings or { }, { __index = function(t, k) t[k] = k return k end })
-if AnkhUpStrings then AnkhUpStrings = nil end
+local _, namespace = ...
+if not namespace.L then
+	namespace.L = { }
+end
+
+local L = setmetatable(namespace.L, { __index = function(t, k)
+	t[k] = k
+	return k
+end })
 
 L["AnkhUp"] = GetAddOnMetadata("AnkhUp", "Title")
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
@@ -127,7 +134,14 @@ end
 function AnkhUp:UpdateDuration()
 	debug(2, "UpdateDuration")
 
-	duration = 3600 - (select(5, GetTalentInfo(3, 3)) * 600) - (IsEquippedItem(22345) and 600 or 0)
+	local talentPoints = select(5, GetTalentInfo(3, 3))
+	if talentPoints == 2 then
+		duration =  900 - (IsEquippedItem(22345) and 300 or 0)
+	elseif talentPoints == 1 then
+		duration = 1380 - (IsEquippedItem(22345) and 300 or 0)
+	else
+		duration = 1800 - (IsEquippedItem(22345) and 300 or 0)
+	end
 end
 
 ------------------------------------------------------------------------

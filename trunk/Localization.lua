@@ -2,9 +2,9 @@
 	AnkhUp
 	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
+	Copyright © 2006–2009 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	Copyright ©2006–2009 Alyssa "Phanx" Kinley
-	See included README for license terms and additional information.
+	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 
 	This file provides translations of user interface strings.
 ----------------------------------------------------------------------]]
@@ -12,8 +12,9 @@
 local locale = GetLocale()
 if locale == "enUS" or locale == "enGB" then return end
 
-AnkhUpStrings = {}
-local L = AnkhUpStrings
+local L = { }
+local _, namespace = ...
+namespace.L = L
 
 --[[--------------------------------------------------------------------
 	German / Deutsch
@@ -56,7 +57,7 @@ if locale == "deDE" then
 return end
 
 --[[--------------------------------------------------------------------
-	Spanish / Español
+	Spanish / Español (EU)
 	Last updated: 2009-11-16 by Phanx
 	Contributors:
 		Add your name and any other info here
@@ -96,7 +97,7 @@ if locale == "esES" then
 return end
 
 --[[--------------------------------------------------------------------
-	Latin American Spanish / Español Latinoaméricano
+	Latin American Spanish / Español (AL)
 	Last updated: 2009-11-16 by Phanx
 	Contributors:
 		Add your name and any other info here
