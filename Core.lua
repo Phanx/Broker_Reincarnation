@@ -1,146 +1,90 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	Reincarnation cooldown monitor shamans
+	Reincarnation monitor for shamans.
 	by Phanx < addons@phanx.net >
 	Copyright © 2006–2009 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
 
-if select(2, UnitClass("player")) ~= "SHAMAN" then
-	return DisableAddOn("AnkhUp")
-end
+local ADDON_NAME, AnkhUp = ...
+if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
 
-------------------------------------------------------------------------
-
-local alive = 0
-local ankhs = -1
-local cooldown = 0
-local db
-local duration = 0
-local glyph = false
-local start = 0
-
-------------------------------------------------------------------------
-
-local _, namespace = ...
-if not namespace.L then
-	namespace.L = { }
-end
-
-local L = setmetatable(namespace.L, { __index = function(t, k)
-	t[k] = k
-	return k
-end })
-
-L["AnkhUp"] = GetAddOnMetadata("AnkhUp", "Title")
+local L = setmetatable(AnkhUp.L or { }, { __index = function(t, k) t[k] = k return k end })
+L["AnkhUp"] = GetAddOnMetadata(ADDON_NAME, "Title")
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
 L["Reincarnation"] = GetSpellInfo(20608)
 
-------------------------------------------------------------------------
-
-local AnkhUp = CreateFrame("Frame", "AnkhUp", UIParent)
-AnkhUp:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
-AnkhUp:RegisterEvent("ADDON_LOADED")
+local hasGlyph
+local cooldown, cooldownMax, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0, 0
 
 ------------------------------------------------------------------------
 
-local function debug(lvl, ...)
-	if lvl > 0 then return end
-	print(string.format("|cff00ddbaAnkhUp:|r %s", string.join(", ", ...)))
+local function abbrevTime(seconds)
+	if seconds >= 86400 then
+		return DAY_ONELETTER_ABBR:format(ceil(seconds / 86400))
+	elseif seconds >= 3600 then
+		return HOUR_ONELETTER_ABBR:format(ceil(seconds / 3600))
+	elseif seconds >= 60 then
+		return MINUTE_ONELETTER_ABBR:format(ceil(seconds / 60))
+	end
+	return SECOND_ONELETTER_ABBR:format(seconds)
 end
 
-------------------------------------------------------------------------
-
-AnkhUp.feed = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
-	type = "data source",
-	icon = "Interface\\AddOns\\AnkhUp\\Ankh",
-	label = L["AnkhUp"],
-	text = L["Unknown"],
-	OnClick = function(self, button)
-		if button == "RightButton" then
-			if AnkhUp.options then
-				InterfaceOptionsFrame_OpenToCategory(AnkhUp.options)
-			end
-		end
-	end,
-	OnTooltipShow = function(tooltip)
-		AnkhUp:UpdateTooltip(tooltip)
-	end,
-})
-
 function AnkhUp:UpdateText()
-	if duration == 0 then
-		self.feed.text = string.format("|cff999999%s|r", L["Unknown"])
-	elseif glyph and cooldown > 0 then
-		self.feed.text = string.format("|cffff3333%s|r", string.format(SecondsToTimeAbbrev(cooldown)))
-	elseif glyph then
-		self.feed.text = string.format("|cff33ff33%s|r", L["Ready"])
+	if cooldownMax == 0 then
+		self.dataObject.text = ("|cff999999%s|r"):format(L["Unknown"])
+	elseif hasGlyph and cooldown > 0 then
+		self.dataObject.text = ("|cffff3333%s|r"):format(abbrevTime(cooldown))
+	elseif hasGlyph then
+		self.dataObject.text = ("|cff33ff33%s|r"):format(L["Ready"])
 	else
 		local color
-		if ankhs > db.low then
+		if self.db.low > 0 and numAnkhs > self.db.low then
 			color = "33ff33"
-		elseif ankhs > 0 then
+		elseif numAnkhs > 0 then
 			color = "ffff33"
 		else
 			color = "ff3333"
 		end
 		if cooldown > 0 then
-			self.feed.text = string.format("|cff%s%d|r|cff999999 / |r|cffff3333%s|r", color, ankhs, string.format(SecondsToTimeAbbrev(cooldown)))
+			self.dataObject.text = ("|cff%s%d|r|cff999999 / |r|cffff3333%s|r"):format(color, numAnkhs, abbrevTime(cooldown))
 		else
-			self.feed.text = string.format("|cff%s%d|r|cff999999 / |r|cff33ff33%s|r", color, ankhs, L["Ready"])
+			self.dataObject.text = ("|cff%s%d|r|cff999999 / |r|cff33ff33%s|r"):format(color, numAnkhs, L["Ready"])
 		end
 	end
 end
 
 function AnkhUp:UpdateTooltip(tooltip)
-	if not tooltip then tooltip = GameTooltip end
-
 	tooltip:AddLine(L["AnkhUp"], 1, 0.8, 0)
+	tooltip:AddLine()
 
-	if not glyph then
+	if not hasGlyph then
 		local r, g, b
-		if ankhs > db.low then
+		if self.db.low > 0 and numAnkhs > self.db.low then
 			r, g, b = 0.2, 1, 0.2
-		elseif ankhs > 0 then
+		elseif numAnkhs > 0 then
 			r, g, b = 1, 1, 0.2
 		else
 			r, g, b = 1, 0.2, 0.2
 		end
-		tooltip:AddDoubleLine(string.format("%s:", L["Ankhs"]), ankhs, 1, 0.8, 0, r, g, b)
+		tooltip:AddDoubleLine(L["Ankhs"], numAnkhs, 1, 0.8, 0, r, g, b)
 	end
 
 	if cooldown > 0 then
-		tooltip:AddDoubleLine(string.format("%s:", "Remaining:"), string.format(SecondsToTimeAbbrev(cooldown)), 1, 0.8, 0, 1, 0.2, 0.2)
+		local r, g, b
+		if cooldown / cooldownMax > 0.5 then
+			r, g, b = 1, 0.2, 0.2
+		else
+			r, g, b = 1, 1, 0.2
+		end
+		tooltip:AddDoubleLine(L["Cooldown"], ("%s/%dm"):format(abbrevTime(cooldown), cooldownMax / 60), 1, 0.8, 0, r, g, b)
 	else
-		tooltip:AddDoubleLine(string.format("%s:", "Remaining:"), string.format("%s!", L["Ready"]), 1, 0.8, 0, 0.2, 1, 0.2)
+		tooltip:AddDoubleLine(L["Cooldown"], ("%s/%dm"):format(L["Ready"], cooldownMax / 60), 1, 0.8, 0, 0.2, 1, 0.2)
 	end
 
-	tooltip:AddDoubleLine(string.format("%s:", "Cooldown:"), string.format(SecondsToTimeAbbrev(duration)), 1, 0.8, 0, 1, 1, 1)
-
-	if db.last > 0 then
-		tooltip:AddLine(string.format("%s:", "Last Reincarnated:"), 1, 0.8, 0)
-		tooltip:AddDoubleLine(" ", date(L["%I:%M %p %A, %B %d, %Y"], db.last), nil, nil, nil, 1, 1, 1)
-	end
-
-	if self.options then
-		tooltip:AddLine(" ")
-		tooltip:AddLine(L["Right-click for options."], 0.2, 1, 0.2)
-	end
-end
-
-------------------------------------------------------------------------
-
-function AnkhUp:UpdateDuration()
-	debug(2, "UpdateDuration")
-
-	local talentPoints = select(5, GetTalentInfo(3, 3))
-	if talentPoints == 2 then
-		duration =  900 - (IsEquippedItem(22345) and 300 or 0)
-	elseif talentPoints == 1 then
-		duration = 1380 - (IsEquippedItem(22345) and 300 or 0)
-	else
-		duration = 1800 - (IsEquippedItem(22345) and 300 or 0)
+	if self.db.lastReincarnation then
+		tooltip:AddDoubleLine(L["Last Reincarnation"], time("%A %I:%M%p %A, %d %B %Y", self.db.lastReincarnation), 1, 0.8, 0, 1, 1, 1)
 	end
 end
 
@@ -150,10 +94,12 @@ local counter = 0
 function AnkhUp:UpdateCooldown(elapsed)
 	counter = counter + elapsed
 	if counter >= 0.25 then
-		cooldown = start + duration - GetTime()
+		cooldown = cooldownStart + cooldownDuration - GetTime()
 		if cooldown <= 0 then
 			self:SetScript("OnUpdate", nil)
-			self:Alert("ReincarnationReady")
+			if self.db.readyAlert then
+				RaidNotice_AddMessage(RaidBossEmoteFrame, L["Reincarnation is ready!"], CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN)
+			end
 			cooldown = 0
 		end
 		self:UpdateText()
@@ -163,34 +109,43 @@ end
 
 ------------------------------------------------------------------------
 
+function AnkhUp:UpdateCooldownMax()
+	local talentPoints = select(5, GetTalentInfo(3, 3))
+	if talentPoints == 2 then
+		duration =  900 - (IsEquippedItem(22345) and 300 or 0)
+	elseif talentPoints == 1 then
+		duration = 1380 - (IsEquippedItem(22345) and 300 or 0)
+	else
+		duration = 1800 - (IsEquippedItem(22345) and 300 or 0)
+	end
+
+	retrun duration
+end
+
+------------------------------------------------------------------------
+
 function AnkhUp:ADDON_LOADED(addon)
-	if addon ~= "AnkhUp" then return end
-	debug(1, "ADDON_LOAED")
+	if addon ~= ADDON_NAME then return end
+	self:self:Debug(1, "ADDON_LOADED", addon)
 
-	self.defaults = {
-		buy = 10,
-		low = 5,
-		last = 0,
-		quiet = false,
+	if not AnkhUpDB then
+		AnkhUpDB = { }
+	end
+	self.db = AnkhUpDB
+	self.defaultDB = {
+		low = 0,
+		buy = 0,
+		buyAlert = true,
+		readyAlert = true,
+		frameShow = true,
+		frameLock = false,
+		framePoint = "CENTER",
+		frameScale = 1,
+		-- frameX (number)
+		-- frameY (number)
+		-- lastReincarnation (number)
 	}
-
-	if not AnkhUpDB then AnkhUpDB = { } end
-	db = AnkhUpDB
-
-	for k, v in pairs(self.defaults) do
-		if type(db[k]) ~= type(v) then
-			db[k] = v
-		end
-	end
-
-	self.L = L
-
-	if self.SetupFrame then
-		self:SetupFrame()
-	end
-
-	self:UnregisterEvent("ADDON_LOADED")
-	self.ADDON_LOADED = nil
+	setmetatable(self.db, { __index = self.defaultDB })
 
 	if IsLoggedIn() then
 		self:PLAYER_LOGIN()
@@ -199,251 +154,66 @@ function AnkhUp:ADDON_LOADED(addon)
 	end
 end
 
+------------------------------------------------------------------------
+
 function AnkhUp:PLAYER_LOGIN()
-	debug(1, "PLAYER_LOGIN")
+	self:self:Debug(1, "PLAYER_LOGIN")
 
 	if not GetTalentInfo(3, 3) then
-		debug(1, "Talents not loaded yet")
-		self.loading = true
+		self:self:Debug(1, "Talents not loaded yet.")
+		self.talentsLoading = true
 		self:RegisterEvent("PLAYER_ALIVE")
 		return
 	end
 
-	self.CHARACTER_POINTS_CHANGED = self.PLAYER_TALENT_UPDATE
-	self.GLYPH_ADDED = self.GLYPH_CHANGED
-	self.GLYPH_REMOVED = self.GLYPH_CHANGED
-	self.SPELL_LEARNED_IN_TAB = self.SPELLS_CHANGED
-
 	if UnitLevel("player") < 30 then
-		debug(1, "Not level 30 yet")
+		self:self:Debug(1, "Not level 30 yet.")
 		self:RegisterEvent("PLAYER_LEVEL_UP")
 		return
 	end
 
 	if not GetSpellInfo(L["Reincarnation"]) then
-		debug(1, "Reincarnation not learned yet")
+		self:self:Debug(1, "Reincarnation not learned yet.")
 		self:RegisterEvent("SPELLS_CHANGED")
 		self:RegisterEvent("SPELL_LEARNED_IN_TAB")
 		return
 	end
 
-	self:RegisterEvent("PLAYER_ALIVE")
-
-	self:RegisterEvent("PLAYER_TALENT_UPDATE")
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
-
-	self:RegisterEvent("GLYPH_CHANGED")
-	self:RegisterEvent("GLYPH_ADDED")
-	self:RegisterEvent("GLYPH_REMOVED")
-
-	self:RegisterEvent("PLAYER_LEAVING_WORLD")
-	self:RegisterEvent("BAG_UPDATE")
-	self:RegisterEvent("MERCHANT_SHOW")
-
 	self:BAG_UPDATE()
+	self:SPELLS_CHANGED()
+	self:UpdateCooldownMax()
 
-	self:UpdateDuration()
-
-	local cdstart, cdduration = GetSpellCooldown(L["Reincarnation"])
-	if cdstart > 0 and duration > 0 then
-		debug(1, "Reincarnation on cooldown")
-		start = cdstart
-		db.last = time() - (GetTime() - cdstart)
-		cooldown = cdstart + cdduration - GetTime()
+	local start, duration = GetSpellCooldown(L["Reincarnation"])
+	if start > 0 and duration > 0 then
+		self:Debug(1, "Reincarnation is on cooldown.")
+		cooldownStart = start
+		self.db.last = time() - (GetTime() - start)
+		cooldown = start + duration - GetTime()
+		self:UpdateText()
 		self:SetScript("OnUpdate", self.UpdateCooldown)
 	end
 
-	debug(1, string.format("ankhs %d, duration %d, cooldown %d", ankhs, duration, cooldown))
+	self:self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
 
 	self:UpdateText()
-end
 
-function AnkhUp:PLAYER_ALIVE()
-	debug(1, "PLAYER_ALIVE")
-
-	if self.loading then
-		debug(1, "Loading")
-		self.loading = nil
-		self:UnregisterEvent("PLAYER_ALIVE")
-		self:PLAYER_LOGIN()
-		return
-	end
-
-	if UnitIsGhost("player") then
-		debug(1, "Ghost")
-		return
-	end
-
-	alive = GetTime()
-	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-end
-
-function AnkhUp:SPELL_UPDATE_COOLDOWN()
-	debug(1, "SPELL_UPDATE_COOLDOWN")
-
-	self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
-
-	local now = GetTime()
-	if now - alive < 1 then
-		debug(1, "Just resurrected")
-		local cdstart, cdduration = GetSpellCooldown(L["Reincarnation"])
-		if cdstart > 0 and cdduration > 0 then
-			if now - cdstart < 1 then
-				debug(1, "Just used Reincarnation")
-				start = cdstart
-				db.last = time() - (GetTime() - cdstart)
-				self:SetScript("OnUpdate", self.UpdateCooldown)
-			end
-		end
-	end
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.PLAYER_LOGIN = nil
 end
 
 ------------------------------------------------------------------------
---	Level up
 
-function AnkhUp:PLAYER_LEVEL_UP(level)
-	if not level then level = UnitLevel("player") end
-	debug(1, "PLAYER_LEVEL_UP", level)
-
-	if level < 30 then
-		debug(1, "Not level 30 yet")
-		return
-	end
-
-	self:UnregisterEvent("PLAYER_LEVEL_UP")
-	self:RegisterEvent("SPELLS_CHANGED")
-end
-
-------------------------------------------------------------------------
---	Learn a new spell
-
-function AnkhUp:SPELLS_CHANGED()
-	debug(1, "SPELLS_CHANGED")
-
-	if not GetSpellInfo(L["Reincarnation"]) then
-		debug(1, "Reincarnation not learned yet")
-		return
-	end
-
-	self:UnregisterEvent("SPELLS_CHANGED")
-
-	self:RegisterEvent("PLAYER_TALENT_UPDATE")
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
-
-	self:RegisterEvent("GLYPH_CHANGED")
-	self:RegisterEvent("GLYPH_ADDED")
-	self:RegisterEvent("GLYPH_REMOVED")
-
-	self:RegisterEvent("PLAYER_LEAVING_WORLD")
-	self:RegisterEvent("BAG_UPDATE")
-	self:RegisterEvent("MERCHANT_SHOW")
-end
-
-------------------------------------------------------------------------
---	Update cooldown
-
-function AnkhUp:PLAYER_TALENT_UPDATE()
-	debug(1, "PLAYER_TALENT_UPDATE")
-
-	self:UpdateDuration()
-end
-
-function AnkhUp:UNIT_INVENTORY_CHANGED(unit)
-	if unit ~= "player" then return end
-	debug(1, "UNIT_INVENTORY_CHANGED")
-
-	self:UpdateDuration()
-end
-
-------------------------------------------------------------------------
---	Update glyph
-
-function AnkhUp:GLYPH_CHANGED()
-	debug(1, "GLYPH_CHANGED")
-
-	local new
-	for i = 1, GetNumGlyphSockets() do
-		local _, _, id = GetGlyphSocketInfo(i)
-		if id == 58059 then
-			new = true
-			break
-		end
-	end
-
-	if new and not glyph then
-		debug(1, "Glyph of Renewed Life added")
-
-		self:UnregisterEvent("BAG_UPDATE")
-		self:UpdateText()
-	elseif glyph and not new then
-		debug(1, "Glyph of Renewed Life removed")
-
-		self:RegisterEvent("PLAYER_LEAVING_WORLD")
-		self:RegisterEvent("BAG_UPDATE")
-		self:BAG_UPDATE()
-	end
-end
-
-------------------------------------------------------------------------
---	Update ankh quantity
-
-function AnkhUp:PLAYER_LEAVING_WORLD()
-	debug(1, "PLAYER_LEAVING_WORLD")
-
-	self:UnregisterEvent("BAG_UPDATE")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-end
-
-function AnkhUp:PLAYER_ENTERING_WORLD()
-	debug(1, "PLAYER_ENTERING_WORLD")
-
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("BAG_UPDATE")
-end
-
-function AnkhUp:BAG_UPDATE()
-	debug(3, "BAG_UPDATE")
-
-	local new = GetItemCount(17030)
-	if ankhs ~= new then
-		ankhs = new
-
-		if ankhs < db.low then
-			self:Alert("LowAnkhs")
-		end
-
-		self:UpdateText()
-	end
-end
-
-function AnkhUp:MERCHANT_SHOW()
-	debug(1, "MERCHANT_SHOW")
-
-	if not glyph and db.buy > 0 then
-		for i = 1, GetMerchantNumItems() do
-			if GetMerchantItemInfo(i) == L["Ankh"] then
-				local need = db.buy - ankhs
-				if need > 0 then
-					if not db.quiet then
-						print(string.format(L["Buying %d ankhs."], need))
-					end
-					while need > 10 do
-						BuyMerchantItem(i, 10)
-						need = need - 10
-					end
-					BuyMerchantItem(i, need)
-				end
-				break
-			end
+function AnkhUp:PLAYER_LOGOUT()
+	for k, v in pairs(self.defaultDB) do
+		if self.db[k] == v then
+			self.db[k] = nil
 		end
 	end
 end
 
 ------------------------------------------------------------------------
 
-StaticPopupDialogs["LOW_ANKH_ALERT"] = {
+local dialog = {
 	text = L["You only have %d ankhs left.\nDon't forget to restock!"],
 	button1 = OKAY,
 	hideOnEscape = 1,
@@ -471,12 +241,363 @@ StaticPopupDialogs["LOW_ANKH_ALERT"] = {
 	end,
 }
 
-function AnkhUp:Alert(type)
-	if type == "LowAnkhs" then
-		StaticPopup_Show("LOW_ANKH_ALERT", ankhs)
-	elseif type == "ReincarnationReady" then
-		local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN
-		RaidNotice_AddMessage(RaidBossEmoteFrame, L["Reincarnation is ready!"], color)
+function AnkhUp:BAG_UPDATE()
+	self:Debug(3, "BAG_UPDATE")
+
+	local ankhs = GetItemCount(17030)
+	if numAnkhs ~= ankhs then
+		numAnkhs = ankhs
+
+		if numAnkhs < self.db.low then
+			if not StaticPopupDialogs.LOW_ANKH_ALERT then
+				StaticPopupDialogs.LOW_ANKH_ALERT = dialog
+			end
+			StaticPopup_Show("LOW_ANKH_ALERT", numAnkhs)
+		end
+
+		self:UpdateText()
 	end
 end
+
 ------------------------------------------------------------------------
+
+function AnkhUp:GLYPH_CHANGED()
+	self:Debug(1, "GLYPH_CHANGED")
+
+	local exists
+	for i = 1, GetNumGlyphSockets() do
+		local _, _, id = GetGlyphSocketInfo(i)
+		if id == 58059 then
+			exists = true
+			break
+		end
+	end
+
+	if exists and not hasGlyph then
+		self:Debug(1, "Glyph of Renewed Life was added.")
+
+		self:UnregisterEvent("BAG_UPDATE")
+		self:UpdateText()
+	elseif hasGlyph and not exists then
+		self:Debug(1, "Glyph of Renewed Life was removed.")
+
+		self:RegisterEvent("PLAYER_LEAVING_WORLD")
+		self:RegisterEvent("BAG_UPDATE")
+		self:BAG_UPDATE()
+	end
+end
+AnkhUp.GLYPH_ADDED = AnkhUp.GLYPH_CHANGED
+AnkhUp.GLYPH_REMOVED = AnkhUp.GLYPH_CHANGED
+
+------------------------------------------------------------------------
+
+function AnkhUp:MERCHANT_SHOW()
+	self:Debug(1, "MERCHANT_SHOW")
+
+	if not hasGlyph and self.db.buy > 0 then
+		for i = 1, GetMerchantNumItems() do
+			if GetMerchantItemInfo(i) == L["Ankh"] then
+				local need = self.db.buy - numAnkhs
+				if need > 0 then
+					if self.db.buyAlert then
+						self:Print(L["Buying %d ankhs."], need)
+					end
+					while need > 10 do
+						BuyMerchantItem(i, 10)
+						need = need - 10
+					end
+					BuyMerchantItem(i, need)
+				end
+				break
+			end
+		end
+	end
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:PLAYER_ALIVE()
+	self:Debug(1, "PLAYER_ALIVE")
+
+	if self.loadingTalents then
+		self:Debug(1, "Loading talents complete.")
+		self.loadingTalents = nil
+		self:UnregisterEvent("PLAYER_ALIVE")
+		return self:PLAYER_LOGIN()
+	end
+
+	if UnitIsGhost("player") then return end
+
+	resurrectionTime = GetTime()
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:PLAYER_ENTERING_WORLD()
+	self:Debug(1, "PLAYER_ENTERING_WORLD")
+
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("BAG_UPDATE")
+end
+
+function AnkhUp:PLAYER_LEAVING_WORLD()
+	self:Debug(1, "PLAYER_LEAVING_WORLD")
+
+	self:UnregisterEvent("BAG_UPDATE")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:PLAYER_LEVEL_UP(level)
+	if not level then level = UnitLevel("player") end
+	self:Debug(1, "PLAYER_LEVEL_UP", level)
+
+	if level < 30 then
+		self:Debug(1, "Not level 30 yet.")
+		return
+	end
+
+	self:UnregisterEvent("PLAYER_LEVEL_UP")
+	self:RegisterEvent("SPELLS_CHANGED")
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:PLAYER_TALENT_UPDATE()
+	self:Debug(1, "PLAYER_TALENT_UPDATE")
+
+	self:UpdateDuration()
+end
+AnkhUp.CHARACTER_POINTS_CHANGED = AnkhUp.PLAYER_TALENT_UPDATE
+
+------------------------------------------------------------------------
+
+function AnkhUp:SPELL_UPDATE_COOLDOWN()
+	self:Debug(1, "SPELL_UPDATE_COOLDOWN")
+
+	self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+
+	local now = GetTime()
+	if now - resurrectionTime < 1 then
+		self:Debug(1, "Player just resurrected.")
+		local start, duration = GetSpellCooldown(L["Reincarnation"])
+		if start > 0 and duration > 0 then
+			if now - start < 1 then
+				self:Debug(1, "Player just used Reincarnation.")
+				cooldownStart = start
+				self.db.last = time() - (GetTime() - start)
+				cooldown = start + duration - GetTime()
+				self:UpdateText()
+				self:SetScript("OnUpdate", self.UpdateCooldown)
+			end
+		end
+	end
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:SPELLS_CHANGED()
+	self:Debug(1, "SPELLS_CHANGED")
+
+	if not GetSpellInfo(L["Reincarnation"]) then
+		self:Debug(1, "Reincarnation not learned yet")
+		return
+	end
+
+	self:UnregisterEvent("SPELLS_CHANGED")
+	self:UnregisterEvent("SPELL_LEARNED_IN_TAB")
+
+	if not self.dataObject then
+		self:CreateDataObject()
+	end
+
+	if self.db.frameShow and not self.displayFrame then
+		self:CreateDisplayFrame()
+	end
+
+	self:PLAYER_LOGIN()
+
+	self:RegisterEvent("BAG_UPDATE")
+	self:RegisterEvent("CHARACTER_POINTS_CHANGED")
+	self:RegisterEvent("GLYPH_CHANGED")
+	self:RegisterEvent("GLYPH_ADDED")
+	self:RegisterEvent("GLYPH_REMOVED")
+	self:RegisterEvent("MERCHANT_SHOW")
+	self:RegisterEvent("PLAYER_ALIVE")
+	self:RegisterEvent("PLAYER_TALENT_UPDATE")
+	self:RegisterEvent("PLAYER_LEAVING_WORLD")
+	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
+end
+AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
+
+------------------------------------------------------------------------
+
+function AnkhUp:CreateDataObject()
+	if self.dataObject then return end
+
+	local DataBroker = LibStub("LibDataBroker-1.1")
+
+	self.dataObject = DataBroker:NewDataObject("AnkhUp", {
+		type  = "data source",
+		icon  = "Interface\\AddOns\\AnkhUp\\Ankh",
+		label = L["AnkhUp"],
+		text  = L["Unknown"],
+		OnClick = function(this, button)
+			if button == "RightButton" then
+				InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
+			end
+		end,
+		OnTooltipShow = function(tooltip)
+			self:UpdateTooltip(tooltip)
+		end,
+	})
+end
+
+function AnkhUp:CreateDisplayFrame()
+	if self.displayFrame then return end
+
+	local curr
+	local objects = { }
+
+	self.displayFrame = CreateFrame("Button", nil, UIParent)
+	self.displayFrame:SetFrameStrata("BACKGROUND")
+	self.displayFrame:SetWidth(110)
+	self.displayFrame:SetHeight(32)
+
+	self.displayFrame:SetBackdrop({
+		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
+		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9)
+	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+
+	self.displayFrame.icon = self.displayFrame:CreateTexture(nil, "ARTWORK")
+	self.displayFrame.icon:SetPoint("LEFT", 4, 0)
+	self.displayFrame.icon:SetWidth(24)
+	self.displayFrame.icon:SetHeight(24)
+	self.displayFrame.icon:SetTexture("Interface\\AddOns\\AnkhUp\\Ankh")
+
+	self.displayFrame.text = self.displayFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	self.displayFrame.text:SetPoint("LEFT", self.icon, "RIGHT", 4, 0)
+	self.displayFrame.text:SetPoint("RIGHT", -8, 0)
+	self.displayFrame.text:SetJustifyH("LEFT")
+	self.displayFrame.text:SetShadowOffset(1, -1)
+
+	-- GetTooltipAnchor function by Tekkub
+	local function GetTooltipAnchor(frame)
+		local x, y = frame:GetCenter()
+		if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
+		local hhalf = (x > UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < UIParent:GetWidth() / 3) and "LEFT" or ""
+		local vhalf = (y > UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
+		return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
+	end
+	self.displayFrame:SetScript("OnEnter", function(self)
+		if curr and objects[curr] and objects[curr].OnTooltipShow then
+			GameTooltip:SetOwner(self, GetTooltipAnchor(self))
+			objects[curr].OnTooltipShow(GameTooltip)
+			GameTooltip:Show()
+		end
+	end)
+	self.displayFrame:SetScript("OnLeave", function(self)
+		GameTooltip:Hide()
+	end)
+
+	self.displayFrame:RegisterForClicks("AnyUp")
+	self.displayFrame:SetScript("OnClick", function(self, button)
+		if curr and objects[curr] and objects[curr].OnClick then
+			GameTooltip:Hide()
+			objects[curr].OnClick(self, button)
+		end
+	end)
+
+	self.displayFrame:SetMovable(true)
+	self.displayFrame:SetClampedToScreen(true)
+	self.displayFrame:RegisterForDrag("LeftButton")
+	self.displayFrame:SetScript("OnDragStart", function(self)
+		self:GetScript("OnLeave")(self)
+		self:StartMoving()
+	end)
+	self.displayFrame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing()
+
+		local s = self:GetScale()
+		local left, top = self:GetLeft() * s, self:GetTop() * s
+		local right, bottom = self:GetRight() * s, self:GetBottom() * s
+		local pwidth, pheight = parent:GetWidth(), parent:GetHeight()
+
+		local x, y, point
+		if left < (pwidth - right) and left < abs((left + right) / 2 - pwidth / 2) then
+			x = left
+			point = "LEFT"
+		elseif (pwidth - right) < abs((left + right) / 2 - pwidth / 2) then
+			x = right - pwidth
+			point = "RIGHT"
+		else
+			x = (left + right) / 2 - pwidth / 2
+			point = ""
+		end
+		
+		if bottom < (pheight-top) and bottom < abs((bottom+top)/2 - pheight/2) then
+			y = bottom
+			point = "BOTTOM" .. point
+		elseif (pheight-top) < abs((bottom+top)/2 - pheight/2) then
+			y = top-pheight
+			point = "TOP" .. point
+		else
+			y = (bottom + top) / 2 - pheight / 2
+		end
+		
+		if point == "" then
+			point = "CENTER"
+		end
+		
+		self.db.selfX = x
+		self.db.selfY = y
+		self.db.selfPoint = point
+		self.db.selfScale = scale
+		
+		self:ClearAllPoints()
+		self:SetPoint(point, UIParent, x / s, y / s)
+
+		self:GetScript("OnEnter")(self)
+	end)
+	self.displayFrame:SetScript("OnHide", function(self)
+		self:StopMovingOrSizing()
+	end)
+
+	local function updateDisplay(event, name, attr, value, dataobj)
+		if type(event) == "table" then
+			dataobj = event
+		end
+		if dataobj == objects[curr] then
+			text:SetText(dataobj.text)
+		end
+	end
+	function self.displayFrame:RegisterObject(name)
+		assert(DataBroker:GetDataObjectByName(name), "AnkhUp: '"..name.."' is not a valid data object")
+		tinsert(objects, DataBroker:GetDataObjectByName(name))
+		DataBroker.RegisterCallback(frame, "LibDataBroker_AttributeChanged_" .. name .. "_text", updateDisplay)
+		curr = #objects
+	end
+	self.displayFrame:RegisterObject("AnkhUp")
+
+	self.displayFrame:SetScale(self.db.frameScale)
+	self.displayFrame:SetPoint(self.db.framePoint, UIParent, self.db.frameX / self.db.frameScale, self.db.frameY / self.db.frameScale)
+
+	if self.db.frameShow then
+		self.displayFrame:Show()
+	else
+		self.displayFrame:Hide()
+	end
+end
+
+------------------------------------------------------------------------
+
+AnkhUp.eventFrame = CreateFrame("Frame")
+AnkhUp.eventFrame:SetScript("OnEvent", function(self, event, ...) return AnkhUp[event] and AnkhUp[event](AnkhUp, ...) end)
+AnkhUp.eventFrame:RegisterEvent("ADDON_LOADED")
+function AnkhUp:RegisterEvent(event) self.eventFrame:RegisterEvent(event) end
+function AnkhUp:UnregisterEvent(event) self.eventFrame:UnregisterEvent(event) end
