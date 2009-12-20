@@ -1,10 +1,10 @@
 
-	AnkhUp
-	A shaman Reincarnation cooldown monitor.
-	by Phanx < addons@phanx.net >
-	Copyright © 2006–2009 Alyssa "Phanx" Kinley
-	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
+AnkhUp
+A shaman Reincarnation cooldown monitor.
+by Phanx < addons@phanx.net >
+Copyright © 2006–2009 Alyssa "Phanx" Kinley
+http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 
 Features
 
@@ -18,11 +18,13 @@ Features
 
 Usage
 
-	Options are available in the Interface Options window. You can type
-	"/ankhup", or right-click the monitor window, to open the Interface
-	Options window directly to the AnkhUp panel.
-
 	Left-click and drag the standalone monitor window to move it.
+
+	Right-click the monitor window, or the DataBroker plugin, to open
+	the options panel.
+
+	You can also reach the options panel in the standard Interface
+	Options window, or by typing '/ankhup'.
 
 Feedback
 
@@ -46,29 +48,29 @@ Credits
 License
 
 	The contents of this addon, excluding third-party resources, are
-	copyrighted to its author with all rights reserved under copyright
-	law and international treaty. Copyright specifies certain rights and
-	restrictions persuant to your use of this addon, and this license
-	grants you certain additional rights. By installing or using this
-	addon, you agree to be bound by the terms set forth in this license.
+	copyrighted to its author with all rights reserved, under United
+	States copyright law and international treaty. Copyright specifies
+	certain rights and restrictions persuant to your use of this addon,
+	and this license grants you certain additional rights. By installing
+	or using this addon, you agree to be bound by the terms set forth in
+	this license.
 
 	1. You MAY download, install, and use this addon for private use.
 
 	2. You MAY make modifications to this addon for private use.
 
 	3. You MAY NOT distribute this addon, modified or unmodified,
-	   including as part of a compilation or premade user interface,
-	   without the prior written consent of the copyright holder. The
-	   copyright owner, through the act of uploading this addon to a
-	   distributor, grants that distributor a non-exclusive and
-	   terminable right to distribute this addon to end users.
+	including as part of a compilation or premade user interface,
+	without the prior written consent of the copyright holder. The
+	copyright owner, by uploading this addon to a distributor, grants
+	that distributor a non-exclusive and terminable right to distribute
+	this addon to end users.
 
 	4. You MAY use source code from this addon in your own addon or for
-	   any other purpose, provided that the name of this addon or its
-	   author do not appear in the title, source code, file names,
-	   documentation, or any other materials associated with your
-	   project, and that the name of this addon and its author are not
-	   used to promote your project.
+	any other purpose, provided that the name of this addon or its
+	author do not appear in the source code, file names, documentation,
+	or any other materials associated with your project, and are not
+	used to promote your project.
 
 	All rights that are not explicitly addressed in this license are
 	reserved by the copyright holder.
