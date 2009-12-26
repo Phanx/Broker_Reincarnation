@@ -47,7 +47,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 
 	readyAlert:SetChecked(db.readyAlert)
 
-	readyAlert.desc = L["Notifies you via the raid warning frame when Reincarnation's cooldown finishes."]
+	readyAlert.desc = L["Notify you with a raid warning message when Reincarnation's cooldown finishes."]
 	readyAlert.func = function(self, checked)
 		db.readyAlert = checked
 	end
@@ -61,7 +61,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 
 	buyAlert:SetChecked(db.buyAlert)
 
-	buyAlert.desc = L["Notifies you via the chat frame when automatically restocking your ankhs."]
+	buyAlert.desc = L["Notify you with a chat message when automatically buying ankhs."]
 	buyAlert.func = function(self, checked)
 		db.buyAlert = checked
 	end
@@ -77,7 +77,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	buy:SetValue(db.buy)
 	buy.valueText:SetText(db.buy)
 
-	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."]
+	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."]
 	buy.func = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buy = value
@@ -100,7 +100,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	low:SetValue(db.low)
 	low.valueText:SetText(db.low)
 
-	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."]
+	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."]
 	low.func = function(self, value)
 		value = math.floor(value + 0.5)
 		self.value:SetText(value)
