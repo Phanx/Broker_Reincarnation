@@ -85,7 +85,7 @@ function AnkhUp:UpdateTooltip(tooltip)
 	end
 
 	if self.db.lastReincarnation then
-		tooltip:AddDoubleLine(L["Last Reincarnation"], time("%A %I:%M%p %A, %d %B %Y", self.db.lastReincarnation), 1, 0.8, 0, 1, 1, 1)
+		tooltip:AddDoubleLine(L["Last Reincarnation"], time(L["%A %I:%M%p %A, %d %B %Y"], self.db.lastReincarnation), 1, 0.8, 0, 1, 1, 1)
 	end
 end
 
