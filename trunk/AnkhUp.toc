@@ -9,7 +9,7 @@
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, deDE, frFR
+## X-Localizations: enUS, deDE, esES, esMX, frFR
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
@@ -29,6 +29,6 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
 
 Localization.lua
+
 Core.lua
-GUI.lua
 Config.lua
