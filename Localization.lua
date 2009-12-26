@@ -9,12 +9,14 @@
 	This file provides translations of user interface strings.
 ----------------------------------------------------------------------]]
 
+if select(2, UnitClass("player")) ~= "SHAMAN" then return end
+
 local locale = GetLocale()
 if locale == "enUS" or locale == "enGB" then return end
 
 local L = { }
-local _, namespace = ...
-namespace.L = L
+local _, AnkhUp = ...
+AnkhUp.L = L
 
 --[[--------------------------------------------------------------------
 	German / Deutsch

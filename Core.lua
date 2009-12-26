@@ -9,8 +9,9 @@
 
 local ADDON_NAME, AnkhUp = ...
 if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
+if not AnkhUp.L then AnkhUp.L = { } end
 
-local L = setmetatable(AnkhUp.L or { }, { __index = function(t, k) t[k] = k return k end })
+local L = setmetatable(AnkhUp.L, { __index = function(t, k) t[k] = k return k end })
 L["AnkhUp"] = GetAddOnMetadata(ADDON_NAME, "Title")
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
 L["Reincarnation"] = GetSpellInfo(20608)
@@ -111,22 +112,23 @@ end
 
 function AnkhUp:UpdateCooldownMax()
 	local talentPoints = select(5, GetTalentInfo(3, 3))
+
 	if talentPoints == 2 then
-		duration =  900 - (IsEquippedItem(22345) and 300 or 0)
+		cooldownMax =  900 - (IsEquippedItem(22345) and 300 or 0)
 	elseif talentPoints == 1 then
-		duration = 1380 - (IsEquippedItem(22345) and 300 or 0)
+		cooldownMax = 1380 - (IsEquippedItem(22345) and 300 or 0)
 	else
-		duration = 1800 - (IsEquippedItem(22345) and 300 or 0)
+		cooldownMax = 1800 - (IsEquippedItem(22345) and 300 or 0)
 	end
 
-	retrun duration
+	return cooldownMax
 end
 
 ------------------------------------------------------------------------
 
 function AnkhUp:ADDON_LOADED(addon)
 	if addon ~= ADDON_NAME then return end
-	self:self:Debug(1, "ADDON_LOADED", addon)
+	self:Debug(1, "ADDON_LOADED", addon)
 
 	if not AnkhUpDB then
 		AnkhUpDB = { }
@@ -141,6 +143,7 @@ function AnkhUp:ADDON_LOADED(addon)
 		frameLock = false,
 		framePoint = "CENTER",
 		frameScale = 1,
+		frameAlpha = 1,
 		-- frameX (number)
 		-- frameY (number)
 		-- lastReincarnation (number)
@@ -157,23 +160,23 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:PLAYER_LOGIN()
-	self:self:Debug(1, "PLAYER_LOGIN")
+	self:Debug(1, "PLAYER_LOGIN")
+
+	if UnitLevel("player") < 30 then
+		self:Debug(1, "Not level 30 yet.")
+		self:RegisterEvent("PLAYER_LEVEL_UP")
+		return
+	end
 
 	if not GetTalentInfo(3, 3) then
-		self:self:Debug(1, "Talents not loaded yet.")
+		self:Debug(1, "Talents not loaded yet.")
 		self.talentsLoading = true
 		self:RegisterEvent("PLAYER_ALIVE")
 		return
 	end
 
-	if UnitLevel("player") < 30 then
-		self:self:Debug(1, "Not level 30 yet.")
-		self:RegisterEvent("PLAYER_LEVEL_UP")
-		return
-	end
-
 	if not GetSpellInfo(L["Reincarnation"]) then
-		self:self:Debug(1, "Reincarnation not learned yet.")
+		self:Debug(1, "Reincarnation not learned yet.")
 		self:RegisterEvent("SPELLS_CHANGED")
 		self:RegisterEvent("SPELL_LEARNED_IN_TAB")
 		return
@@ -193,7 +196,7 @@ function AnkhUp:PLAYER_LOGIN()
 		self:SetScript("OnUpdate", self.UpdateCooldown)
 	end
 
-	self:self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
+	self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
 
 	self:UpdateText()
 
@@ -383,7 +386,7 @@ function AnkhUp:SPELL_UPDATE_COOLDOWN()
 	if now - resurrectionTime < 1 then
 		self:Debug(1, "Player just resurrected.")
 		local start, duration = GetSpellCooldown(L["Reincarnation"])
-		if start > 0 and duration > 0 then
+		if start and duration and start > 0 and duration > 0 then
 			if now - start < 1 then
 				self:Debug(1, "Player just used Reincarnation.")
 				cooldownStart = start
@@ -471,8 +474,6 @@ function AnkhUp:CreateDisplayFrame()
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
 		insets = { left = 4, right = 4, top = 4, bottom = 4 },
 	})
-	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9)
-	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 
 	self.displayFrame.icon = self.displayFrame:CreateTexture(nil, "ARTWORK")
 	self.displayFrame.icon:SetPoint("LEFT", 4, 0)
@@ -587,6 +588,9 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:SetScale(self.db.frameScale)
 	self.displayFrame:SetPoint(self.db.framePoint, UIParent, self.db.frameX / self.db.frameScale, self.db.frameY / self.db.frameScale)
 
+	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9 * self.db.frameAlpha)
+	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, self.db.frameAlpha)
+
 	if self.db.frameShow then
 		self.displayFrame:Show()
 	else
@@ -596,8 +600,22 @@ end
 
 ------------------------------------------------------------------------
 
+function AnkhUp:Debug(lvl, str, ...)
+	if ... then
+		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
+	end
+	print(("|cffffcc00[DEBUG] AnkhUp:|r %s"):format(str))
+end
+
+function AnkhUp:Print(str, ...)
+end
+
+------------------------------------------------------------------------
+
 AnkhUp.eventFrame = CreateFrame("Frame")
 AnkhUp.eventFrame:SetScript("OnEvent", function(self, event, ...) return AnkhUp[event] and AnkhUp[event](AnkhUp, ...) end)
 AnkhUp.eventFrame:RegisterEvent("ADDON_LOADED")
 function AnkhUp:RegisterEvent(event) self.eventFrame:RegisterEvent(event) end
 function AnkhUp:UnregisterEvent(event) self.eventFrame:UnregisterEvent(event) end
+
+_G.AnkhUp = AnkhUp
