@@ -12,7 +12,7 @@
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 local locale = GetLocale()
-if locale == "enUS" or locale == "enGB" then return end
+if locale:match("^en") then return end
 
 local L = { }
 local _, AnkhUp = ...
