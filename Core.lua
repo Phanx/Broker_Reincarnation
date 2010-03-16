@@ -2,7 +2,7 @@
 	AnkhUp
 	Reincarnation monitor for shamans.
 	by Phanx < addons@phanx.net >
-	Copyright © 2006–2009 Alyssa "Phanx" Kinley
+	Copyright © 2006–2010 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
@@ -49,9 +49,9 @@ function AnkhUp:UpdateText()
 			color = "ff3333"
 		end
 		if cooldown > 0 then
-			self.dataObject.text = ("|cff%s%d|r|cff999999 / |r|cffff3333%s|r"):format(color, numAnkhs, abbrevTime(cooldown))
+			self.dataObject.text = ("|cffff3333%s|r |cff%s(%d)|r"):format(abbrevTime(cooldown), color, numAnkhs)
 		else
-			self.dataObject.text = ("|cff%s%d|r|cff999999 / |r|cff33ff33%s|r"):format(color, numAnkhs, L["Ready"])
+			self.dataObject.text = ("|cff33ff33%s|r |cff%s(%d)|r"):format(L["Ready"], color, numAnkhs)
 		end
 	end
 end
@@ -134,7 +134,8 @@ function AnkhUp:ADDON_LOADED(addon)
 		AnkhUpDB = { }
 	end
 	self.db = AnkhUpDB
-	self.defaultDB = {
+
+	self.defaults = {
 		low = 0,
 		buy = 0,
 		buyAlert = true,
@@ -144,11 +145,15 @@ function AnkhUp:ADDON_LOADED(addon)
 		framePoint = "CENTER",
 		frameScale = 1,
 		frameAlpha = 1,
-		-- frameX (number)
-		-- frameY (number)
+		frameX = 0,
+		frameY = 0,
 		-- lastReincarnation (number)
 	}
-	setmetatable(self.db, { __index = self.defaultDB })
+	for k, v in pairs(self.defaults) do
+		if type(self.db[k]) ~= type(v) then
+			self.db[k] = v
+		end
+	end
 
 	if IsLoggedIn() then
 		self:PLAYER_LOGIN()
@@ -182,23 +187,7 @@ function AnkhUp:PLAYER_LOGIN()
 		return
 	end
 
-	self:BAG_UPDATE()
 	self:SPELLS_CHANGED()
-	self:UpdateCooldownMax()
-
-	local start, duration = GetSpellCooldown(L["Reincarnation"])
-	if start > 0 and duration > 0 then
-		self:Debug(1, "Reincarnation is on cooldown.")
-		cooldownStart = start
-		self.db.last = time() - (GetTime() - start)
-		cooldown = start + duration - GetTime()
-		self:UpdateText()
-		self:SetScript("OnUpdate", self.UpdateCooldown)
-	end
-
-	self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
-
-	self:UpdateText()
 
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
@@ -420,8 +409,6 @@ function AnkhUp:SPELLS_CHANGED()
 		self:CreateDisplayFrame()
 	end
 
-	self:PLAYER_LOGIN()
-
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED")
 	self:RegisterEvent("GLYPH_CHANGED")
@@ -432,6 +419,24 @@ function AnkhUp:SPELLS_CHANGED()
 	self:RegisterEvent("PLAYER_TALENT_UPDATE")
 	self:RegisterEvent("PLAYER_LEAVING_WORLD")
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
+
+	self:BAG_UPDATE()
+
+	self:UpdateCooldownMax()
+
+	local start, duration = GetSpellCooldown(L["Reincarnation"])
+	if start > 0 and duration > 0 then
+		self:Debug(1, "Reincarnation is on cooldown.")
+		cooldownStart = start
+		self.db.last = time() - (GetTime() - start)
+		cooldown = start + duration - GetTime()
+		self:UpdateText()
+		self:SetScript("OnUpdate", self.UpdateCooldown)
+	end
+
+	self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
+
+	self:UpdateText()
 end
 AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
 
@@ -440,9 +445,7 @@ AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
 function AnkhUp:CreateDataObject()
 	if self.dataObject then return end
 
-	local DataBroker = LibStub("LibDataBroker-1.1")
-
-	self.dataObject = DataBroker:NewDataObject("AnkhUp", {
+	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 		type  = "data source",
 		icon  = "Interface\\AddOns\\AnkhUp\\Ankh",
 		label = L["AnkhUp"],
@@ -460,6 +463,8 @@ end
 
 function AnkhUp:CreateDisplayFrame()
 	if self.displayFrame then return end
+
+	local DataBroker = LibStub("LibDataBroker-1.1")
 
 	local curr
 	local objects = { }
@@ -482,8 +487,9 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame.icon:SetTexture("Interface\\AddOns\\AnkhUp\\Ankh")
 
 	self.displayFrame.text = self.displayFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	self.displayFrame.text:SetPoint("LEFT", self.icon, "RIGHT", 4, 0)
+	self.displayFrame.text:SetPoint("LEFT", self.displayFrame.icon, "RIGHT", 4, 0)
 	self.displayFrame.text:SetPoint("RIGHT", -8, 0)
+	self.displayFrame.text:SetHeight(24)
 	self.displayFrame.text:SetJustifyH("LEFT")
 	self.displayFrame.text:SetShadowOffset(1, -1)
 
@@ -495,6 +501,7 @@ function AnkhUp:CreateDisplayFrame()
 		local vhalf = (y > UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
 		return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 	end
+
 	self.displayFrame:SetScript("OnEnter", function(self)
 		if curr and objects[curr] and objects[curr].OnTooltipShow then
 			GameTooltip:SetOwner(self, GetTooltipAnchor(self))
@@ -502,11 +509,13 @@ function AnkhUp:CreateDisplayFrame()
 			GameTooltip:Show()
 		end
 	end)
+
 	self.displayFrame:SetScript("OnLeave", function(self)
 		GameTooltip:Hide()
 	end)
 
 	self.displayFrame:RegisterForClicks("AnyUp")
+
 	self.displayFrame:SetScript("OnClick", function(self, button)
 		if curr and objects[curr] and objects[curr].OnClick then
 			GameTooltip:Hide()
@@ -517,17 +526,19 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:SetMovable(true)
 	self.displayFrame:SetClampedToScreen(true)
 	self.displayFrame:RegisterForDrag("LeftButton")
+
 	self.displayFrame:SetScript("OnDragStart", function(self)
 		self:GetScript("OnLeave")(self)
 		self:StartMoving()
 	end)
+
 	self.displayFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
 
 		local s = self:GetScale()
 		local left, top = self:GetLeft() * s, self:GetTop() * s
 		local right, bottom = self:GetRight() * s, self:GetBottom() * s
-		local pwidth, pheight = parent:GetWidth(), parent:GetHeight()
+		local pwidth, pheight = UIParent:GetWidth(), UIParent:GetHeight()
 
 		local x, y, point
 		if left < (pwidth - right) and left < abs((left + right) / 2 - pwidth / 2) then
@@ -540,33 +551,38 @@ function AnkhUp:CreateDisplayFrame()
 			x = (left + right) / 2 - pwidth / 2
 			point = ""
 		end
-		
-		if bottom < (pheight-top) and bottom < abs((bottom+top)/2 - pheight/2) then
+
+		if bottom < (pheight - top) and bottom < abs((bottom + top) / 2 - pheight / 2) then
 			y = bottom
 			point = "BOTTOM" .. point
-		elseif (pheight-top) < abs((bottom+top)/2 - pheight/2) then
-			y = top-pheight
+		elseif (pheight - top) < abs((bottom + top) / 2 - pheight / 2) then
+			y = top - pheight
 			point = "TOP" .. point
 		else
 			y = (bottom + top) / 2 - pheight / 2
 		end
-		
+
 		if point == "" then
 			point = "CENTER"
 		end
-		
-		self.db.selfX = x
-		self.db.selfY = y
-		self.db.selfPoint = point
-		self.db.selfScale = scale
-		
+
+		AnkhUp.db.selfX = x
+		AnkhUp.db.selfY = y
+		AnkhUp.db.selfPoint = point
+		AnkhUp.db.selfScale = scale
+
 		self:ClearAllPoints()
 		self:SetPoint(point, UIParent, x / s, y / s)
 
 		self:GetScript("OnEnter")(self)
 	end)
+
 	self.displayFrame:SetScript("OnHide", function(self)
 		self:StopMovingOrSizing()
+	end)
+
+	self.displayFrame:SetScript("OnShow", function(self)
+		AnkhUp:UpdateText()
 	end)
 
 	local function updateDisplay(event, name, attr, value, dataobj)
@@ -574,15 +590,17 @@ function AnkhUp:CreateDisplayFrame()
 			dataobj = event
 		end
 		if dataobj == objects[curr] then
-			text:SetText(dataobj.text)
+			self.displayFrame.text:SetText(dataobj.text)
 		end
 	end
+
 	function self.displayFrame:RegisterObject(name)
 		assert(DataBroker:GetDataObjectByName(name), "AnkhUp: '"..name.."' is not a valid data object")
 		tinsert(objects, DataBroker:GetDataObjectByName(name))
-		DataBroker.RegisterCallback(frame, "LibDataBroker_AttributeChanged_" .. name .. "_text", updateDisplay)
+		DataBroker.RegisterCallback(self, "LibDataBroker_AttributeChanged_" .. name .. "_text", updateDisplay)
 		curr = #objects
 	end
+
 	self.displayFrame:RegisterObject("AnkhUp")
 
 	self.displayFrame:SetScale(self.db.frameScale)
@@ -601,6 +619,7 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
+	do return end
 	if ... then
 		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
 	end
@@ -608,6 +627,10 @@ function AnkhUp:Debug(lvl, str, ...)
 end
 
 function AnkhUp:Print(str, ...)
+	if ... then
+		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
+	end
+	print(("|cff00ddbaAnkhUp:|r %s"):format(str))
 end
 
 ------------------------------------------------------------------------
@@ -617,5 +640,6 @@ AnkhUp.eventFrame:SetScript("OnEvent", function(self, event, ...) return AnkhUp[
 AnkhUp.eventFrame:RegisterEvent("ADDON_LOADED")
 function AnkhUp:RegisterEvent(event) self.eventFrame:RegisterEvent(event) end
 function AnkhUp:UnregisterEvent(event) self.eventFrame:UnregisterEvent(event) end
+function AnkhUp:IsEventRegistered(event) return self.eventFrame:IsEventRegistered(event) end
 
 _G.AnkhUp = AnkhUp
