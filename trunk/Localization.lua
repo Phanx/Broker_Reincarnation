@@ -2,7 +2,7 @@
 	AnkhUp
 	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
-	Copyright © 2006–2009 Alyssa "Phanx" Kinley
+	Copyright © 2006–2010 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 

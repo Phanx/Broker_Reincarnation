@@ -2,7 +2,7 @@
 	AnkhUp
 	Reincarnation cooldown monitor shamans
 	by Phanx < addons@phanx.net >
-	Copyright © 2006–2009 Alyssa "Phanx" Kinley
+	Copyright © 2006–2010 Alyssa "Phanx" Kinley
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
@@ -48,7 +48,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	readyAlert:SetChecked(db.readyAlert)
 
 	readyAlert.desc = L["Notify you with a raid warning message when Reincarnation's cooldown finishes."]
-	readyAlert.func = function(self, checked)
+	readyAlert.OnClick = function(self, checked)
 		db.readyAlert = checked
 	end
 
@@ -62,7 +62,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	buyAlert:SetChecked(db.buyAlert)
 
 	buyAlert.desc = L["Notify you with a chat message when automatically buying ankhs."]
-	buyAlert.func = function(self, checked)
+	buyAlert.OnClick = function(self, checked)
 		db.buyAlert = checked
 	end
 
@@ -78,7 +78,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	buy.valueText:SetText(db.buy)
 
 	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."]
-	buy.func = function(self, value)
+	buy.OnClick = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buy = value
 		if value > 0 then
@@ -101,7 +101,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	low.valueText:SetText(db.low)
 
 	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."]
-	low.func = function(self, value)
+	low.OnClick = function(self, value)
 		value = math.floor(value + 0.5)
 		self.value:SetText(value)
 		db.low = value
@@ -118,7 +118,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameShow:SetChecked(db.frameShow)
 
 	frameShow.desc = L["Show a standalone monitor window for your Reincarnation cooldown."]
-	frameShow.func = function(self, checked)
+	frameShow.OnClick = function(self, checked)
 		db.frameShow = checked
 		if checked then
 			if AnkhUp.displayFrame then
@@ -141,7 +141,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameLock:SetChecked(db.frameLock)
 
 	frameLock.desc = L["Lock the monitor window in place, preventing dragging."]
-	frameLock.func = function(self, checked)
+	frameLock.OnClick = function(self, checked)
 		db.frameLock = checked
 	end
 
@@ -159,7 +159,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameScale.valueFormat = "%.0f%%"
 
 	frameScale.desc = L["Adjust the size of the monitor window."]
-	frameScale.func = function(self, value)
+	frameScale.OnValueChanged = function(self, value)
 		value = math.floor(value * 100 + 0.5) / 100
 		db.frameScale = value
 		if AnkhUp.displayFrame then
@@ -183,12 +183,12 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameAlpha.valueFormat = "%.0f%%"
 
 	frameAlpha.desc = L["Adjust the opacity of the monitor window's background."]
-	frameAlpha.func = function(self, value)
+	frameAlpha.OnValueChanged = function(self, value)
 		value = math.floor(value * 100 + 0.5) / 100
 		db.frameAlpha = value
 		if AnkhUp.displayFrame then
 			AnkhUp.displayFrame:SetBackdropColor(0, 0, 0, 0.9 * value)
-			AnkhUp.displayFrame:SetBackdropBorderColor(0, 0, 0, value)
+			AnkhUp.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, value)
 		end
 		return value
 	end
