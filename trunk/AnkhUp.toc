@@ -1,15 +1,15 @@
 ## Interface: 30300
-## Version: 3.3.2.wowi:revision-beta
+## Version: 3.3.wowi:revision-beta
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
 ## X-Category: Shaman
 ## X-Copyright: Copyright ©2006–2010 Alyssa "Phanx" Kinley
 ## X-License: Do not redistribute. See README for license terms.
-## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
+## X-Website: http://wow.curseforge.com/addons/ankhcooldowntimer/
+## X-WoWI-ID: 6330
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net

@@ -180,7 +180,7 @@ function AnkhUp:PLAYER_LOGIN()
 		return
 	end
 
-	if not GetSpellInfo(L["Reincarnation"]) then
+	if not IsSpellKnown(20608) then
 		self:Debug(1, "Reincarnation not learned yet.")
 		self:RegisterEvent("SPELLS_CHANGED")
 		self:RegisterEvent("SPELL_LEARNED_IN_TAB")
@@ -393,7 +393,7 @@ end
 function AnkhUp:SPELLS_CHANGED()
 	self:Debug(1, "SPELLS_CHANGED")
 
-	if not GetSpellInfo(L["Reincarnation"]) then
+	if not IsSpellKnown(20608) then
 		self:Debug(1, "Reincarnation not learned yet")
 		return
 	end
