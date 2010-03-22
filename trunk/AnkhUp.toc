@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 3.3.wowi:revision-beta
+## Version: 3.3.3.wowi:revision-beta
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
