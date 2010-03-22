@@ -176,8 +176,7 @@ function AnkhUp:PLAYER_LOGIN()
 
 	if not GetTalentInfo(3, 3) then
 		self:Debug(1, "Talents not loaded yet.")
-		self.talentsLoading = true
-		self:RegisterEvent("PLAYER_ALIVE")
+		self:RegisterEvent("UNIT_NAME_UPDATE")
 		return
 	end
 
@@ -312,13 +311,6 @@ end
 function AnkhUp:PLAYER_ALIVE()
 	self:Debug(1, "PLAYER_ALIVE")
 
-	if self.loadingTalents then
-		self:Debug(1, "Loading talents complete.")
-		self.loadingTalents = nil
-		self:UnregisterEvent("PLAYER_ALIVE")
-		return self:PLAYER_LOGIN()
-	end
-
 	if UnitIsGhost("player") then return end
 
 	resurrectionTime = GetTime()
@@ -354,6 +346,18 @@ function AnkhUp:PLAYER_LEVEL_UP(level)
 
 	self:UnregisterEvent("PLAYER_LEVEL_UP")
 	self:RegisterEvent("SPELLS_CHANGED")
+end
+
+------------------------------------------------------------------------
+
+function AnkhUp:UNIT_NAME_UPDATE(unit)
+	if unit and unit ~= "player" then return end
+	self:Debug(1, "UNIT_NAME_UPDATE")
+
+	self:Debug(1, "Loading talents complete.")
+	self:UnregisterEvent("UNIT_NAME_UPDATE")
+
+	self:PLAYER_LOGIN()
 end
 
 ------------------------------------------------------------------------
