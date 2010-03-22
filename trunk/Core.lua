@@ -95,7 +95,7 @@ local counter = 0
 function AnkhUp:UpdateCooldown(elapsed)
 	counter = counter + elapsed
 	if counter >= 0.25 then
-		cooldown = cooldownStart + cooldownDuration - GetTime()
+		cooldown = cooldownStart + cooldownMax - GetTime()
 		if cooldown <= 0 then
 			self:SetScript("OnUpdate", nil)
 			if self.db.readyAlert then
@@ -103,7 +103,7 @@ function AnkhUp:UpdateCooldown(elapsed)
 			end
 			cooldown = 0
 		end
-		self:UpdateText()
+		AnkhUp:UpdateText()
 		counter = 0
 	end
 end
@@ -111,6 +111,7 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:UpdateCooldownMax()
+	self:Debug(1, "UpdateCooldownMax")
 	local talentPoints = select(5, GetTalentInfo(3, 3))
 
 	if talentPoints == 2 then
@@ -619,7 +620,7 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
-	do return end
+	if lvl > 0 then return end
 	if ... then
 		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
 	end
@@ -641,5 +642,6 @@ AnkhUp.eventFrame:RegisterEvent("ADDON_LOADED")
 function AnkhUp:RegisterEvent(event) self.eventFrame:RegisterEvent(event) end
 function AnkhUp:UnregisterEvent(event) self.eventFrame:UnregisterEvent(event) end
 function AnkhUp:IsEventRegistered(event) return self.eventFrame:IsEventRegistered(event) end
+function AnkhUp:SetScript(event, func) return self.eventFrame:SetScript(event, func) end
 
 _G.AnkhUp = AnkhUp
