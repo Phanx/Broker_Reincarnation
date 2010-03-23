@@ -365,7 +365,7 @@ end
 function AnkhUp:PLAYER_TALENT_UPDATE()
 	self:Debug(1, "PLAYER_TALENT_UPDATE")
 
-	self:UpdateDuration()
+	self:UpdateCooldownMax()
 end
 AnkhUp.CHARACTER_POINTS_CHANGED = AnkhUp.PLAYER_TALENT_UPDATE
 
