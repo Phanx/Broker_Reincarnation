@@ -641,7 +641,7 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
-	if lvl > 2 then return end
+	if lvl > 0 then return end
 	if ... then
 		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
 	end
