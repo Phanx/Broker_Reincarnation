@@ -9,16 +9,16 @@
 
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
-local ADDON_NAME, AnkhUp = ...
+local ADDON_NAME, ns = ...
+local AnkhUp = ns.AnkhUp
 
-AnkhUp.optionsFrame = CreateFrame("Frame", nil, UIParent)
+AnkhUp.optionsFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 AnkhUp.optionsFrame.name = GetAddOnMetadata(ADDON_NAME, "Title")
 AnkhUp.optionsFrame:Hide()
 
 AnkhUp.optionsFrame:SetScript("OnShow", function(self)
-	local AnkhUp = AnkhUp
-	local db = AnkhUp.db
-	local L = AnkhUp.L
+	local db = AnkhUpDB
+	local L = ns.L
 
 	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
 	self.CreateSlider = LibStub:GetLibrary("PhanxConfig-Slider").CreateSlider
@@ -78,7 +78,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	buy.valueText:SetText(db.buy)
 
 	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."]
-	buy.OnClick = function(self, value)
+	buy.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buy = value
 		if value > 0 then
@@ -101,9 +101,8 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	low.valueText:SetText(db.low)
 
 	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."]
-	low.OnClick = function(self, value)
+	low.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
-		self.value:SetText(value)
 		db.low = value
 		return value
 	end
@@ -121,11 +120,12 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameShow.OnClick = function(self, checked)
 		db.frameShow = checked
 		if checked then
-			if AnkhUp.displayFrame then
-				AnkhUp.displayFrame:Show()
-			else
+			if not AnkhUp.displayFrame then
 				AnkhUp:CreateDisplayFrame()
 			end
+			AnkhUp.displayFrame:Show()
+			AnkhUp:UpdateText()
+			AnkhUp.displayFrame.text:SetText(AnkhUp.dataObject.text)
 		else
 			AnkhUp.displayFrame:Hide()
 		end
@@ -197,15 +197,18 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	--	That's all!
 	--
 
-	LibStub("LibAboutPanel").new(self.name, ADDON_NAME)
 	self:SetScript("OnShow", nil)
 end)
+
+LibStub("LibAboutPanel").new(AnkhUp.optionsFrame.name, ADDON_NAME)
 
 ------------------------------------------------------------------------
 
 InterfaceOptions_AddCategory(AnkhUp.optionsFrame)
 
 SLASH_ANKHUP1 = "/ankhup"
-SlashCmdList.ANKHUP = function() InterfaceOptionsFrame_OpenToCategory(AnkhUp.optionsFrame) end
+SlashCmdList.ANKHUP = function()
+	InterfaceOptionsFrame_OpenToCategory(AnkhUp.optionsFrame)
+end
 
 ------------------------------------------------------------------------

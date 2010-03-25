@@ -7,29 +7,44 @@
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
 
-local ADDON_NAME, AnkhUp = ...
+local ADDON_NAME, ns = ...
 if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
-if not AnkhUp.L then AnkhUp.L = { } end
+if not ns.L then ns.L = { } end
 
-local L = setmetatable(AnkhUp.L, { __index = function(t, k) t[k] = k return k end })
+local L = setmetatable(ns.L, { __index = function(t, k) t[k] = k return k end })
 L["AnkhUp"] = GetAddOnMetadata(ADDON_NAME, "Title")
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
 L["Reincarnation"] = GetSpellInfo(20608)
 
-local hasGlyph
+local db, hasGlyph
 local cooldown, cooldownMax, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0, 0
 
 ------------------------------------------------------------------------
 
+local AnkhUp = CreateFrame("Frame")
+AnkhUp:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+AnkhUp:RegisterEvent("ADDON_LOADED")
+AnkhUp:Hide()
+
+ns.AnkhUp = AnkhUp
+_G.AnkhUp = AnkhUp
+
+------------------------------------------------------------------------
+
+local ABBR_DAY    =    DAY_ONELETTER_ABBR:gsub("%s", ""):lower()
+local ABBR_HOUR   =   HOUR_ONELETTER_ABBR:gsub("%s", ""):lower()
+local ABBR_MINUTE = MINUTE_ONELETTER_ABBR:gsub("%s", ""):lower()
+local ABBR_SECOND = SECOND_ONELETTER_ABBR:gsub("%s", ""):lower()
+
 local function abbrevTime(seconds)
 	if seconds >= 86400 then
-		return DAY_ONELETTER_ABBR:format(ceil(seconds / 86400))
+		return ABBR_DAY:format(ceil(seconds / 86400))
 	elseif seconds >= 3600 then
-		return HOUR_ONELETTER_ABBR:format(ceil(seconds / 3600))
+		return ABBR_HOUR:format(ceil(seconds / 3600))
 	elseif seconds >= 60 then
-		return MINUTE_ONELETTER_ABBR:format(ceil(seconds / 60))
+		return ABBR_MINUTE:format(ceil(seconds / 60))
 	end
-	return SECOND_ONELETTER_ABBR:format(seconds)
+	return ABBR_SECOND:format(seconds)
 end
 
 function AnkhUp:UpdateText()
@@ -41,7 +56,7 @@ function AnkhUp:UpdateText()
 		self.dataObject.text = ("|cff33ff33%s|r"):format(L["Ready"])
 	else
 		local color
-		if self.db.low > 0 and numAnkhs > self.db.low then
+		if db.low > 0 and numAnkhs > db.low then
 			color = "33ff33"
 		elseif numAnkhs > 0 then
 			color = "ffff33"
@@ -62,7 +77,7 @@ function AnkhUp:UpdateTooltip(tooltip)
 
 	if not hasGlyph then
 		local r, g, b
-		if self.db.low > 0 and numAnkhs > self.db.low then
+		if db.low > 0 and numAnkhs > db.low then
 			r, g, b = 0.2, 1, 0.2
 		elseif numAnkhs > 0 then
 			r, g, b = 1, 1, 0.2
@@ -79,34 +94,39 @@ function AnkhUp:UpdateTooltip(tooltip)
 		else
 			r, g, b = 1, 1, 0.2
 		end
-		tooltip:AddDoubleLine(L["Cooldown"], ("%s/%dm"):format(abbrevTime(cooldown), cooldownMax / 60), 1, 0.8, 0, r, g, b)
+		tooltip:AddDoubleLine(L["Cooldown"], ("%s / %s"):format(abbrevTime(cooldown), abbrevTime(cooldownMax)), 1, 0.8, 0, r, g, b)
 	else
-		tooltip:AddDoubleLine(L["Cooldown"], ("%s/%dm"):format(L["Ready"], cooldownMax / 60), 1, 0.8, 0, 0.2, 1, 0.2)
+		tooltip:AddDoubleLine(L["Cooldown"], ("%s / %s"):format(L["Ready"], abbrevTime(cooldownMax)), 1, 0.8, 0, 0.2, 1, 0.2)
 	end
 
-	if self.db.lastReincarnation then
-		tooltip:AddDoubleLine(L["Last Reincarnation"], time(L["%A %I:%M%p %A, %d %B %Y"], self.db.lastReincarnation), 1, 0.8, 0, 1, 1, 1)
+	if db.lastReincarnation then
+		local str = date(L["%I:%M%p %A, %d %B %Y"], db.lastReincarnation)
+		if str:match("^0") then
+			str = str:sub(2)
+		end
+		tooltip:AddDoubleLine(L["Last Reincarnation"], " ", 1, 0.8, 0, 1, 1, 1)
+		tooltip:AddDoubleLine(" ", str, 1, 0.8, 0, 1, 1, 1)
 	end
 end
 
 ------------------------------------------------------------------------
 
 local counter = 0
-function AnkhUp:UpdateCooldown(elapsed)
+AnkhUp:SetScript("OnUpdate", function(self, elapsed)
 	counter = counter + elapsed
 	if counter >= 0.25 then
 		cooldown = cooldownStart + cooldownMax - GetTime()
 		if cooldown <= 0 then
 			self:SetScript("OnUpdate", nil)
-			if self.db.readyAlert then
+			if db.readyAlert then
 				RaidNotice_AddMessage(RaidBossEmoteFrame, L["Reincarnation is ready!"], CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN)
 			end
 			cooldown = 0
 		end
-		AnkhUp:UpdateText()
+		self:UpdateText()
 		counter = 0
 	end
-end
+end)
 
 ------------------------------------------------------------------------
 
@@ -134,7 +154,7 @@ function AnkhUp:ADDON_LOADED(addon)
 	if not AnkhUpDB then
 		AnkhUpDB = { }
 	end
-	self.db = AnkhUpDB
+	db = AnkhUpDB
 
 	self.defaults = {
 		low = 0,
@@ -151,8 +171,8 @@ function AnkhUp:ADDON_LOADED(addon)
 		-- lastReincarnation (number)
 	}
 	for k, v in pairs(self.defaults) do
-		if type(self.db[k]) ~= type(v) then
-			self.db[k] = v
+		if type(db[k]) ~= type(v) then
+			db[k] = v
 		end
 	end
 
@@ -240,7 +260,7 @@ function AnkhUp:BAG_UPDATE()
 	if numAnkhs ~= ankhs then
 		numAnkhs = ankhs
 
-		if numAnkhs < self.db.low then
+		if numAnkhs < db.low then
 			if not StaticPopupDialogs.LOW_ANKH_ALERT then
 				StaticPopupDialogs.LOW_ANKH_ALERT = dialog
 			end
@@ -286,12 +306,12 @@ AnkhUp.GLYPH_REMOVED = AnkhUp.GLYPH_CHANGED
 function AnkhUp:MERCHANT_SHOW()
 	self:Debug(1, "MERCHANT_SHOW")
 
-	if not hasGlyph and self.db.buy > 0 then
+	if not hasGlyph and db.buy > 0 then
 		for i = 1, GetMerchantNumItems() do
 			if GetMerchantItemInfo(i) == L["Ankh"] then
-				local need = self.db.buy - numAnkhs
+				local need = db.buy - numAnkhs
 				if need > 0 then
-					if self.db.buyAlert then
+					if db.buyAlert then
 						self:Print(L["Buying %d ankhs."], need)
 					end
 					while need > 10 do
@@ -314,7 +334,6 @@ function AnkhUp:PLAYER_ALIVE()
 	if UnitIsGhost("player") then return end
 
 	resurrectionTime = GetTime()
-	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 end
 
 ------------------------------------------------------------------------
@@ -377,18 +396,16 @@ function AnkhUp:SPELL_UPDATE_COOLDOWN()
 	self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
 
 	local now = GetTime()
-	if now - resurrectionTime < 1 then
-		self:Debug(1, "Player just resurrected.")
-		local start, duration = GetSpellCooldown(L["Reincarnation"])
-		if start and duration and start > 0 and duration > 0 then
-			if now - start < 1 then
-				self:Debug(1, "Player just used Reincarnation.")
-				cooldownStart = start
-				self.db.last = time() - (GetTime() - start)
-				cooldown = start + duration - GetTime()
-				self:UpdateText()
-				self:SetScript("OnUpdate", self.UpdateCooldown)
-			end
+	if now - resurrectionTime > 1 then return end
+	self:Debug(1, "Player just resurrected.")
+
+	local start, duration = GetSpellCooldown(L["Reincarnation"])
+	if start and duration and start > 0 and duration > 0 then
+		if now - start < 1 then
+			self:Debug(1, "Player just used Reincarnation.")
+			cooldownStart = start
+			db.lastReincarnation = time() - (GetTime() - start)
+			self:Show()
 		end
 	end
 end
@@ -410,7 +427,7 @@ function AnkhUp:SPELLS_CHANGED()
 		self:CreateDataObject()
 	end
 
-	if self.db.frameShow and not self.displayFrame then
+	if db.frameShow and not self.displayFrame then
 		self:CreateDisplayFrame()
 	end
 
@@ -423,6 +440,7 @@ function AnkhUp:SPELLS_CHANGED()
 	self:RegisterEvent("PLAYER_ALIVE")
 	self:RegisterEvent("PLAYER_TALENT_UPDATE")
 	self:RegisterEvent("PLAYER_LEAVING_WORLD")
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 
 	self:BAG_UPDATE()
@@ -430,13 +448,11 @@ function AnkhUp:SPELLS_CHANGED()
 	self:UpdateCooldownMax()
 
 	local start, duration = GetSpellCooldown(L["Reincarnation"])
-	if start > 0 and duration > 0 then
+	if start and duration and start > 0 and duration > 0 then
 		self:Debug(1, "Reincarnation is on cooldown.")
 		cooldownStart = start
-		self.db.last = time() - (GetTime() - start)
-		cooldown = start + duration - GetTime()
-		self:UpdateText()
-		self:SetScript("OnUpdate", self.UpdateCooldown)
+		db.lastReincarnation = time() - (GetTime() - start)
+		self:Show()
 	end
 
 	self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
@@ -495,7 +511,7 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame.text:SetPoint("LEFT", self.displayFrame.icon, "RIGHT", 4, 0)
 	self.displayFrame.text:SetPoint("RIGHT", -8, 0)
 	self.displayFrame.text:SetHeight(24)
-	self.displayFrame.text:SetJustifyH("LEFT")
+	self.displayFrame.text:SetJustifyH("RIGHT")
 	self.displayFrame.text:SetShadowOffset(1, -1)
 
 	-- GetTooltipAnchor function by Tekkub
@@ -540,9 +556,9 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
 
-		local s = self:GetScale()
-		local left, top = self:GetLeft() * s, self:GetTop() * s
-		local right, bottom = self:GetRight() * s, self:GetBottom() * s
+		local scale = self:GetScale()
+		local left, top = self:GetLeft() * scale, self:GetTop() * scale
+		local right, bottom = self:GetRight() * scale, self:GetBottom() * scale
 		local pwidth, pheight = UIParent:GetWidth(), UIParent:GetHeight()
 
 		local x, y, point
@@ -571,13 +587,13 @@ function AnkhUp:CreateDisplayFrame()
 			point = "CENTER"
 		end
 
-		AnkhUp.db.selfX = x
-		AnkhUp.db.selfY = y
-		AnkhUp.db.selfPoint = point
-		AnkhUp.db.selfScale = scale
+		db.frameX = x
+		db.frameY = y
+		db.framePoint = point
+		db.frameScale = scale
 
 		self:ClearAllPoints()
-		self:SetPoint(point, UIParent, x / s, y / s)
+		self:SetPoint(point, UIParent, x / scale, y / scale)
 
 		self:GetScript("OnEnter")(self)
 	end)
@@ -588,6 +604,7 @@ function AnkhUp:CreateDisplayFrame()
 
 	self.displayFrame:SetScript("OnShow", function(self)
 		AnkhUp:UpdateText()
+		self.text:SetText(AnkhUp.dataObject.text)
 	end)
 
 	local function updateDisplay(event, name, attr, value, dataobj)
@@ -608,13 +625,13 @@ function AnkhUp:CreateDisplayFrame()
 
 	self.displayFrame:RegisterObject("AnkhUp")
 
-	self.displayFrame:SetScale(self.db.frameScale)
-	self.displayFrame:SetPoint(self.db.framePoint, UIParent, self.db.frameX / self.db.frameScale, self.db.frameY / self.db.frameScale)
+	self.displayFrame:SetScale(db.frameScale)
+	self.displayFrame:SetPoint(db.framePoint, UIParent, db.frameX / db.frameScale, db.frameY / db.frameScale)
 
-	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9 * self.db.frameAlpha)
-	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, self.db.frameAlpha)
+	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9 * db.frameAlpha)
+	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, db.frameAlpha)
 
-	if self.db.frameShow then
+	if db.frameShow then
 		self.displayFrame:Show()
 	else
 		self.displayFrame:Hide()
@@ -639,13 +656,3 @@ function AnkhUp:Print(str, ...)
 end
 
 ------------------------------------------------------------------------
-
-AnkhUp.eventFrame = CreateFrame("Frame")
-AnkhUp.eventFrame:SetScript("OnEvent", function(self, event, ...) return AnkhUp[event] and AnkhUp[event](AnkhUp, ...) end)
-AnkhUp.eventFrame:RegisterEvent("ADDON_LOADED")
-function AnkhUp:RegisterEvent(event) self.eventFrame:RegisterEvent(event) end
-function AnkhUp:UnregisterEvent(event) self.eventFrame:UnregisterEvent(event) end
-function AnkhUp:IsEventRegistered(event) return self.eventFrame:IsEventRegistered(event) end
-function AnkhUp:SetScript(event, func) return self.eventFrame:SetScript(event, func) end
-
-_G.AnkhUp = AnkhUp
