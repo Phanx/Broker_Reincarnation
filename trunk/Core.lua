@@ -549,12 +549,16 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:RegisterForDrag("LeftButton")
 
 	self.displayFrame:SetScript("OnDragStart", function(self)
+		if db.frameLock then return end
+
 		self:GetScript("OnLeave")(self)
 		self:StartMoving()
 	end)
 
 	self.displayFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
+
+		if db.frameLock then return end
 
 		local scale = self:GetScale()
 		local left, top = self:GetLeft() * scale, self:GetTop() * scale
