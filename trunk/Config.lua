@@ -143,6 +143,11 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	frameLock.desc = L["Lock the monitor window in place, preventing dragging."]
 	frameLock.OnClick = function(self, checked)
 		db.frameLock = checked
+		if checked then
+			AnkhUp.displayFrame:SetMovable(false)
+		else
+			AnkhUp.displayFrame:SetMovable(true)
+		end
 	end
 
 	--
