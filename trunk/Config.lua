@@ -201,11 +201,9 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	--
 	--	That's all!
 	--
-
+	LibStub("LibAboutPanel").new(AnkhUp.optionsFrame.name, ADDON_NAME)
 	self:SetScript("OnShow", nil)
 end)
-
-LibStub("LibAboutPanel").new(AnkhUp.optionsFrame.name, ADDON_NAME)
 
 ------------------------------------------------------------------------
 

@@ -463,6 +463,7 @@ AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
 
 function AnkhUp:CreateDataObject()
 	if self.dataObject then return end
+	self:Debug(1, "CreateDataObject")
 
 	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject("AnkhUp", {
 		type  = "data source",
@@ -482,6 +483,7 @@ end
 
 function AnkhUp:CreateDisplayFrame()
 	if self.displayFrame then return end
+	self:Debug(1, "CreateDisplayFrame")
 
 	local DataBroker = LibStub("LibDataBroker-1.1")
 
@@ -547,12 +549,15 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:RegisterForDrag("LeftButton")
 
 	self.displayFrame:SetScript("OnDragStart", function(self)
+		if db.frameLock then return end
+
 		self:GetScript("OnLeave")(self)
 		self:StartMoving()
 	end)
 
 	self.displayFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
+		if db.frameLock then return end
 
 		local scale = self:GetScale()
 		local left, top = self:GetLeft() * scale, self:GetTop() * scale
@@ -593,7 +598,9 @@ function AnkhUp:CreateDisplayFrame()
 		self:ClearAllPoints()
 		self:SetPoint(point, UIParent, x / scale, y / scale)
 
-		self:GetScript("OnEnter")(self)
+		if self:IsMouseOver() then
+			self:GetScript("OnEnter")(self)
+		end
 	end)
 
 	self.displayFrame:SetScript("OnHide", function(self)
@@ -629,10 +636,6 @@ function AnkhUp:CreateDisplayFrame()
 	self.displayFrame:SetBackdropColor(0, 0, 0, 0.9 * db.frameAlpha)
 	self.displayFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, db.frameAlpha)
 
-	if db.frameLock then
-		self.displayFrame:SetMovable(false)
-	end
-
 	if db.frameShow then
 		self.displayFrame:Show()
 	else
@@ -643,7 +646,7 @@ end
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
-	if lvl > 0 then return end
+	if lvl > 3 then return end
 	if ... then
 		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
 	end
