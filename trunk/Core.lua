@@ -393,8 +393,6 @@ AnkhUp.CHARACTER_POINTS_CHANGED = AnkhUp.PLAYER_TALENT_UPDATE
 function AnkhUp:SPELL_UPDATE_COOLDOWN()
 	self:Debug(1, "SPELL_UPDATE_COOLDOWN")
 
-	self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
-
 	local now = GetTime()
 	if now - resurrectionTime > 1 then return end
 	self:Debug(1, "Player just resurrected.")
