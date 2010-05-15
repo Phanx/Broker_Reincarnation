@@ -3,17 +3,15 @@
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
-## X-Category: Shaman
+## Author: Phanx
+## X-Email: addons@phanx.net
+## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
 ## X-Copyright: Copyright ©2006–2010 Alyssa "Phanx" Kinley
 ## X-License: Do not redistribute. See README for license terms.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
 ## X-Website: http://wow.curseforge.com/addons/ankhcooldowntimer/
 ## X-WoWI-ID: 6330
-
-## Author: Phanx
-## X-Email: addons@phanx.net
-## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Class: SHAMAN
