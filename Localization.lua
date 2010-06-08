@@ -15,8 +15,12 @@ local locale = GetLocale()
 if locale:match("^en") then return end
 
 local L = { }
-local _, AnkhUp = ...
-AnkhUp.L = L
+local _, ns = ...
+if ns then
+	ns.L = L
+else
+	_G.AnkhUpStrings = L
+end
 
 --[[--------------------------------------------------------------------
 	German / Deutsch

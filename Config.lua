@@ -10,15 +10,15 @@
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 local ADDON_NAME, ns = ...
-local AnkhUp = ns.AnkhUp
+local AnkhUp = ns and ns.AnkhUp or _G.AnkhUp
 
 AnkhUp.optionsFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-AnkhUp.optionsFrame.name = GetAddOnMetadata(ADDON_NAME, "Title")
+AnkhUp.optionsFrame.name = GetAddOnMetadata("AnkhUp", "Title")
 AnkhUp.optionsFrame:Hide()
 
 AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	local db = AnkhUpDB
-	local L = ns.L
+	local L = AnkhUp.L
 
 	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
 	self.CreateSlider = LibStub:GetLibrary("PhanxConfig-Slider").CreateSlider
@@ -201,13 +201,14 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	--
 	--	That's all!
 	--
-	LibStub("LibAboutPanel").new(AnkhUp.optionsFrame.name, ADDON_NAME)
+
 	self:SetScript("OnShow", nil)
 end)
 
 ------------------------------------------------------------------------
 
 InterfaceOptions_AddCategory(AnkhUp.optionsFrame)
+LibStub("LibAboutPanel").new("AnkhUp", "AnkhUp")
 
 SLASH_ANKHUP1 = "/ankhup"
 SlashCmdList.ANKHUP = function()
