@@ -8,26 +8,37 @@
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
-if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
-if not ns.L then ns.L = { } end
-
-local L = setmetatable(ns.L, { __index = function(t, k) t[k] = k return k end })
-L["AnkhUp"] = GetAddOnMetadata(ADDON_NAME, "Title")
-L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
-L["Reincarnation"] = GetSpellInfo(20608)
-
-local db, hasGlyph
-local cooldown, cooldownMax, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0, 0
-
-------------------------------------------------------------------------
+if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn("AnkhUp") end
 
 local AnkhUp = CreateFrame("Frame")
 AnkhUp:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
 AnkhUp:RegisterEvent("ADDON_LOADED")
 AnkhUp:Hide()
 
-ns.AnkhUp = AnkhUp
-_G.AnkhUp = AnkhUp
+if ns then
+	ns.AnkhUp = AnkhUp
+	if not ns.L then ns.L = { } end
+else
+	_G.AnkhUp = AnkhUp
+	if not AnkhUpStrings then AnkhUpStrings = { } end
+end
+
+local L = setmetatable(ns and ns.L or AnkhUpStrings, { __index = function(t, k)
+	local v = tostring(k)
+	t[k] = v
+	return v
+end })
+L["AnkhUp"] = GetAddOnMetadata("AnkhUp", "Title")
+L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
+L["Reincarnation"] = GetSpellInfo(20608)
+
+AnkhUp.L = L
+if ns then ns.L = nil end
+
+------------------------------------------------------------------------
+
+local db, hasGlyph
+local cooldown, cooldownMax, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0, 0
 
 ------------------------------------------------------------------------
 
@@ -130,25 +141,27 @@ end)
 
 ------------------------------------------------------------------------
 
+local BASE_COOLDOWN = { 1800, 1380, 900 }
+do
+	local minor = GetBuildInfo():match("^3%.(%d-)%.")
+	if tonumber(minor) < 3 then -- pre-3.3, probably Chinese client
+		BASE_COOLDOWN[1] = 3600
+		BASE_COOLDOWN[2] = 3000
+		BASE_COOLDOWN[3] = 2400
+	end
+end
+
 function AnkhUp:UpdateCooldownMax()
 	self:Debug(1, "UpdateCooldownMax")
 	local talentPoints = select(5, GetTalentInfo(3, 3))
-
-	if talentPoints == 2 then
-		cooldownMax =  900 - (IsEquippedItem(22345) and 300 or 0)
-	elseif talentPoints == 1 then
-		cooldownMax = 1380 - (IsEquippedItem(22345) and 300 or 0)
-	else
-		cooldownMax = 1800 - (IsEquippedItem(22345) and 300 or 0)
-	end
-
+	cooldownMax = BASE_COOLDOWN[talentPoints + 1] - (IsEquippedItem(22345) and 300 or 0)
 	return cooldownMax
 end
 
 ------------------------------------------------------------------------
 
 function AnkhUp:ADDON_LOADED(addon)
-	if addon ~= ADDON_NAME then return end
+	if addon ~= "AnkhUp" then return end
 	self:Debug(1, "ADDON_LOADED", addon)
 
 	if not AnkhUpDB then
