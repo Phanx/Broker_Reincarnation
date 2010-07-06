@@ -1,12 +1,12 @@
 ## Interface: 30300
-## Version: 3.3.3.wowi:revision-beta
+## Version: 3.3.5.wowi:revision-beta
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
-## X-Copyright: Copyright ©2006–2010 Alyssa "Phanx" Kinley
+## X-Copyright: Copyright ©2006–2010 Phanx
 ## X-License: Do not redistribute. See README for license terms.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
