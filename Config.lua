@@ -38,46 +38,36 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 	notes:SetNonSpaceWrap(true)
 	notes:SetText(L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
 
-	--
-	--	db.readyAlert (boolean)
-	--
+	--------------------------------------------------------------------
 
 	local readyAlert = self:CreateCheckbox(L["Notify when ready"])
+	readyAlert.desc = L["Notify you with a raid warning message when Reincarnation's cooldown finishes."]
 	readyAlert:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
-
 	readyAlert:SetChecked(db.readyAlert)
 
-	readyAlert.desc = L["Notify you with a raid warning message when Reincarnation's cooldown finishes."]
 	readyAlert.OnClick = function(self, checked)
 		db.readyAlert = checked
 	end
 
-	--
-	--	db.buyAlert (boolean)
-	--
+	--------------------------------------------------------------------
 
 	local buyAlert = self:CreateCheckbox(L["Notify when buying"])
+	buyAlert.desc = L["Notify you with a chat message when automatically buying ankhs."]
 	buyAlert:SetPoint("TOPLEFT", readyAlert, "BOTTOMLEFT", 0, -8)
-
 	buyAlert:SetChecked(db.buyAlert)
 
-	buyAlert.desc = L["Notify you with a chat message when automatically buying ankhs."]
 	buyAlert.OnClick = function(self, checked)
 		db.buyAlert = checked
 	end
 
-	--
-	--	db.buy (number)
-	--
+	--------------------------------------------------------------------
 
 	local buy = self:CreateSlider(L["Buy quantity"], 0, 20, 5)
-	buy.container:SetPoint("TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -8)
-	buy.container:SetPoint("TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight() - 8 - buyAlert:GetHeight() - 8)
-
-	buy:SetValue(db.buy)
-	buy.valueText:SetText(db.buy)
-
 	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."]
+	buy:SetPoint("TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -8)
+	buy:SetPoint("TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight() - 8 - buyAlert:GetHeight() - 8)
+	buy:SetValue(db.buy)
+
 	buy.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buy = value
@@ -89,34 +79,27 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		return value
 	end
 
-	--
-	--	db.low (number)
-	--
+	--------------------------------------------------------------------
 
 	local low = self:CreateSlider(L["Low ankh quantity"], 0, 20, 5)
-	low.container:SetPoint("TOPLEFT", buy.container, "BOTTOMLEFT", 0, -8)
-	low.container:SetPoint("TOPRIGHT", buy.container, "BOTTOMRIGHT", -0, -8)
-
-	low:SetValue(db.low)
-	low.valueText:SetText(db.low)
-
 	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."]
+	low:SetPoint("TOPLEFT", buy, "BOTTOMLEFT", 0, -8)
+	low:SetPoint("TOPRIGHT", buy, "BOTTOMRIGHT", -0, -8)
+	low:SetValue(db.low)
+
 	low.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.low = value
 		return value
 	end
 
-	--
-	--	db.frameShow (boolean)
-	--
+	--------------------------------------------------------------------
 
 	local frameShow = self:CreateCheckbox(L["Show monitor window"])
+	frameShow.desc = L["Show a standalone monitor window for your Reincarnation cooldown."]
 	frameShow:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -16)
-
 	frameShow:SetChecked(db.frameShow)
 
-	frameShow.desc = L["Show a standalone monitor window for your Reincarnation cooldown."]
 	frameShow.OnClick = function(self, checked)
 		db.frameShow = checked
 		if checked then
@@ -131,16 +114,13 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		end
 	end
 
-	--
-	--	db.frameLock (boolean)
-	--
+	--------------------------------------------------------------------
 
 	local frameLock = self:CreateCheckbox(L["Lock monitor window"])
+	frameLock.desc = L["Lock the monitor window in place, preventing dragging."]
 	frameLock:SetPoint("TOPLEFT", frameShow, "BOTTOMLEFT", 0, -8)
-
 	frameLock:SetChecked(db.frameLock)
 
-	frameLock.desc = L["Lock the monitor window in place, preventing dragging."]
 	frameLock.OnClick = function(self, checked)
 		db.frameLock = checked
 		if checked then
@@ -150,20 +130,14 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		end
 	end
 
-	--
-	--	db.frameScale (number)
-	--
+	--------------------------------------------------------------------
 
 	local frameScale = self:CreateSlider(L["Monitor scale"], 0.5, 2, 0.05, true)
-	frameScale.container:SetPoint("TOPLEFT", frameLock, "BOTTOMLEFT", 2, -8)
-	frameScale.container:SetPoint("RIGHT", notes, "BOTTOMRIGHT", -2, -16 - frameShow:GetHeight() - 8 - frameLock:GetHeight() - 8)
-
-	frameScale:SetValue(db.frameScale)
-	frameScale.valueText:SetFormattedText("%.0f%%", db.frameScale * 100)
-
-	frameScale.valueFormat = "%.0f%%"
-
 	frameScale.desc = L["Adjust the size of the monitor window."]
+	frameScale:SetPoint("TOPLEFT", frameLock, "BOTTOMLEFT", 2, -8)
+	frameScale:SetPoint("RIGHT", notes, "BOTTOMRIGHT", -2, -16 - frameShow:GetHeight() - 8 - frameLock:GetHeight() - 8)
+	frameScale:SetValue(db.frameScale)
+
 	frameScale.OnValueChanged = function(self, value)
 		value = math.floor(value * 100 + 0.5) / 100
 		db.frameScale = value
@@ -174,20 +148,14 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		return value
 	end
 
-	--
-	--	db.frameAlpha (number)
-	--
+	--------------------------------------------------------------------
 
 	local frameAlpha = self:CreateSlider(L["Monitor opacity"], 0, 1, 0.05, true)
-	frameAlpha.container:SetPoint("TOPLEFT", frameScale.container, "BOTTOMLEFT", 0, -8)
-	frameAlpha.container:SetPoint("TOPRIGHT", frameScale.container, "BOTTOMRIGHT", 0, -8)
-
-	frameAlpha:SetValue(db.frameAlpha)
-	frameAlpha.valueText:SetFormattedText("%.0f%%", db.frameAlpha * 100)
-
-	frameAlpha.valueFormat = "%.0f%%"
-
 	frameAlpha.desc = L["Adjust the opacity of the monitor window's background."]
+	frameAlpha:SetPoint("TOPLEFT", frameScale, "BOTTOMLEFT", 0, -8)
+	frameAlpha:SetPoint("TOPRIGHT", frameScale, "BOTTOMRIGHT", 0, -8)
+	frameAlpha:SetValue(db.frameAlpha)
+
 	frameAlpha.OnValueChanged = function(self, value)
 		value = math.floor(value * 100 + 0.5) / 100
 		db.frameAlpha = value
@@ -198,9 +166,7 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		return value
 	end
 
-	--
-	--	That's all!
-	--
+	--------------------------------------------------------------------
 
 	self:SetScript("OnShow", nil)
 end)
