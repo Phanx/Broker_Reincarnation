@@ -207,7 +207,7 @@ function AnkhUp:PLAYER_LOGIN()
 		return
 	end
 
-	if not GetTalentInfo(3, 3) then
+	if GetNumTalentTabs() == 0 then
 		self:Debug(1, "Talents not loaded yet.")
 		self:RegisterEvent("UNIT_NAME_UPDATE")
 		return
@@ -221,6 +221,7 @@ function AnkhUp:PLAYER_LOGIN()
 	end
 
 	self:SPELLS_CHANGED()
+	self:GLYPH_UPDATED()
 
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
@@ -286,12 +287,13 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:GLYPH_CHANGED()
-	self:Debug(1, "GLYPH_CHANGED")
+function AnkhUp:GLYPH_UPDATED()
+	self:Debug(1, "GLYPH_UPDATED")
 
 	local exists
 	for i = 1, GetNumGlyphSockets() do
 		local _, _, id = GetGlyphSocketInfo(i)
+		self:Debug(2, "Scanning glyph socket %d; found glyph %d (%s)",i,  id, GetSpellInfo(id) or "EMPTY")
 		if id == 58059 then
 			exists = true
 			break
@@ -301,18 +303,22 @@ function AnkhUp:GLYPH_CHANGED()
 	if exists and not hasGlyph then
 		self:Debug(1, "Glyph of Renewed Life was added.")
 
+		hasGlyph = true
+
 		self:UnregisterEvent("BAG_UPDATE")
 		self:UpdateText()
 	elseif hasGlyph and not exists then
 		self:Debug(1, "Glyph of Renewed Life was removed.")
+
+		hasGlyph = false
 
 		self:RegisterEvent("PLAYER_LEAVING_WORLD")
 		self:RegisterEvent("BAG_UPDATE")
 		self:BAG_UPDATE()
 	end
 end
-AnkhUp.GLYPH_ADDED = AnkhUp.GLYPH_CHANGED
-AnkhUp.GLYPH_REMOVED = AnkhUp.GLYPH_CHANGED
+AnkhUp.GLYPH_ADDED = AnkhUp.GLYPH_UPDATED
+AnkhUp.GLYPH_REMOVED = AnkhUp.GLYPH_UPDATED
 
 ------------------------------------------------------------------------
 
@@ -444,7 +450,7 @@ function AnkhUp:SPELLS_CHANGED()
 
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED")
-	self:RegisterEvent("GLYPH_CHANGED")
+	self:RegisterEvent("GLYPH_UPDATED")
 	self:RegisterEvent("GLYPH_ADDED")
 	self:RegisterEvent("GLYPH_REMOVED")
 	self:RegisterEvent("MERCHANT_SHOW")
