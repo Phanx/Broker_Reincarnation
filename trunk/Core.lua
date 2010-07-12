@@ -293,7 +293,7 @@ function AnkhUp:GLYPH_UPDATED()
 	local exists
 	for i = 1, GetNumGlyphSockets() do
 		local _, _, id = GetGlyphSocketInfo(i)
-		self:Debug(2, "Scanning glyph socket %d; found glyph %d (%s)",i,  id, GetSpellInfo(id) or "EMPTY")
+		self:Debug(2, "Scanning glyph socket %d; found glyph %d (%s)",i,  id, (id and GetSpellInfo(id)) or "EMPTY")
 		if id == 58059 then
 			exists = true
 			break
