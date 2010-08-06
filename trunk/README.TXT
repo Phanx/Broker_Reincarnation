@@ -47,7 +47,7 @@ Credits
 
 License
 
-	Copyright © 2006–2010 Phanx
+	Copyright © 2006–2010 Phanx.
 
 	The contents of this addon, excluding third-party resources, are
 	copyrighted to its author with all rights reserved, under United
@@ -62,9 +62,9 @@ License
 	1. You may make modifications to this addon for private use only.
 
 	2. You may use source code from this addon for any purpose, provided
-	that the names of this addon and its author do not appear in the
-	title, source code, or file names of your project, and are not used
-	to promote your project.
+	that the names of this addon and its author are not used to promote
+	your project, and do not appear in the title, source code, or file
+	names of your project, outside of an optional credits notation.
 
 	All rights not explicitly addressed in this license are reserved by
 	the copyright holder.
