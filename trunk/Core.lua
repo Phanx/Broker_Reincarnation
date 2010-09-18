@@ -141,20 +141,26 @@ end)
 
 ------------------------------------------------------------------------
 
-local BASE_COOLDOWN = { 1800, 1380, 900 }
+local BASE_COOLDOWN
 do
-	local minor = GetBuildInfo():match("^3%.(%d-)%.")
-	if tonumber(minor) < 3 then -- pre-3.3, probably Chinese client
-		BASE_COOLDOWN[1] = 3600
-		BASE_COOLDOWN[2] = 3000
-		BASE_COOLDOWN[3] = 2400
+	local _, _, _, interface = GetBuildInfo()
+	if interface < 30300 then
+		-- pre-3.3 client, probably China
+		BASE_COOLDOWN = { 3600, 3000, 2400 }
+	elseif interface < 40000 then
+		-- pre-4.0 client
+		BASE_COOLDOWN = { 1800, 1380, 900 }
 	end
 end
 
 function AnkhUp:UpdateCooldownMax()
 	self:Debug(1, "UpdateCooldownMax")
-	local talentPoints = select(5, GetTalentInfo(3, 3))
-	cooldownMax = BASE_COOLDOWN[talentPoints + 1] - (IsEquippedItem(22345) and 300 or 0)
+	if BASE_COOLDOWN then
+		local talentPoints = select(5, GetTalentInfo(3, 3))
+		cooldownMax = BASE_COOLDOWN[talentPoints + 1] - (IsEquippedItem(22345) and 300 or 0)
+	else
+		cooldownMax = 1800 - (IsEquippedItem(22345) and 300 or 0)
+	end
 	return cooldownMax
 end
 
