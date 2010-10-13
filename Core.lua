@@ -148,7 +148,7 @@ do
 		-- pre-3.3 client, probably China
 		BASE_COOLDOWN = { 3600, 3000, 2400 }
 	elseif interface < 40000 then
-		-- pre-4.0 client
+		-- pre-4.0 client, probably China once they get 3.3
 		BASE_COOLDOWN = { 1800, 1380, 900 }
 	end
 end
