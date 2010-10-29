@@ -130,7 +130,8 @@ AnkhUp:SetScript("OnUpdate", function(self, elapsed)
 		if cooldown <= 0 then
 			self:SetScript("OnUpdate", nil)
 			if db.readyAlert then
-				RaidNotice_AddMessage(RaidBossEmoteFrame, L["Reincarnation is ready!"], CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN)
+				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN
+				UIErrorsFrame:AddMessage(L["Reincarnation is ready!"], color.r, color.g, color.b)
 			end
 			cooldown = 0
 		end
