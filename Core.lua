@@ -2,7 +2,7 @@
 	AnkhUp
 	Shaman Reincarnation cooldown monitor
 	by Phanx < addons@phanx.net >
-	Copyright © 2006–2010 Phanx. See README for license terms.
+	Copyright © 2006–2010 Phanx. See LICENSE for license terms.
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
@@ -299,7 +299,7 @@ function AnkhUp:GLYPH_UPDATED()
 
 	local exists
 	for i = 1, GetNumGlyphSockets() do
-		local _, _, id = GetGlyphSocketInfo(i)
+		local _, _, _, id = GetGlyphSocketInfo(i)
 		self:Debug(2, "Scanning glyph socket %d; found glyph %d (%s)",i,  id, (id and GetSpellInfo(id)) or "EMPTY")
 		if id == 58059 then
 			exists = true

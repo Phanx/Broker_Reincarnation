@@ -6,17 +6,18 @@
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
-## X-Copyright: Copyright ©2006–2010 Phanx
-## X-License: Do not redistribute. See README for license terms.
+## X-Copyright: Copyright © 2006–2010 Phanx
+## X-License: Do not redistribute. See LICENSE for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+## X-Curse-ProjectName: ankhcooldowntimer
 ## X-WoWI-ID: 6330
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Class: SHAMAN
 
-## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1
+## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1, PhanxConfigWidgets
 ## SavedVariablesPerCharacter: AnkhUpDB
 
 Libs\LibStub\LibStub.lua
