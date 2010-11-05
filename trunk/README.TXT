@@ -1,70 +1,71 @@
+## AnkhUp
 
-AnkhUp - a World of Warcraft user interface addon
+* by Phanx < addons@phanx.net >
+* http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+* http://wow.curse.com/downloads/wow-addons/details/ankhcooldowntimer.aspx
 
-	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
+## Description
 
-Description
+AnkhUp is a Reincarnation cooldown monitor for shamans. It also warns
+you for low ankhs, restocks ankhs at vendors, notifies you when the
+cooldown on Reincarnation ends, and remembers the date and time when you
+last Reincarnated. The cooldown monitor can be shown in a small movable
+window, or on your favorite DataBroker display addon.
 
-	AnkhUp is a Reincarnation cooldown monitor for shamans. It includes
-	low ankh warnings, ankh restocking, notification when Reincarnation
-	is ready, and remembers when you last Reincarnated. The monitor can
-	be displayed as a standalone window, or as a plugin through your
-	favorite DataBroker display.
+## Usage
 
-Usage
+Left-click and drag the standalone monitor window to move it.
 
-	Left-click and drag the standalone monitor window to move it.
+Options are available in the Interface Options window. Right-click the
+monitor or type "/ankhup" to open the Interface Options window directly
+to the AnkhUp panel.
 
-	Options are available in the Interface Options window. Right-click
-	the monitor or type "/ankhup" to open the Interface Options window
-	directly to the AnkhUp panel.
+## Localization
 
-Localization
+* Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
+* Translated into: en*, deDE, esES, esMX, frFR
 
-	Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-	Translated into: en*, deDE, esES, esMX, frFR
+If you can help translate for any locale, please contact me.
 
-	If you can help translate for any locale, please contact me.
+## Feedback
 
-Feedback
+Please use the ticket system on either download site report bugs or
+request features. Use the comment system only for general questions
+or comments.
 
-	Please use the ticket system on either download site report bugs or
-	request features. Use the comment system only for general questions
-	or comments.
+If you need to contact me privately, you may do by private message on
+either download site, or by email at addons@phanx.net.
 
-	If you need to contact me privately, you may do by private message
-	on either download site, or by email at addons@phanx.net.
+Note that email and private messaging are not appropriate ways to
+report bugs, request features, or ask for help with using an addon.
 
-	Note that email and private messaging are not appropriate ways to
-	report bugs, request features, or ask for help with using an addon.
+## Credits
 
-Credits
+The original Ankh Cooldown Timer addon, upon which this addon is based,
+was written by Starforce of Shattered Hand (EU).
 
-	The original Ankh Cooldown Timer addon, upon which this addon is
-	based, was written by Starforce of Shattered Hand (EU).
+## License
 
-License
+## Bug Reports
 
-	Copyright © 2006–2010 Phanx.
+* [WoWInterface bug tracker](http://www.wowinterface.com/portal.php?uid=28751&a=listbugs)
+* [CurseForge bug tracker](http://wow.curseforge.com/addons/ankhcooldowntimer/tickets/?status=+&type=d)
 
-	The contents of this addon, excluding third-party resources, are
-	copyrighted to its author with all rights reserved, under United
-	States copyright law and various international treaties.
+## Feature Requests
 
-	In particular, please note that you may not distribute this addon in
-	any form, with or without modifications, including as part of a
-	compilation, without prior written permission from its author.
+* [WoWInterface feature tracker](http://www.wowinterface.com/portal.php?uid=28751&a=listfeatures)
+* [CurseForge feature tracker](http://wow.curseforge.com/addons/ankhcooldowntimer/tickets/?status=+&type=e)
 
-	The author of this addon hereby grants you the following rights:
+## Feedback
 
-	1. You may make modifications to this addon for private use only.
+* [WoWInterface comments page](http://www.wowinterface.com/downloads/info6330-AnkhUp.html#comments)
 
-	2. You may use source code from this addon for any purpose, provided
-	that the names of this addon and its author are not used to promote
-	your project, and do not appear in the title, source code, or file
-	names of your project, outside of an optional credits notation.
+## License
 
-	All rights not explicitly addressed in this license are reserved by
-	the copyright holder.
+AnkhUp is free as in "free beer", not free as in "free software", and
+you may not include it in your compilation or redistribute it in any
+other way without first getting permission. The full license text under
+which AnkhUp is released can be found in the LICENSE text file inside
+the addon's folder. Show your appreciation for the time and effort addon
+authors put into writing, updating, and supporting addons by respecting
+our legal rights. Thanks!
