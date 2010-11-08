@@ -122,21 +122,22 @@ end
 
 ------------------------------------------------------------------------
 
-local counter = 0
-AnkhUp:SetScript("OnUpdate", function(self, elapsed)
-	counter = counter + elapsed
-	if counter >= 0.25 then
-		cooldown = cooldownStart + cooldownMax - GetTime()
-		if cooldown <= 0 then
-			self:SetScript("OnUpdate", nil)
-			if db.readyAlert then
-				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN
-				UIErrorsFrame:AddMessage(L["Reincarnation is ready!"], color.r, color.g, color.b)
-			end
-			cooldown = 0
+AnkhUp.timerGroup = AnkhUp:CreateAnimationGroup()
+local timer = AnkhUp.timerGroup:CreateAnimation()
+timer:SetOrder(1)
+timer:SetDuration(0.25)
+timer:SetMaxFramerate(25)
+AnkhUp.timerGroup:SetScript("OnFinished", function(self, requested)
+	cooldown = cooldownStart + cooldownMax - GetTime()
+	AnkhUp:UpdateText()
+	if cooldown <= 0 then
+		if db.readyAlert then
+			local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS.SHAMAN or RAID_CLASS_COLORS.SHAMAN
+			UIErrorsFrame:AddMessage(L["Reincarnation is ready!"], color.r, color.g, color.b)
 		end
-		self:UpdateText()
-		counter = 0
+		cooldown = 0
+	else
+		self:Play()
 	end
 end)
 
@@ -429,7 +430,7 @@ function AnkhUp:SPELL_UPDATE_COOLDOWN()
 			self:Debug(1, "Player just used Reincarnation.")
 			cooldownStart = start
 			db.lastReincarnation = time() - (GetTime() - start)
-			self:Show()
+			self.timerGroup:Play()
 		end
 	end
 end
@@ -476,7 +477,7 @@ function AnkhUp:SPELLS_CHANGED()
 		self:Debug(1, "Reincarnation is on cooldown.")
 		cooldownStart = start
 		db.lastReincarnation = time() - (GetTime() - start)
-		self:Show()
+		self.timerGroup:Play()
 	end
 
 	self:Debug(1, "numAnkhs = %d, cooldown = %d, cooldownMax = %d", numAnkhs, cooldown, cooldownMax)
