@@ -11,7 +11,7 @@
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-## X-Curse-ProjectName: ankhcooldowntimer
+## X-Curse-Project-ID: ankhcooldowntimer
 ## X-WoWI-ID: 6330
 
 ## LoadManagers: AddonLoader
