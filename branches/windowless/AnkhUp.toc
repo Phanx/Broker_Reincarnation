@@ -1,0 +1,31 @@
+## Interface: 40000
+## Version: 4.0.3.wowi:revision-beta
+
+## Title: AnkhUp
+## Notes: A shaman Reincarnation monitor.
+## Author: Akkorian, Phanx
+## X-Email: akkorian@hotmail.com
+## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
+## X-Copyright: Copyright © 2006–2010 Phanx
+## X-License: Some rights reserved. See LICENSE.txt for details.
+## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
+## X-Localizations: enUS, deDE, esES, esMX, frFR
+## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+## X-Curse-Project-ID: ankhcooldowntimer
+## X-WoWI-ID: 6330
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Class: SHAMAN
+
+## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1, PhanxConfigWidgets
+## SavedVariablesPerCharacter: AnkhUpDB
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
+
+Localization.lua
+Core.lua
