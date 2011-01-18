@@ -1,8 +1,9 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	Shaman Reincarnation cooldown monitor
-	by Phanx < addons@phanx.net >
-	Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Monitors your Reincarnation cooldown and helps manage your ankhs.
+	Written by Phanx <addons@phanx.net>
+	Currently maintained by Akkorian <akkorian@hotmail.com>
+	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
@@ -74,28 +75,28 @@ if locale == "esES" then
 	L["Remaining"] = "Restantes"
 	L["Ready"] = "Listo"
 	L["Cooldown"] = "Reutilización"
-	L["Last Reincarnated"] = "Reencarnación utilizó por última vez"
+	L["Last Reincarnated"] = "Reencarnación fue utilizado por última vez"
 	L["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y" -- See table at http://www.lua.org/pil/22.1.html
 
-	L["You only have %d ankhs left. Don't forget to restock!"] = "Usted tiene sólo %s ankhs. No se olvide de comprar más!"
+	L["You only have %d ankhs left. Don't forget to restock!"] = "Sólo tiene %d ankhs restantes. No se olvide de comprar más!"
 	L["Buying %d ankhs."] = "Comprar %s ankhs."
 	L["Reincarnation is ready!"] = "Reencarnación está listo!"
 
-	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este panel se permite configurar las opciones para seguir pasos de la Reencarnación y sus ankhs."
+	L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este panel se permite configurar las opciones para opciones para seguimiento de tu hechizo Reencarnación, y tu ankhs."
 	L["Low ankh warning"] = "Aviso de ankhs"
-	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = "Mostrar un aviso cuando tienes menos de este número de ankhs. Poner a 0 para desactivar la aviso."
+	L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable the warning."] = "Avisar cuando tienes menos de este número de ankhs. Poner a 0 para desactivar la aviso."
 	L["Restock ankhs"] = "Comprar ankhs"
 	L["Restock ankhs up to a total of this number when interacting with vendors. Set to 0 to disable restocking."] = "Comprar ankhs para un total de este número cuando se habla a los vendedores. Poner a 0 para desactivar la compra."
-	L["Notify when restocking"] = "Notificación cuando comprar"
-	L["Enable notification in the chat frame when restocking ankhs."] = "Mostrar una notificación cuando se compra más ankhs."
-	L["Notify when ready"] = "Notificación cuando listo"
-	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = "Mostrar una notificación cuando la Reencarnación está listo."
-	L["Show monitor"] = "Aparecen el monitor"
-	L["Show a standalone monitor window for your Reincarnation cooldown."] = "Aparecen un monitor para reutilización de la Reencarnación."
-	L["Lock monitor"] = "Mantener el monitor"
-	L["Lock the monitor window in place, preventing dragging."] = "Mantener el monitor, que no se puede mover."
-	L["Monitor scale"] = "Tamaño del monitor"
-	L["Adjust the size of the monitor window."] = "Aumentar o disminuir el tamaño del monitor."
+	L["Notify when restocking"] = "Notificar cuando comprar"
+	L["Enable notification in the chat frame when restocking ankhs."] = "Notificar por texto cuando se compra más ankhs."
+	L["Notify when ready"] = "Notificar cuando listo"
+	L["Enable notification in the raid warning frame when Reincarnation becomes ready."] = "Notificar por texto cuando tu hechizo Reencarnación está listo."
+	L["Show monitor"] = "Mostrar marco"
+	L["Show a standalone monitor window for your Reincarnation cooldown."] = "Mostrar un marco para seguimiento el tiempo de reutilización de tu hechizo Reencarnación."
+	L["Lock monitor"] = "Bloquear marco"
+	L["Lock the monitor window in place, preventing dragging."] = "Bloquear el movimiento del marco."
+	L["Monitor scale"] = "Tamaño de marco"
+	L["Adjust the size of the monitor window."] = "Cambiar el tamaño del marco."
 
 	L["Right-click for options."] = "Clic con el botón derecho para opciones."
 return end

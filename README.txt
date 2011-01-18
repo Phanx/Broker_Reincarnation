@@ -1,58 +1,60 @@
-## AnkhUp
+AnkhUp
+======
 
-by Phanx < addons@phanx.net >
-Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+Written by Phanx <addons@phanx.net>
+Maintained by Akkorian <akkorian@hotmail.com>
+Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 http://wow.curse.com/downloads/wow-addons/details/ankhcooldowntimer.aspx
 
 
-## Description
+Description
+-----------
 
-AnkhUp is a Reincarnation cooldown monitor for shamans. It also warns
-you for low ankhs, restocks ankhs at vendors, notifies you when the
-cooldown on Reincarnation ends, and remembers the date and time when you
-last Reincarnated. The cooldown monitor can be shown in a small movable
-window, or on your favorite DataBroker display addon.
+AnkhUp monitors your Reincarnation cooldown and helps manage your ankhs.
 
-
-## Usage
-
-Left-click and drag the standalone monitor window to move it.
-
-Options are available in the Interface Options window. Right-click the
-monitor or type "/ankhup" to open the Interface Options window directly
-to the AnkhUp panel.
+It can display a small monitor window, or plug into any DataBroker
+compatible display addon. It also reminds you when you’re running low
+on ankhs, and automatically buys more ankhs when you visit a vendor who
+sells them.
 
 
-## Localization
+Usage
+-----
 
-* Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-* Translated into: en*, deDE, esES, esMX, frFR
+Options are available in the Interface Options window. You can also 
+type “/ankhup”, or right-click the monitor window or DataBroker plugin,
+to open the window directly to the AnkhUp panel.
 
-If you can help translate for any locale, please contact me.
+Left-click and drag to move the monitor window.
 
 
-## Feedback
+Localization
+------------
+
+AnkhUp is compatible with English, Deutsch, Español, Français, Русский,
+한국어, 简体中文, and 正體中文 clients.
+
+AnkhUp is translated into English, Deutsch, Español, and Français. If
+you can provide translations for another locale, please send me a PM
+on either download site.
+
+AnkhUp is compatible with WoW 3.2 (China) and WoW 4.0 (everywhere else).
+
+
+Feedback
+--------
 
 Please use the ticket system on either download site report bugs or
 request features. Use the comment system only for general questions
 or comments.
 
 If you need to contact me privately, you may do by private message on
-either download site, or by email at addons@phanx.net.
+either download site, or by email at <akkorian@hotmail.com>.
 
 
-## Credits
+Credits
+-------
 
 The original Ankh Cooldown Timer addon, upon which this addon is based,
 was written by Starforce of Shattered Hand (EU).
-
-
-## Feedback
-
-Please use the ticket system on either download site report bugs or
-request features. Use the comment system only for general questions
-or comments.
-
-If you need to contact me privately, you may do by private message
-on either download site, or by email at addons@phanx.net.
