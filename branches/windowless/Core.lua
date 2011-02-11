@@ -382,7 +382,7 @@ function AnkhUp:SPELLS_CHANGED()
 			end
 
 			tooltip:AddLine(" ")
-			tooltip:AddLine(L["Right-click for options."], 0.2, 0.2, 1)
+			tooltip:AddLine(L["Right-click for options."], 0.2, 1, 0.2)
 		end,
 	})
 
