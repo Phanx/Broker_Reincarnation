@@ -435,7 +435,7 @@ AnkhUp.optionsFrame = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADD
 	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
 	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
 
-	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(ADDON_NAME, L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
+	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME, L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
 
 	local readyAlert = CreateCheckbox(self, L["Notify when ready"], L["Notify you with a raid warning message when Reincarnation's cooldown finishes."])
 	readyAlert:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
