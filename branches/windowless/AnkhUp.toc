@@ -1,5 +1,5 @@
 ## Interface: 40000
-## Version: 4.0.3.wowi:revision-beta
+## Version: 4.0.6.wowi:revision-beta
 
 ## Title: AnkhUp
 ## Notes: A shaman Reincarnation monitor.
@@ -17,13 +17,15 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Class: SHAMAN
 
-## OptionalDependencies: LibAboutPanel, LibDataBroker-1.1, PhanxConfigWidgets
+## OptionalDependencies: LibAboutPanel
 ## SavedVariablesPerCharacter: AnkhUpDB
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Header\PhanxConfig-Header.lua
+Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
 
