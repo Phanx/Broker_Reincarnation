@@ -431,50 +431,27 @@ end
 
 ------------------------------------------------------------------------
 
-AnkhUp.optionsFrame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-AnkhUp.optionsFrame.name = GetAddOnMetadata("AnkhUp", "Title")
-AnkhUp.optionsFrame:Hide()
+AnkhUp.optionsFrame = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
+	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
+	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
 
-AnkhUp.optionsFrame:SetScript("OnShow", function(self)
-	self.CreateCheckbox = LibStub:GetLibrary("PhanxConfig-Checkbox").CreateCheckbox
-	self.CreateSlider = LibStub:GetLibrary("PhanxConfig-Slider").CreateSlider
+	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(ADDON_NAME, L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
 
-	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetPoint("TOPRIGHT", -16, -16)
-	title:SetJustifyH("LEFT")
-	title:SetText(self.name)
-
-	local notes = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-	notes:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-	notes:SetPoint("TOPRIGHT", title, "BOTTOMRIGHT", 0, -8)
-	notes:SetHeight(48)
-	notes:SetJustifyH("LEFT")
-	notes:SetJustifyV("TOP")
-	notes:SetNonSpaceWrap(true)
-	notes:SetText(L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
-
-	local readyAlert = self:CreateCheckbox(L["Notify when ready"])
-	readyAlert.desc = L["Notify you with a raid warning message when Reincarnation's cooldown finishes."]
+	local readyAlert = CreateCheckbox(self, L["Notify when ready"], L["Notify you with a raid warning message when Reincarnation's cooldown finishes."])
 	readyAlert:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
-	readyAlert:SetChecked(db.readyAlert)
 	readyAlert.OnClick = function(self, checked)
 		db.readyAlert = checked
 	end
 
-	local buyAlert = self:CreateCheckbox(L["Notify when buying"])
-	buyAlert.desc = L["Notify you with a chat message when automatically buying ankhs."]
+	local buyAlert = CreateCheckbox(self, L["Notify when buying"], L["Notify you with a chat message when automatically buying ankhs."])
 	buyAlert:SetPoint("TOPLEFT", readyAlert, "BOTTOMLEFT", 0, -12)
-	buyAlert:SetChecked(db.buyAlert)
 	buyAlert.OnClick = function(self, checked)
 		db.buyAlert = checked
 	end
 
-	local buy = self:CreateSlider(L["Buy quantity"], 0, 20, 5)
-	buy.desc = L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."]
+	local buy = CreateSlider(self, L["Buy quantity"], 0, 20, 5, nil, L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."])
 	buy:SetPoint("TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -16)
 	buy:SetPoint("TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight() - 12 - buyAlert:GetHeight() - 16)
-	buy:SetValue(db.buy)
 	buy.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buy = value
@@ -486,25 +463,28 @@ AnkhUp.optionsFrame:SetScript("OnShow", function(self)
 		return value
 	end
 
-	local low = self:CreateSlider(L["Low ankh quantity"], 0, 20, 5)
-	low.desc = L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."]
+	local low = CreateSlider(self, L["Low ankh quantity"], 0, 20, 5, nil, L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."])
 	low:SetPoint("TOPLEFT", buy, "BOTTOMLEFT", 0, -16)
 	low:SetPoint("TOPRIGHT", buy, "BOTTOMRIGHT", -0, -16)
-	low:SetValue(db.low)
 	low.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.low = value
 		return value
 	end
 
-	self:SetScript("OnShow", nil)
+	self.refresh = function()
+		readyAlert:SetChecked(db.readyAlert)
+		buyAlert:SetChecked(db.buyAlert)
+		buy:SetValue(db.buy)
+		low:SetValue(db.low)
+	end
 end)
 
-InterfaceOptions_AddCategory(AnkhUp.optionsFrame)
-LibStub("LibAboutPanel").new("AnkhUp", "AnkhUp")
+AnkhUp.aboutFrame = LibStub("LibAboutPanel").new(ADDON_NAME, ADDON_NAME)
 
 SLASH_ANKHUP1 = "/ankhup"
 SlashCmdList.ANKHUP = function()
+	InterfaceOptionsFrame_OpenToCategory(AnkhUp.aboutFrame)
 	InterfaceOptionsFrame_OpenToCategory(AnkhUp.optionsFrame)
 end
 
