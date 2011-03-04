@@ -1,9 +1,8 @@
 AnkhUp
-by Phanx < addons@phanx.net >
 http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 http://wow.curse.com/downloads/wow-addons/details/ankhcooldowntimer.aspx
 
-Copyright © 2006–2010 Phanx
+Copyright © 2006–2011 Phanx <addons@phanx.net>
 
 The contents of this software, excluding third-party resources, are
 copyrighted to its author with all rights reserved, under United States

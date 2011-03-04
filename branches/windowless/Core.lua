@@ -1,19 +1,21 @@
 --[[--------------------------------------------------------------------
 	AnkhUp
-	Shaman Reincarnation cooldown monitor
-	by Phanx < addons@phanx.net >
-	Copyright © 2006–2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Reincarnation cooldown monitor and ankh manager for shamans.
+	Written by Phanx <addons@phanx.net>
+	Maintained by Akkorian <akkorian@hotmail.com>
+	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
 if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
+if not ns then ns = _G.AnkhUpNS end -- WoW China is still running 3.2
 
-local AnkhUp = CreateFrame("Frame")
-AnkhUp:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
-AnkhUp:RegisterEvent("ADDON_LOADED")
-ns.AnkhUp = AnkhUp
+local db, hasGlyph
+local cooldown, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0
+
+------------------------------------------------------------------------
 
 if not ns.L then ns.L = { } end
 local L = setmetatable(ns.L, { __index = function(t, k)
@@ -25,8 +27,31 @@ end })
 L["Ankh"] = GetItemInfo(17030) or L["Ankh"]
 L["Reincarnation"] = GetSpellInfo(20608)
 
-local db, hasGlyph
-local cooldown, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0
+------------------------------------------------------------------------
+
+local AnkhUp = CreateFrame("Frame")
+AnkhUp:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+AnkhUp:RegisterEvent("ADDON_LOADED")
+ns.AnkhUp = AnkhUp
+
+------------------------------------------------------------------------
+
+function AnkhUp:Debug(lvl, str, ...)
+	if lvl > 0 then return end
+	if str:match("%%[ds%d%.]") then
+		print("|cffffcc00[DEBUG] AnkhUp:|r", str:format(...))
+	else
+		print("|cffffcc00[DEBUG] AnkhUp:|r", str)
+	end
+end
+
+function AnkhUp:Print(str, ...)
+	if str:match("%%[ds%d%.]") then
+		print("|cff00ddbaAnkhUp:|r", str:format(...))
+	else
+		print("|cff00ddbaAnkhUp:|r", str)
+	end
+end
 
 ------------------------------------------------------------------------
 
@@ -101,10 +126,13 @@ function AnkhUp:ADDON_LOADED(addon)
 	db = AnkhUpDB
 
 	self.defaults = {
-		low = 0,
-		buy = 0,
-		buyAlert = true,
 		readyAlert = true,
+		buyAlert = true,
+		buy = 0,
+		low = 0,
+		frameShow = true,
+		frameLock = false,
+		frameScale = 1,
 	}
 	for k, v in pairs(self.defaults) do
 		if type(db[k]) ~= type(v) then
@@ -169,7 +197,7 @@ end
 ------------------------------------------------------------------------
 
 local dialog = {
-	text = L["You only have %d ankhs left.\nDon't forget to restock!"],
+	text = L["You only have %d |4ankh:ankhs; left. Don't forget to restock!"],
 	button1 = OKAY,
 	hideOnEscape = 1,
 	showAlert = 1,
@@ -261,11 +289,12 @@ function AnkhUp:MERCHANT_SHOW()
 				local need = db.buy - numAnkhs
 				if need > 0 then
 					if db.buyAlert then
-						self:Print(L["Buying %d ankhs."], need)
+						self:Print(L["Purchased %d |4ankh:ankhs;."], need)
 					end
-					while need > 10 do
-						BuyMerchantItem(i, 10)
-						need = need - 10
+					local stack = GetMerchantItemMaxStack(i)
+					while need > stack do
+						BuyMerchantItem(i, stack)
+						need = need - stack
 					end
 					BuyMerchantItem(i, need)
 				end
@@ -338,15 +367,15 @@ function AnkhUp:SPELLS_CHANGED()
 		type  = "data source",
 		icon  = "Interface\\AddOns\\AnkhUp\\Ankh",
 		label = ADDON_NAME,
-		text  = UNKNOWN,
-		OnClick = function(this, button)
+		text  = "Loading...",
+		OnClick = function( self, button )
 			if button == "RightButton" then
-				InterfaceOptionsFrame_OpenToCategory(self.optionsFrame)
+				SlashCmdList.ANKHUP()
 			end
 		end,
-		OnTooltipShow = function(tooltip)
-			tooltip:AddLine(L["AnkhUp"], 1, 0.8, 0)
-			tooltip:AddLine(" ")
+		OnTooltipShow = function( tooltip )
+			tooltip:AddLine( ADDON_NAME )
+			tooltip:AddLine( " " )
 
 			if not hasGlyph then
 				local r, g, b
@@ -357,7 +386,7 @@ function AnkhUp:SPELLS_CHANGED()
 				else
 					r, g, b = 1, 0.2, 0.2
 				end
-				tooltip:AddDoubleLine(L["Ankhs"], numAnkhs, 1, 0.8, 0, r, g, b)
+				tooltip:AddDoubleLine( L["Ankhs"], numAnkhs, nil, nil, nil, r, g, b )
 			end
 
 			if cooldown > 0 then
@@ -367,24 +396,28 @@ function AnkhUp:SPELLS_CHANGED()
 				else
 					r, g, b = 1, 1, 0.2
 				end
-				tooltip:AddDoubleLine(L["Cooldown"], abbrevTime(cooldown), 1, 0.8, 0, r, g, b)
+				tooltip:AddDoubleLine( L["Cooldown"], abbrevTime(cooldown), nil, nil, nil, r, g, b )
 			else
-				tooltip:AddDoubleLine(L["Cooldown"], L["Ready"], 1, 0.8, 0, 0.2, 1, 0.2)
+				tooltip:AddDoubleLine( L["Cooldown"], L["Ready"], nil, nil, nil, 0.2, 1, 0.2 )
 			end
 
 			if db.lastReincarnation then
-				local text = date(L["%I:%M%p %A, %d %B %Y"], db.lastReincarnation)
-				if text:match("^0") then
-					text = text:sub(2)
+				local text = date( L["%I:%M%p %A, %d %B %Y"], db.lastReincarnation )
+				if text:match( "^0" ) then
+					text = text:sub( 2 )
 				end
-				tooltip:AddDoubleLine(L["Last Reincarnation"], " ", 1, 0.8, 0, 1, 1, 1)
-				tooltip:AddDoubleLine(" ", text, 1, 0.8, 0, 1, 1, 1)
+				tooltip:AddDoubleLine( L["Last Reincarnation"], " ", nil, nil, nil, 1, 1, 1 )
+				tooltip:AddDoubleLine( " ", text, nil, nil, nil, 1, 1, 1 )
 			end
 
-			tooltip:AddLine(" ")
-			tooltip:AddLine(L["Right-click for options."], 0.2, 1, 0.2)
+			tooltip:AddLine( " " )
+			tooltip:AddLine( L["Right-click for options."] )
 		end,
 	})
+
+	if db.frameShow and not AnkhUpFrame then
+		self:CreateFrame()
+	end
 
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("GLYPH_UPDATED")
@@ -411,81 +444,5 @@ function AnkhUp:SPELLS_CHANGED()
 	self:UpdateText()
 end
 AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
-
-------------------------------------------------------------------------
-
-function AnkhUp:Debug(lvl, str, ...)
-	if lvl > 0 then return end
-	if ... then
-		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
-	end
-	print(("|cffffcc00[DEBUG] AnkhUp:|r %s"):format(str))
-end
-
-function AnkhUp:Print(str, ...)
-	if ... then
-		if str:match("%%") then str = str:format(...) else str = string.join(", ", str, ...) end
-	end
-	print(("|cff00ddbaAnkhUp:|r %s"):format(str))
-end
-
-------------------------------------------------------------------------
-
-AnkhUp.optionsFrame = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
-	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
-	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
-
-	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME, L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
-
-	local readyAlert = CreateCheckbox(self, L["Notify when ready"], L["Notify you with a raid warning message when Reincarnation's cooldown finishes."])
-	readyAlert:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", 0, -16)
-	readyAlert.OnClick = function(self, checked)
-		db.readyAlert = checked
-	end
-
-	local buyAlert = CreateCheckbox(self, L["Notify when buying"], L["Notify you with a chat message when automatically buying ankhs."])
-	buyAlert:SetPoint("TOPLEFT", readyAlert, "BOTTOMLEFT", 0, -12)
-	buyAlert.OnClick = function(self, checked)
-		db.buyAlert = checked
-	end
-
-	local buy = CreateSlider(self, L["Buy quantity"], 0, 20, 5, nil, L["Buy ankhs up to a total of this number when interacting with vendors. Set to 0 to disable this feature."])
-	buy:SetPoint("TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -16)
-	buy:SetPoint("TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight() - 12 - buyAlert:GetHeight() - 16)
-	buy.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-		db.buy = value
-		if value > 0 then
-			AnkhUp:RegisterEvent("MERCHANT_SHOW")
-		else
-			AnkhUp:UnregisterEvent("MERCHANT_SHOW")
-		end
-		return value
-	end
-
-	local low = CreateSlider(self, L["Low ankh quantity"], 0, 20, 5, nil, L["Show a warning dialog when you have fewer than this number of ankhs. Set to 0 to disable this feature."])
-	low:SetPoint("TOPLEFT", buy, "BOTTOMLEFT", 0, -16)
-	low:SetPoint("TOPRIGHT", buy, "BOTTOMRIGHT", -0, -16)
-	low.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-		db.low = value
-		return value
-	end
-
-	self.refresh = function()
-		readyAlert:SetChecked(db.readyAlert)
-		buyAlert:SetChecked(db.buyAlert)
-		buy:SetValue(db.buy)
-		low:SetValue(db.low)
-	end
-end)
-
-AnkhUp.aboutFrame = LibStub("LibAboutPanel").new(ADDON_NAME, ADDON_NAME)
-
-SLASH_ANKHUP1 = "/ankhup"
-SlashCmdList.ANKHUP = function()
-	InterfaceOptionsFrame_OpenToCategory(AnkhUp.aboutFrame)
-	InterfaceOptionsFrame_OpenToCategory(AnkhUp.optionsFrame)
-end
 
 ------------------------------------------------------------------------

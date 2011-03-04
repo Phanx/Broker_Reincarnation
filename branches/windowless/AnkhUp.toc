@@ -1,8 +1,8 @@
 ## Interface: 40000
-## Version: 4.0.6.wowi:revision-beta
+## Version: 4.0.6.wowi:revision
 
 ## Title: AnkhUp
-## Notes: A shaman Reincarnation monitor.
+## Notes: Reincarnation cooldown monitor and ankh manager for shamans.
 ## Author: Akkorian, Phanx
 ## X-Email: akkorian@hotmail.com
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
@@ -31,3 +31,5 @@ Libs\LibAboutPanel\LibAboutPanel.lua
 
 Localization.lua
 Core.lua
+Frame.lua
+Options.lua
