@@ -401,13 +401,23 @@ function AnkhUp:SPELLS_CHANGED()
 				tooltip:AddDoubleLine( L["Cooldown"], L["Ready"], nil, nil, nil, 0.2, 1, 0.2 )
 			end
 
+			local last = db.lastReincarnation
 			if db.lastReincarnation then
-				local text = date( L["%I:%M%p %A, %d %B %Y"], db.lastReincarnation )
-				if text:match( "^0" ) then
-					text = text:sub( 2 )
+				local now = time()
+				local h, m = GetGameTime()
+				local today = now - ( h * 3600 ) - ( m * 60 )
+				local yesterday = today - 86400
+
+				local text
+				if last > today then
+					text = date( L["Today at %I:%M %p"], last )
+				elseif last > yesterday then
+					text = date( L["Yesterday at %I:%M %p"], last )
+				else
+					text = date( L["%I:%M %p on %A, %B %d, %Y"], db.lastReincarnation )
 				end
 				tooltip:AddDoubleLine( L["Last Reincarnation"], " ", nil, nil, nil, 1, 1, 1 )
-				tooltip:AddDoubleLine( " ", text, nil, nil, nil, 1, 1, 1 )
+				tooltip:AddDoubleLine( " ", text:gsub( "(%D)0", "%1" ), nil, nil, nil, 1, 1, 1 )
 			end
 
 			tooltip:AddLine( " " )

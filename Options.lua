@@ -13,10 +13,11 @@ if select( 2, UnitClass( "player" ) ) ~= "SHAMAN" then return end
 local ADDON_NAME, ns = ...
 if not ns then ns = _G.AnkhUpNS end -- WoW China is still running 3.2
 
-local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NAME, nil, function( self )
+local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NAME, nil, function( self )
 
 	local L = ns.L
 	local db = AnkhUpDB
+	local AnkhUp = ns.AnkhUp
 
 	local CreateCheckbox = LibStub( "PhanxConfig-Checkbox" ).CreateCheckbox
 	local CreateSlider = LibStub( "PhanxConfig-Slider" ).CreateSlider
@@ -43,7 +44,7 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 	end
 
 	local buy = CreateSlider( self, L["Restock quantity"], 0, 20, 5, nil,
-		L["Buy ankhs up to a total of this number when you interact with a vendor."] .. " " L["Set to 0 to disable this feature."] )
+		L["Buy ankhs up to a total of this number when you interact with a vendor."] .. " " .. L["Set to 0 to disable this feature."] )
 	buy:SetPoint( "TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -16 )
 	buy:SetPoint( "TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight( ) - 12 - buyAlert:GetHeight( ) - 16 )
 	buy.OnValueChanged = function( self, value )
@@ -58,7 +59,7 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 	end
 
 	local low = CreateSlider( self, L["Warning quantity"], 0, 20, 5, nil,
-		L["Show a warning when you have fewer than this number of ankhs."] .. " " L["Set to 0 to disable this feature."] )
+		L["Show a warning when you have fewer than this number of ankhs."] .. " " .. L["Set to 0 to disable this feature."] )
 	low:SetPoint( "TOPLEFT", buy, "BOTTOMLEFT", 0, -16 )
 	low:SetPoint( "TOPRIGHT", buy, "BOTTOMRIGHT", -0, -16 )
 	low.OnValueChanged = function( self, value )
@@ -75,7 +76,7 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 
 	local show = CreateCheckbox( self, L["Show monitor"],
 		L["Show a small movable window to track your Reincarnation cooldown."] )
-	show:SetPoint( "TOPLEFT", notes, 8, -16 )
+	show:SetPoint( "TOPLEFT", notes, "BOTTOM", 8, -16 )
 	show.OnClick = function( self, checked )
 		db.frameShow = checked
 		if checked then
@@ -100,11 +101,12 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 		db.frameLock = checked
 	end
 
-	scale = CreateSlider( self, L["Monitor scale"], 0.1, 2, 0.1, nil,
+	scale = CreateSlider( self, L["Monitor scale"], 0.1, 2, 0.1, true,
 		L["Adjust the size of the monitor window."] )
-	scale:SetPoint( "TOPLEFT", show, "BOTTOMLEFT", 0, -8 )
+	scale:SetPoint( "TOPLEFT", lock, "BOTTOMLEFT", 0, -8 )
+	scale:SetPoint( "RIGHT", -16, 0 )
 	scale.OnValueChanged = function( self, value )
-		value = floor( floor( ( value * 1000 ) + 0.5 ) / 100 ) / 10 -- floor( value * 10 + 0.5 ) / 10
+		value = floor( value * 100 / 5 + 0.5 ) / 20
 		db.frameScale = value
 		if AnkhUpFrame then
 			local s = AnkhUpFrame:GetScale()
@@ -135,7 +137,7 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 
 		show:SetChecked( db.frameShow )
 		lock:SetChecked( db.frameLock )
-		scale:SetChecked( db.frameScale )
+		scale:SetValue( db.frameScale )
 
 		if db.frameShow then
 			lock:Show()
@@ -149,6 +151,8 @@ local options = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_
 end )
 
 SLASH_ANKHUP1 = "/ankhup"
-SlashCmdList.ANKHUP = function( )
-	InterfaceOptionsFrame_OpenToCategory( options )
+SlashCmdList.ANKHUP = function()
+	InterfaceOptionsFrame_OpenToCategory( panel )
 end
+
+ns.AnkhUp.optionsPanel = panel

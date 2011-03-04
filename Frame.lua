@@ -20,21 +20,12 @@ function ns.AnkhUp:CreateFrame()
 
 	local db = AnkhUpDB
 
-	local f = CreateFrame( "Frame", "AnkhUpFrame", UIParent )
+	local f = CreateFrame( "Button", "AnkhUpFrame", UIParent )
 	f:SetSize( 100, 30 )
 
-	local p = db.framePoint
-	if p then
-		f:SetPoint( p, UIParent, p, db.frameX / db.frameScale, db.frameY / db.frameScale )
-	else
-		f:SetPoint( "CENTER", UIParent, "CENTER", 0, 0 )
-	end
-
-	if db.frameShow then
-		f:Show()
-	else
-		f:Hide()
-	end
+	local scale, point = db.frameScale, db.framePoint
+	f:SetScale( scale )
+	f:SetPoint( point or "CENTER", UIParent, point or "CENTER", ( db.frameX or 0 ) / scale, ( db.frameY or 0 ) / scale )
 
 	f:SetBackdrop({
 		bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tile = true, tileSize = 16,
@@ -45,17 +36,20 @@ function ns.AnkhUp:CreateFrame()
 	f:SetBackdropColor( TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b )
 
 	local icon = f:CreateTexture( nil, "ARTWORK" )
-	icon:ClearAllPoints()
 	icon:SetPoint( "LEFT", 5, 0 )
 	icon:SetSize( 24, 24 )
+	icon:SetTexture( [[Interface\AddOns\AnkhUp\Ankh]] )
 	f.icon = icon
 
 	local text = f:CreateFontString( nil, "OVERLAY", "GameTooltipHeaderText" )
-	text:SetPoint( "LEFT", icon, "RIGHT", 2, -1 )
-	text:SetPoint( "RIGHT", -5, -1 )
+	text:SetPoint( "LEFT", icon, "RIGHT", 2, 0 )
+	text:SetPoint( "RIGHT", -5, 0 )
 	text:SetJustifyH( "LEFT" )
 	text:SetJustifyV( "CENTER" )
 	f.text = text
+
+	local font, _, outline = text:GetFont()
+	text:SetFont( font, 16, outline )
 
 	---------------
 	--	Tooltip	 --
@@ -73,7 +67,7 @@ function ns.AnkhUp:CreateFrame()
 		return format( "ANCHOR_%s%s", v, h )
 	end
 
-	self.displayFrame:SetScript( "OnEnter", function(self)
+	f:SetScript( "OnEnter", function( self )
 		if self.object and self.object.OnTooltipShow then
 			GameTooltip:SetOwner( self, GetTooltipAnchor( self ) )
 			self.object.OnTooltipShow( GameTooltip )
@@ -81,7 +75,7 @@ function ns.AnkhUp:CreateFrame()
 		end
 	end )
 
-	self.displayFrame:SetScript( "OnLeave", function(self)
+	f:SetScript( "OnLeave", function(self)
 		GameTooltip:Hide()
 	end )
 
@@ -91,7 +85,7 @@ function ns.AnkhUp:CreateFrame()
 
 	f:RegisterForClicks( "AnyUp" )
 
-	self.displayFrame:SetScript( "OnClick", function( self, button )
+	f:SetScript( "OnClick", function( self, button )
 		if self.object and self.object.OnClick then
 			self.object.OnClick( self, button )
 		end
@@ -117,21 +111,23 @@ function ns.AnkhUp:CreateFrame()
 		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), AnkhUpFrame:GetCenter()
 		local hhalf = ( x > w / 2 ) and "RIGHT" or "LEFT"
 		local vhalf = ( y > h / 2 ) and "TOP" or "BOTTOM"
-		local dx = hhalf == "RIGHT" and math.floor( frame:GetRight() + 0.5 ) - w or math.floor( frame:GetLeft() + 0.5 )
-		local dy = vhalf == "TOP" and math.floor( frame:GetTop() + 0.5 ) - h or math.floor( frame:GetBottom() + 0.5 )
+		local dx = hhalf == "RIGHT" and math.floor( frame:GetRight() + 0.5 - w ) or math.floor( frame:GetLeft() + 0.5 )
+		local dy = vhalf == "TOP" and math.floor( frame:GetTop() + 0.5 - h ) or math.floor( frame:GetBottom() + 0.5 )
 
 		return vhalf..hhalf, dx, dy
 	end
 
 	local function OnDragStop( self )
 		if not self.dragging then return end
-		self.dragging = nil
+		self:StopMovingOrSizing()
 		self:SetUserPlaced( false )
+		self.dragging = nil
 
 		local s, p, x, y = self:GetScale(), GetUIParentAnchor( AnkhUpFrame )
+		db.framePoint, db.frameX, db.frameY = p, x, y
+
 		AnkhUpFrame:ClearAllPoints()
-		AnkhUpFrame:SetPoint( p, UIParent, p, ( x * s ) / value, ( y * s ) / value )
-		AnkhUpFrame:SetScale( value )
+		AnkhUpFrame:SetPoint( p, UIParent, p, x / s, y / s )
 
 		if self:IsMouseOver() then
 			self:GetScript( "OnEnter" )( self )
@@ -147,13 +143,13 @@ function ns.AnkhUp:CreateFrame()
 
 	local DataBroker = LibStub("LibDataBroker-1.1")
 
-	self.object = DataBroker:GetDataObjectByName( "AnkhUp" )
+	f.object = DataBroker:GetDataObjectByName( "AnkhUp" )
 
-	DataBroker.RegisterCallback( self, "LibDataBroker_AttributeChanged_" .. name .. "_text", function( event, name, attr, value, dataobj )
+	DataBroker.RegisterCallback( self, "LibDataBroker_AttributeChanged_AnkhUp_text", function( event, name, attr, value, dataobj )
 		if type( event ) == "table" then
 			dataobj = event
 		end
-		if dataobj == self.object then
+		if dataobj == f.object then
 			f.text:SetText( dataobj.text )
 		end
 	end )
@@ -161,9 +157,15 @@ function ns.AnkhUp:CreateFrame()
 	f:SetScript( "OnShow", function( self )
 		AnkhUp:UpdateText()
 		if self.object then
-			self.text:SetText( self.object.text )
+			self.icon:SetTexture( self.object.icon )
 		end
 	end )
+
+	if db.frameShow then
+		f:Show()
+	else
+		f:Hide()
+	end
 
 	return f
 end
