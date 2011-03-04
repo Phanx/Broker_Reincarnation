@@ -89,7 +89,7 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 	["Notify when restocking"] = "Notificar cuando reaprovisionar",
 	["Show a notification message when automatically buying ankhs."] = "Notificar cuando autocomprar más ankhs.",
 	["Restock quantity"] = "Cantidad para reaprovisionar",
-	["Buy ankhs up to a total of this number when you interact with a vendor."] = "Comprar ankhs hasta un total de esta cantidad cuando hablas de un proveedor.",
+	["Buy ankhs up to a total of this number when you interact with a vendor."] = "Comprar ankhs hasta un total de esta cantidad cuando hablas con un vendedor.",
 	["Warning quantity"] = "Cantidad para avisar",
 	["Show a warning when you have fewer than this number of ankhs."] = "Mostrar una advertencia cuando tienes menos de esta cantidad de ankhs.",
 	["Set to 0 to disable this feature."] = "Establece en 0 para desactivar esta función.",
