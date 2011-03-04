@@ -11,46 +11,46 @@ http://wow.curse.com/downloads/wow-addons/details/ankhcooldowntimer.aspx
 Description
 -----------
 
-AnkhUp monitors your Reincarnation cooldown and helps manage your ankhs.
+AnkhUp is a Reincarnation cooldown monitor for shamans.
 
-It can display a small monitor window, or plug into any DataBroker
-compatible display addon. It also reminds you when you’re running low
-on ankhs, and automatically buys more ankhs when you visit a vendor who
-sells them.
+It can warn you when you're running low on ankhs, restock ankhs when you
+interact with a vendor, and notify you when your Reincarnation cooldown
+ends, and it remembers the date and time when you last Reincarnated.
+
+The cooldown monitor can be shown in a small movable window, or on your
+favorite DataBroker display addon.
 
 
 Usage
 -----
 
-Options are available in the Interface Options window. You can also 
-type “/ankhup”, or right-click the monitor window or DataBroker plugin,
-to open the window directly to the AnkhUp panel.
-
-Left-click and drag to move the monitor window.
+Options are available in the standard Interface Options window. You can
+access the panel directly by typing "/ankhup" or by right-clicking the
+standalone monitor window.
 
 
 Localization
 ------------
 
 AnkhUp is compatible with English, Deutsch, Español, Français, Русский,
-한국어, 简体中文, and 正體中文 clients.
+한국어, 简体中文, and 正體中文 game clients.
 
 AnkhUp is translated into English, Deutsch, Español, and Français. If
-you can provide translations for another locale, please send me a PM
-on either download site.
+you can help translate for any locale, please contact me, or use the
+CurseForge localization system:
 
-AnkhUp is compatible with WoW 3.2 (China) and WoW 4.0 (everywhere else).
+http://wow.curseforge.com/addons/ankhup/localization/
 
 
 Feedback
 --------
 
-Please use the ticket system on either download site report bugs or
-request features. Use the comment system only for general questions
-or comments.
+To report a bug or request a feature, please use the ticket tracker on
+either download site. For general questions or feedback, feel free to
+post a comment on either download site.
 
-If you need to contact me privately, you may do by private message on
-either download site, or by email at <akkorian@hotmail.com>.
+If you need to contact me privately, you can send me a private message
+on either download site, or email me at <akkorian@hotmail.com>.
 
 
 Credits
