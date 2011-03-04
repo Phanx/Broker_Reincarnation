@@ -3,10 +3,12 @@
 
 ## Title: AnkhUp
 ## Notes: Reincarnation cooldown monitor and ankh manager for shamans.
+## Notes-esES: Sigue el tiempo de reutilización de tu hechizo Reencarnación, y ayuda a administrar tu ankhs.
+## Notes-esMX: Sigue el tiempo de reutilización de tu hechizo Reencarnación, y ayuda a administrar tu ankhs.
 ## Author: Akkorian, Phanx
 ## X-Email: akkorian@hotmail.com
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
-## X-Copyright: Copyright © 2006–2010 Phanx
+## X-Copyright: Copyright © 2006–2011 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR
