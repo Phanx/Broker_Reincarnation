@@ -32,7 +32,9 @@ if GAME_LOCALE == "deDE" then ns.L = {
 	["Cooldown"] = "Cooldown",
 	["Ready"] = "Bereit",
 	["Last Reincarnated"] = "Letzte Reinkarnation",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "Heute um %H.%M Uhr", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "Gestern um %H.%M Uhr",
+	["%I:%M %p on %A, %B %d, %Y"] = "%A, %d. %B, %Y um %H.%M Uhr",
 
 	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "Du hast nur noch %d |4Ankh:Ankhs;. Vergiss nicht, sie aufzufüllen!",
 	["Purchased %d |4ankh:ankhs;."] = "Kaufe %d |4Ankh:Ankhs;.",
@@ -73,15 +75,17 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 	["Cooldown"] = "Tiempo de reutilización",
 	["Ready"] = "Listo",
 	["Last Reincarnated"] = "Última reencarnación",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "Hoy a las %H.%M", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "Ayer a las %H.%M",
+	["%I:%M %p on %A, %B %d, %Y"] = "%H.%M del %A, %d de %B de %Y",
 
 	["You only have %d ankhs left. Don't forget to restock!"] = "Tienes sólo %s ankhs. No olvide de comprar más!",
 	["Purchased %d |4ankh:ankhs;."] = "Compró %d |4ankh:ankhs;.",
 	["Reincarnation is ready!"] = "Reencarnación está listo!",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este accesorio sigue el tiempo de reutilización de tu hechizo reencarnación, y ayuda a administrar tus ankhs. Utilice estas opciones para configurarlo.",
+	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este accesorio sigue el tiempo de reutilización de tu hechizo Reencarnación, y ayuda a administrar tus ankhs. Utilice estas opciones para configurarlo.",
 	["Notify when ready"] = "Notificar cuando listo",
-	["Show a notification message when Reincarnation's cooldown finishes."] = "Notificar cuando termine el tiempo de reutilización de Reencarnación.",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "Notificar cuando termine el tiempo de reutilización de tu hechizo Reencarnación.",
 	["Notify when restocking"] = "Notificar cuando reaprovisionar",
 	["Show a notification message when automatically buying ankhs."] = "Notificar cuando autocomprar más ankhs.",
 	["Restock quantity"] = "Cantidad para reaprovisionar",
@@ -91,7 +95,7 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 	["Set to 0 to disable this feature."] = "Establece en 0 para desactivar esta función.",
 
 	["Show monitor"] = "Mostrar ventana",
-	["Show a small movable window to track your Reincarnation cooldown."] = "Mostrar una pequeña ventana móvil para seguir el tiempo de reutilización de Reencarnación.",
+	["Show a small movable window to track your Reincarnation cooldown."] = "Mostrar una pequeña ventana móvil para seguir el tiempo de reutilización de tu hechizo Reencarnación.",
 	["Lock monitor"] = "Bloquear ventana",
 	["Lock the monitor window in place to prevent it from being moved."] = "Bloquear la ventana para que no puedes moverlo.",
 	["Monitor scale"] = "Tamaño de ventana",
@@ -114,7 +118,9 @@ if GAME_LOCALE == "frFR" then ns.L = {
 	["Cooldown"] = "Recharge",
 	["Ready"] = "Disponible",
 	["Last Reincarnated"] = "Dernière réincarnation",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p, %A %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "Aujourd'hui à %H h %M", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "Hier à %H h %M",
+	["%I:%M %p on %A, %B %d, %Y"] = "%A %d %B %Y à %H h %M",
 
 	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "Il ne vous reste que %d |4ankh:ankhs;. N'oubliez pas d'en racheter!",
 	["Purchased %d |4ankh:ankhs;."] = "Achat de %d |4ankh:ankhs;.",
@@ -155,7 +161,9 @@ if GAME_LOCALE == "ruRU" then ns.L = {
 --	["Cooldown"] = "",
 --	["Ready"] = "",
 --	["Last Reincarnated"] = "",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "Сегодня в %I:%M %p", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "Вчера в %I:%M %p",
+	["%I:%M %p on %A, %B %d, %Y"] = "%A %d %B %Y в %I:%M %p",
 
 --	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
 --	["Purchased %d |4ankh:ankhs;."] = "",
@@ -196,7 +204,9 @@ if GAME_LOCALE == "koKR" then ns.L = {
 --	["Cooldown"] = "",
 --	["Ready"] = "",
 --	["Last Reincarnated"] = "",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "%H시 %M분에서 오늘", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "%H시 %M분에서 어제",
+	["%I:%M %p on %A, %B %d, %Y"] = "%H시 %M분에서 %A %Y년 %m월 %d일",
 
 --	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
 --	["Purchased %d |4ankh:ankhs;."] = "",
@@ -237,7 +247,9 @@ if GAME_LOCALE == "zhCN" then ns.L = {
 --	["Cooldown"] = "",
 --	["Ready"] = "",
 --	["Last Reincarnated"] = "",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "今天%p%A時%M分", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "昨天%p%A時%M分",
+	["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I時%M分",
 
 --	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
 --	["Purchased %d |4ankh:ankhs;."] = "",
@@ -278,7 +290,9 @@ if GAME_LOCALE == "zhTW" then ns.L = {
 --	["Cooldown"] = "",
 --	["Ready"] = "",
 --	["Last Reincarnated"] = "",
-	["%I:%M %p %A, %B %d, %Y"] = "%I:%M %p %A, %d %B %Y", -- See: http://www.lua.org/pil/22.1.html
+	["Today at %I:%M %p"] = "今天%p%I时%M分", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "昨天%p%I时%M分",
+	["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I时%M分",
 
 --	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
 --	["Purchased %d |4ankh:ankhs;."] = "",
