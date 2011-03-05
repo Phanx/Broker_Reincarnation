@@ -23,17 +23,23 @@ function ns.AnkhUp:CreateFrame()
 	local f = CreateFrame( "Button", "AnkhUpFrame", UIParent )
 	f:SetSize( 100, 30 )
 
-	local scale, point = db.frameScale, db.framePoint
+	local scale, x, y = db.frameScale, db.frameX, db.frameY
 	f:SetScale( scale )
-	f:SetPoint( point or "CENTER", UIParent, point or "CENTER", ( db.frameX or 0 ) / scale, ( db.frameY or 0 ) / scale )
+	if x and y then
+		f:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x / scale, x / scale )
+	else
+		f:SetPoint( "CENTER", UIParent, "CENTER", 0, 0 )
+	end
 
-	f:SetBackdrop({
-		bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tile = true, tileSize = 16,
+	local backdrop = {
+		bgFile = [[Interface\Buttons\WHITE8X8]], tile = true, tileSize = 16,
 		edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 16,
-		insets = { left = 5, right = 5, top = 5, bottom = 5 }
-	})
-	f:SetBackdropBorderColor( TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b )
-	f:SetBackdropColor( TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b )
+		insets = { left = 4, right = 4, top = 4, bottom = 4 }
+	}
+	f:SetBackdrop( backdrop )
+	f:SetBackdropColor( db.frameBGR or TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, db.frameBGG or TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, db.frameBGB or TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, db.frameBGA or 0.8 )
+	f:SetBackdropBorderColor( db.frameBorderR or TOOLTIP_DEFAULT_COLOR.r, db.frameBorderG or TOOLTIP_DEFAULT_COLOR.g, db.frameBorderB or TOOLTIP_DEFAULT_COLOR.b, db.frameBorderA or 1 )
+	if PhanxBorder then PhanxBorder.AddBorder( f ) end
 
 	local icon = f:CreateTexture( nil, "ARTWORK" )
 	icon:SetPoint( "LEFT", 5, 0 )
@@ -107,27 +113,18 @@ function ns.AnkhUp:CreateFrame()
 		self.dragging = true
 	end )
 
-	local function GetUIParentAnchor( frame )
-		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), AnkhUpFrame:GetCenter()
-		local hhalf = ( x > w / 2 ) and "RIGHT" or "LEFT"
-		local vhalf = ( y > h / 2 ) and "TOP" or "BOTTOM"
-		local dx = hhalf == "RIGHT" and math.floor( frame:GetRight() + 0.5 - w ) or math.floor( frame:GetLeft() + 0.5 )
-		local dy = vhalf == "TOP" and math.floor( frame:GetTop() + 0.5 - h ) or math.floor( frame:GetBottom() + 0.5 )
-
-		return vhalf..hhalf, dx, dy
-	end
-
 	local function OnDragStop( self )
 		if not self.dragging then return end
 		self:StopMovingOrSizing()
 		self:SetUserPlaced( false )
 		self.dragging = nil
 
-		local s, p, x, y = self:GetScale(), GetUIParentAnchor( AnkhUpFrame )
-		db.framePoint, db.frameX, db.frameY = p, x, y
+		local s, x, y = db.frameScale, self:GetCenter()
+		x, y = tonumber( format( "%.0f", x ) ), tonumber( format( "%.0f", y ) )
+		db.frameX, db.frameY = x * s, y * s
 
 		AnkhUpFrame:ClearAllPoints()
-		AnkhUpFrame:SetPoint( p, UIParent, p, x / s, y / s )
+		AnkhUpFrame:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x, y )
 
 		if self:IsMouseOver() then
 			self:GetScript( "OnEnter" )( self )
