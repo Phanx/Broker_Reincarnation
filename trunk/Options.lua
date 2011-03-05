@@ -20,6 +20,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 	local AnkhUp = ns.AnkhUp
 
 	local CreateCheckbox = LibStub( "PhanxConfig-Checkbox" ).CreateCheckbox
+	local CreateColorPicker = LibStub( "PhanxConfig-ColorPicker" ).CreateColorPicker
 	local CreateSlider = LibStub( "PhanxConfig-Slider" ).CreateSlider
 
 	local title, notes = LibStub( "PhanxConfig-Header" ).CreateHeader( self, ADDON_NAME,
@@ -72,7 +73,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 	--	Monitor window options  --
 	------------------------------
 
-	local lock, scale
+	local lock, bg, border, scale
 
 	local show = CreateCheckbox( self, L["Show monitor"],
 		L["Show a small movable window to track your Reincarnation cooldown."] )
@@ -82,14 +83,20 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 		if checked then
 			if AnkhUpFrame then
 				AnkhUpFrame:Show()
+			else
+				AnkhUp:CreateFrame()
 			end
 			lock:Show()
+			bg:Show()
+			border:Show()
 			scale:Show()
 		else
 			if AnkhUpFrame then
 				AnkhUpFrame:Hide()
 			end
 			lock:Hide()
+			bg:Hide()
+			border:Hide()
 			scale:Hide()
 		end
 	end
@@ -101,9 +108,35 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 		db.frameLock = checked
 	end
 
+	bg = CreateColorPicker( self, L["Background color"],
+		L["Change the monitor window's background color."], true )
+	bg:SetPoint( "TOPLEFT", lock, "BOTTOMLEFT", 0, -8 )
+	bg.GetColor = function( self )
+		return db.frameBGR, db.frameBGG, db.frameBGB, db.frameBGA
+	end
+	bg.OnColorChanged = function( self, r, g, b, a )
+		db.frameBGR, db.frameBGG, db.frameBGB, db.frameBGA = r, g, b, a
+		if AnkhUpFrame then
+			AnkhUpFrame:SetBackdropColor( r, g, b, a )
+		end
+	end
+
+	border = CreateColorPicker( self, L["Border color"],
+		L["Change the monitor window's border color."], true )
+	border:SetPoint( "TOPLEFT", bg, "BOTTOMLEFT", 0, -8 )
+	border.GetColor = function( self )
+		return db.frameBorderR, db.frameBorderG, db.frameBorderB, db.frameBorderA
+	end
+	border.OnColorChanged = function( self, r, g, b, a )
+		db.frameBorderR, db.frameBorderG, db.frameBorderB, db.frameBorderA = r, g, b, a
+		if AnkhUpFrame then
+			AnkhUpFrame:SetBackdropBorderColor( r, g, b, a )
+		end
+	end
+
 	scale = CreateSlider( self, L["Monitor scale"], 0.1, 2, 0.1, true,
 		L["Adjust the size of the monitor window."] )
-	scale:SetPoint( "TOPLEFT", lock, "BOTTOMLEFT", 0, -8 )
+	scale:SetPoint( "TOPLEFT", border, "BOTTOMLEFT", 0, -8 )
 	scale:SetPoint( "RIGHT", -16, 0 )
 	scale.OnValueChanged = function( self, value )
 		value = floor( value * 100 / 5 + 0.5 ) / 20
@@ -137,13 +170,19 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 
 		show:SetChecked( db.frameShow )
 		lock:SetChecked( db.frameLock )
+		bg:SetColor( db.frameBGR or TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, db.frameBGG or TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, db.frameBGB or TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, db.frameBGA or 1 )
+		border:SetColor( db.frameBorderR or TOOLTIP_DEFAULT_COLOR.r, db.frameBorderG or TOOLTIP_DEFAULT_COLOR.g, db.frameBorderB or TOOLTIP_DEFAULT_COLOR.b, db.frameBorderA or 1 )
 		scale:SetValue( db.frameScale )
 
 		if db.frameShow then
 			lock:Show()
+			bg:Show()
+			border:Show()
 			scale:Show()
 		else
 			lock:Hide()
+			bg:Hide()
+			border:Hide()
 			scale:Hide()
 		end
 	end
