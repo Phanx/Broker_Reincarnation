@@ -39,14 +39,14 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 
 	local buyAlert = CreateCheckbox( self, L["Notify when restocking"],
 		L["Show a notification message when automatically buying ankhs."] )
-	buyAlert:SetPoint( "TOPLEFT", readyAlert, "BOTTOMLEFT", 0, -12 )
+	buyAlert:SetPoint( "TOPLEFT", readyAlert, "BOTTOMLEFT", 0, -8 )
 	buyAlert.OnClick = function( self, checked )
 		db.buyAlert = checked
 	end
 
 	local buy = CreateSlider( self, L["Restock quantity"], 0, 20, 5, nil,
 		L["Buy ankhs up to a total of this number when you interact with a vendor."] .. " " .. L["Set to 0 to disable this feature."] )
-	buy:SetPoint( "TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -16 )
+	buy:SetPoint( "TOPLEFT", buyAlert, "BOTTOMLEFT", 2, -12 )
 	buy:SetPoint( "TOPRIGHT", notes, "BOTTOM", -10, -16 - readyAlert:GetHeight( ) - 12 - buyAlert:GetHeight( ) - 16 )
 	buy.OnValueChanged = function( self, value )
 		value = math.floor( value + 0.5 )
@@ -61,8 +61,8 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 
 	local low = CreateSlider( self, L["Warning quantity"], 0, 20, 5, nil,
 		L["Show a warning when you have fewer than this number of ankhs."] .. " " .. L["Set to 0 to disable this feature."] )
-	low:SetPoint( "TOPLEFT", buy, "BOTTOMLEFT", 0, -16 )
-	low:SetPoint( "TOPRIGHT", buy, "BOTTOMRIGHT", -0, -16 )
+	low:SetPoint( "TOPLEFT", buy, "BOTTOMLEFT", 0, -12 )
+	low:SetPoint( "TOPRIGHT", buy, "BOTTOMRIGHT", -0, -12 )
 	low.OnValueChanged = function( self, value )
 		value = math.floor( value + 0.5 )
 		db.low = value
@@ -110,7 +110,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 
 	bg = CreateColorPicker( self, L["Background color"],
 		L["Change the monitor window's background color."], true )
-	bg:SetPoint( "TOPLEFT", lock, "BOTTOMLEFT", 0, -8 )
+	bg:SetPoint( "TOPLEFT", lock, "BOTTOMLEFT", 3, -8 )
 	bg.GetColor = function( self )
 		return db.frameBGR, db.frameBGG, db.frameBGB, db.frameBGA
 	end
@@ -136,7 +136,7 @@ local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NA
 
 	scale = CreateSlider( self, L["Monitor scale"], 0.1, 2, 0.1, true,
 		L["Adjust the size of the monitor window."] )
-	scale:SetPoint( "TOPLEFT", border, "BOTTOMLEFT", 0, -8 )
+	scale:SetPoint( "TOPLEFT", border, "BOTTOMLEFT", -3, -12 )
 	scale:SetPoint( "RIGHT", -16, 0 )
 	scale.OnValueChanged = function( self, value )
 		value = floor( value * 100 / 5 + 0.5 ) / 20

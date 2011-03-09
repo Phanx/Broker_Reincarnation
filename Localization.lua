@@ -11,7 +11,7 @@
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 local GAME_LOCALE = GetLocale()
-if GAME_LOCALE:match("^en") then return end
+-- if GAME_LOCALE:match("^en") then return end
 
 local _, ns = ...
 if not ns then -- WoW China is still running 3.2
@@ -57,6 +57,10 @@ if GAME_LOCALE == "deDE" then ns.L = {
 	["Lock the monitor window in place to prevent it from being moved."] = "Sperrt das Fenster",
 	["Monitor scale"] = "Fenstergröße",
 	["Adjust the size of the monitor window."] = "Passt die Fenstergröße",
+	["Background color"] = "Hintergrundfarbe",
+	["Change the monitor window's background color."] = "Anpassen der Hintergrundfarbe.",
+	["Border color"] = "Rahmenfarbe",
+	["Change the monitor window's border color."] = "Anpassen der Rahmenfarbe.",
 
 	["Right-click for options."] = "Rechtsklick für Optionen",
 
@@ -79,18 +83,18 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 	["Yesterday at %I:%M %p"] = "Ayer a las %H.%M",
 	["%I:%M %p on %A, %B %d, %Y"] = "%H.%M del %A, %d de %B de %Y",
 
-	["You only have %d ankhs left. Don't forget to restock!"] = "Tienes sólo %s ankhs. No olvide de comprar más!",
+	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "Tienes sólo %s ankhs. No olvide de comprar más!",
 	["Purchased %d |4ankh:ankhs;."] = "Compró %d |4ankh:ankhs;.",
 	["Reincarnation is ready!"] = "Reencarnación está listo!",
 
 	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este accesorio sigue el tiempo de reutilización de tu hechizo Reencarnación, y ayuda a administrar tus ankhs. Utilice estas opciones para configurarlo.",
-	["Notify when ready"] = "Notificar cuando listo",
+	["Notify when ready"] = "Notificar de listo",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "Notificar cuando termine el tiempo de reutilización de tu hechizo Reencarnación.",
-	["Notify when restocking"] = "Notificar cuando reaprovisionar",
-	["Show a notification message when automatically buying ankhs."] = "Notificar cuando autocomprar más ankhs.",
-	["Restock quantity"] = "Cantidad para reaprovisionar",
+	["Notify when restocking"] = "Notificar de compras",
+	["Show a notification message when automatically buying ankhs."] = "Notificar cuando auto-comprar más ankhs.",
+	["Restock quantity"] = "Cantidad a comprar",
 	["Buy ankhs up to a total of this number when you interact with a vendor."] = "Comprar ankhs hasta un total de esta cantidad cuando hablas con un vendedor.",
-	["Warning quantity"] = "Cantidad para avisar",
+	["Warning quantity"] = "Cantidad a avisar",
 	["Show a warning when you have fewer than this number of ankhs."] = "Mostrar una advertencia cuando tienes menos de esta cantidad de ankhs.",
 	["Set to 0 to disable this feature."] = "Establece en 0 para desactivar esta función.",
 
@@ -100,6 +104,10 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 	["Lock the monitor window in place to prevent it from being moved."] = "Bloquear la ventana para que no puedes moverlo.",
 	["Monitor scale"] = "Tamaño de ventana",
 	["Adjust the size of the monitor window."] = "Cambiar el tamaño de la ventana.",
+	["Background color"] = "Color de fondo",
+	["Change the monitor window's background color."] = "Cambiar el color del fondo de la ventana.",
+	["Border color"] = "Color de borde",
+	["Change the monitor window's border color."] = "Cambiar el color del borde de la ventana.",
 
 	["Right-click for options."] = "Haz clic derecho para opciones.",
 
@@ -128,9 +136,9 @@ if GAME_LOCALE == "frFR" then ns.L = {
 
 	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Cette fenêtre vous permet de configurer les options pour contrôler votre Réincarnation et gérer vos Ankhs",
 	["Notify when ready"] = "Notifier quand disponible",
-	["Show a notification message when Reincarnation's cooldown finishes."] = "Active la notification dans la fenêtre de raid lorsque Réincarnation devient disponible.",
-	["Notify when restocking"] = "Notification lors d'un rachat",
-	["Show a notification message when automatically buying ankhs."] = "Active la notification sur la fenêtre de chat lors du rachat d'ankhs.",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "Active la notification lors Réincarnation devient disponible.",
+	["Notify when restocking"] = "Notifier lors d'un rachat",
+	["Show a notification message when automatically buying ankhs."] = "Active la notification lors du rachat d'ankhs.",
 	["Restock quantity"] = "Rachat d'ankhs",
 	["Buy ankhs up to a total of this number when you interact with a vendor."] = "Rachète des Ankhs jusqu'à ce nombre lors d'une interaction avec un vendeur.",
 	["Warning quantity"] = "Alerte ankhs",
@@ -139,18 +147,22 @@ if GAME_LOCALE == "frFR" then ns.L = {
 
 	["Show monitor"] = "Afficher moniteur",
 	["Show a small movable window to track your Reincarnation cooldown."] = "Affiche une petite fenêtre de contrôle déplaçable pour le temps de recharge de Réincarnation.",
---	["Lock monitor"] = "",
---	["Lock the monitor window in place to prevent it from being moved."] = "",
-	["Monitor scale"] = "Taille d'moniteur",
-	["Adjust the size of the monitor window."] = "Règle la taille du moniteur",
+	["Lock monitor"] = "Immobiliser le moniteur",
+	["Lock the monitor window in place to prevent it from being moved."] = "Immobilise le moniteur afin qu'elle ne peut pas être déplacée.",
+	["Monitor scale"] = "Échelle d'moniteur",
+	["Adjust the size of the monitor window."] = "Règle l'échelle du moniteur.",
+	["Background color"] = "Arrière-plan",
+	["Change the monitor window's background color."] = "Modifie la couleur de l'arrière-plan du moniteur.",
+	["Border color"] = "Bordure",
+	["Change the monitor window's border color."] = "Modifie la couleur de la bordure du moniteur.",
 
---	["Right-click for options."] = "",
+	["Right-click for options."] = "Clic droit pour afficher la fenêtre d'options.",
 
 } return end
 
 --[[--------------------------------------------------------------------
 	Russian / Русский
-	Last updated: YYYY-MM-DD by UNKNOWN
+	Last updated: 2011-03-09 by Akkorian
 ----------------------------------------------------------------------]]
 
 if GAME_LOCALE == "ruRU" then ns.L = {
@@ -158,36 +170,40 @@ if GAME_LOCALE == "ruRU" then ns.L = {
 	["Ankh"] = "Крест",
 
 	["Ankhs"] = "Крестов",
---	["Cooldown"] = "",
---	["Ready"] = "",
---	["Last Reincarnated"] = "",
-	["Today at %I:%M %p"] = "Сегодня в %I:%M %p", -- See: http://www.lua.org/pil/22.1.html
+	["Cooldown"] = "Восстановление",
+	["Ready"] = "Готов",
+	["Last Reincarnated"] = "Последнее Перерождение",
+	["Today at %I:%M %p"] = "Сегодня в %I:%M %p",
 	["Yesterday at %I:%M %p"] = "Вчера в %I:%M %p",
 	["%I:%M %p on %A, %B %d, %Y"] = "%A %d %B %Y в %I:%M %p",
 
---	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
---	["Purchased %d |4ankh:ankhs;."] = "",
---	["Reincarnation is ready!"] = "",
+	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "Только %d |4крест:кресты; остаются в инвентаре. Не забудьте купить больше!",
+	["Purchased %d |4ankh:ankhs;."] = "Купил %s |4крест:крестов;.",
+	["Reincarnation is ready!"] = "Перерождение готов!",
 
---	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "",
---	["Notify when ready"] = "",
---	["Show a notification message when Reincarnation's cooldown finishes."] = "",
---	["Notify when restocking"] = "",
---	["Show a notification message when automatically buying ankhs."] = "",
---	["Restock quantity"] = "",
---	["Buy ankhs up to a total of this number when you interact with a vendor."] = "",
---	["Warning quantity"] = "",
---	["Show a warning when you have fewer than this number of ankhs."] = "",
---	["Set to 0 to disable this feature."] = "",
+	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Позволяет управлять вариантов мониторинга восстановления Перерождение и управления кресты.",
+	["Notify when ready"] = "Уведомл. о готова",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "Уведомление, когда восстановление Перерождения отделки.",
+	["Notify when restocking"] = "Уведомл. о закупает",
+	["Show a notification message when automatically buying ankhs."] = "Уведомление, когда автоматически покупке кресты.",
+	["Restock quantity"] = "Количество купить",
+	["Buy ankhs up to a total of this number when you interact with a vendor."] = "Купить до этого количество крестов, когда вы говорите с купцом.",
+	["Warning quantity"] = "Низкое количество",
+	["Show a warning when you have fewer than this number of ankhs."] = "Уведомление, когда менее чем это количество крестов остаются в инвентаре.",
+	["Set to 0 to disable this feature."] = "Установите к 0, чтобы отключить функцию.",
 
---	["Show monitor"] = "",
---	["Show a small movable window to track your Reincarnation cooldown."] = "",
---	["Lock monitor"] = "",
---	["Lock the monitor window in place to prevent it from being moved."] = "",
---	["Monitor scale"] = "",
---	["Adjust the size of the monitor window."] = "",
+	["Show monitor"] = "Показать окно",
+	["Show a small movable window to track your Reincarnation cooldown."] = "Показать небольшое окно следить за восстановление Перерождение.",
+	["Lock monitor"] = "Зафиксировать окно",
+	["Lock the monitor window in place to prevent it from being moved."] = "Не разрешайте перемещения окна.",
+	["Monitor scale"] = "Масштаб окна",
+	["Adjust the size of the monitor window."] = "Изменение масштаба окна.",
+	["Background color"] = "Цвет фона",
+	["Change the monitor window's background color."] = "Изменение цвета фона окна.",
+	["Border color"] = "Цвет границы",
+	["Change the monitor window's border color."] = "Изменение цвета границы окна.",
 
---	["Right-click for options."] = "",
+	["Right-click for options."] = "Правый-Клик, чтобы открыть окно настроек.",
 
 } return end
 
@@ -229,8 +245,12 @@ if GAME_LOCALE == "koKR" then ns.L = {
 --	["Lock the monitor window in place to prevent it from being moved."] = "",
 --	["Monitor scale"] = "",
 --	["Adjust the size of the monitor window."] = "",
+	["Background color"] = "배경 색상",
+	["Change the monitor window's background color."] = "배경의 색상을 조정합니다.",
+	["Border color"] = "테두리 색상",
+	["Change the monitor window's border color."] = "테두리의 색상을 조정합니다.",
 
---	["Right-click for options."] = "",
+	["Right-click for options."] = "옵션 메뉴을 열려면 오른쪽 버튼을 클릭하십시오.",
 
 } return end
 
@@ -272,8 +292,12 @@ if GAME_LOCALE == "zhCN" then ns.L = {
 --	["Lock the monitor window in place to prevent it from being moved."] = "",
 --	["Monitor scale"] = "",
 --	["Adjust the size of the monitor window."] = "",
+	["Background color"] = "背景颜色",
+	["Change the monitor window's background color."] = "调整背景颜色。",
+	["Border color"] = "外框颜色",
+	["Change the monitor window's border color."] = "调整外框的颜色。",
 
---	["Right-click for options."] = "",
+	["Right-click for options."] = "右键单击可以看到设置选项。",
 
 } return end
 
@@ -315,8 +339,12 @@ if GAME_LOCALE == "zhTW" then ns.L = {
 --	["Lock the monitor window in place to prevent it from being moved."] = "",
 --	["Monitor scale"] = "",
 --	["Adjust the size of the monitor window."] = "",
+	["Background color"] = "背景顏色",
+	["Change the monitor window's background color."] = "調整背景顏色。",
+	["Border color"] = "邊框顏色",
+	["Change the monitor window's border color."] = "調整邊框顏色。",
 
---	["Right-click for options."] = "",
+	["Right-click for options."] = "右鍵單擊可以看到設置選項。",
 
 } return end
 
