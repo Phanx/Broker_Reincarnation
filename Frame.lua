@@ -26,7 +26,7 @@ function ns.AnkhUp:CreateFrame()
 	local scale, x, y = db.frameScale, db.frameX, db.frameY
 	f:SetScale( scale )
 	if x and y then
-		f:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x / scale, x / scale )
+		f:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x / scale, y / scale )
 	else
 		f:SetPoint( "CENTER", UIParent, "CENTER", 0, 0 )
 	end
@@ -47,15 +47,12 @@ function ns.AnkhUp:CreateFrame()
 	icon:SetTexture( [[Interface\AddOns\AnkhUp\Ankh]] )
 	f.icon = icon
 
-	local text = f:CreateFontString( nil, "OVERLAY", "GameTooltipHeaderText" )
+	local text = f:CreateFontString( nil, "OVERLAY", "GameFontNormal" )
 	text:SetPoint( "LEFT", icon, "RIGHT", 2, 0 )
 	text:SetPoint( "RIGHT", -5, 0 )
 	text:SetJustifyH( "LEFT" )
 	text:SetJustifyV( "CENTER" )
 	f.text = text
-
-	local font, _, outline = text:GetFont()
-	text:SetFont( font, 16, outline )
 
 	---------------
 	--	Tooltip	 --
@@ -148,11 +145,16 @@ function ns.AnkhUp:CreateFrame()
 		end
 		if dataobj == f.object then
 			f.text:SetText( dataobj.text )
+			if f.text:GetStringWidth() > 64 then
+				f:SetWidth( 120 )
+			else
+				f:SetWidth( 100 )
+			end
 		end
 	end )
 
 	f:SetScript( "OnShow", function( self )
-		AnkhUp:UpdateText()
+		ns.AnkhUp:UpdateText()
 		if self.object then
 			self.icon:SetTexture( self.object.icon )
 		end
