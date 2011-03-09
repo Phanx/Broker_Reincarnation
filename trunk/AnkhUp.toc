@@ -3,15 +3,19 @@
 
 ## Title: AnkhUp
 ## Notes: Reincarnation cooldown monitor and ankh manager for shamans.
-## Notes-esES: Sigue el tiempo de reutilizaci�n de tu hechizo Reencarnaci�n, y ayuda a administrar tu ankhs.
-## Notes-esMX: Sigue el tiempo de reutilizaci�n de tu hechizo Reencarnaci�n, y ayuda a administrar tu ankhs.
-## Author: Akkorian, Phanx
+## Notes-deDE: Überwachen Sie die Abklingzeit von Reinkarnation, und verwalten Sie Ihre Ankhs.
+## Notes-esES: Seguir el tiempo de reutilización de tu hechizo Reencarnación, y administrar tu ankhs.
+## Notes-esMX: Seguir el tiempo de reutilización de tu hechizo Reencarnación, y administrar tu ankhs.
+## Notes-frFR: Contrôler votre Réincarnation, et gérer vos Ankhs.
+## Notes-ruRU: Контроль восстановления Перерождение, и управление кресты.
+
+## Author: Phanx, Akkorian
 ## X-Email: akkorian@hotmail.com
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
-## X-Copyright: Copyright � 2006�2011 Phanx
+## X-Copyright: Copyright © 2006–2011 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, deDE, esES, esMX, frFR
+## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 ## X-Curse-Project-ID: ankhcooldowntimer
 ## X-WoWI-ID: 6330
