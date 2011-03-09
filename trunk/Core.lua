@@ -124,7 +124,7 @@ function AnkhUp:ADDON_LOADED(addon)
 	end
 	db = AnkhUpDB
 
-	self.defaults = {
+	local defaults = {
 		readyAlert = true,
 		buyAlert = true,
 		buy = 0,
@@ -133,7 +133,7 @@ function AnkhUp:ADDON_LOADED(addon)
 		frameLock = false,
 		frameScale = 1,
 	}
-	for k, v in pairs(self.defaults) do
+	for k, v in pairs(defaults) do
 		if type(db[k]) ~= type(v) then
 			db[k] = v
 		end
