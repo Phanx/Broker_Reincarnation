@@ -3,10 +3,10 @@
 
 ## Title: AnkhUp
 ## Notes: Reincarnation cooldown monitor and ankh manager for shamans.
-## Notes-deDE: Überwachen Sie die Abklingzeit von Reinkarnation, und verwalten Sie Ihre Ankhs.
-## Notes-esES: Seguir el tiempo de reutilización de tu hechizo Reencarnación, y administrar tu ankhs.
-## Notes-esMX: Seguir el tiempo de reutilización de tu hechizo Reencarnación, y administrar tu ankhs.
-## Notes-frFR: Contrôler votre Réincarnation, et gérer vos Ankhs.
+## Notes-deDE: Überwachen die Abklingzeit von Reinkarnation, und verwalten Ihre Ankhs.
+## Notes-esES: Seguir el tiempo de reutilización de Reencarnación, y administrar los ankhs.
+## Notes-esMX: Seguir el tiempo de reutilización de Reencarnación, y administrar los ankhs.
+## Notes-frFR: Contrôler votre le temps de recharge de Réincarnation, et gérer vos Ankhs.
 ## Notes-ruRU: Контроль восстановления Перерождение, и управление кресты.
 
 ## Author: Phanx, Akkorian
