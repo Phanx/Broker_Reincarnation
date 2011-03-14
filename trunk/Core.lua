@@ -373,20 +373,8 @@ function AnkhUp:SPELLS_CHANGED()
 			end
 		end,
 		OnTooltipShow = function( tooltip )
-			tooltip:AddLine( ADDON_NAME )
+			tooltip:AddLine( ADDON_NAME, 1, 1, 1 )
 			tooltip:AddLine( " " )
-
-			if not hasGlyph then
-				local r, g, b
-				if db.low > 0 and numAnkhs > db.low then
-					r, g, b = 0.2, 1, 0.2
-				elseif numAnkhs > 0 then
-					r, g, b = 1, 1, 0.2
-				else
-					r, g, b = 1, 0.2, 0.2
-				end
-				tooltip:AddDoubleLine( L["Ankhs"], numAnkhs, nil, nil, nil, r, g, b )
-			end
 
 			if cooldown > 0 then
 				local r, g, b
@@ -400,11 +388,22 @@ function AnkhUp:SPELLS_CHANGED()
 				tooltip:AddDoubleLine( L["Cooldown"], L["Ready"], nil, nil, nil, 0.2, 1, 0.2 )
 			end
 
+			if not hasGlyph then
+				local r, g, b
+				if db.low > 0 and numAnkhs > db.low then
+					r, g, b = 0.2, 1, 0.2
+				elseif numAnkhs > 0 then
+					r, g, b = 1, 1, 0.2
+				else
+					r, g, b = 1, 0.2, 0.2
+				end
+				tooltip:AddDoubleLine( L["Ankhs"], numAnkhs, nil, nil, nil, r, g, b )
+			end
+
 			local last = db.lastReincarnation
 			if db.lastReincarnation then
-				local now = time()
 				local h, m = GetGameTime()
-				local today = now - ( h * 3600 ) - ( m * 60 )
+				local today = time() - ( h * 3600 ) - ( m * 60 )
 				local yesterday = today - 86400
 
 				local text
@@ -413,10 +412,10 @@ function AnkhUp:SPELLS_CHANGED()
 				elseif last > yesterday then
 					text = date( L["Yesterday at %I:%M %p"], last )
 				else
-					text = date( L["%I:%M %p on %A, %B %d, %Y"], db.lastReincarnation )
+					text = date( L["%I:%M %p on %A, %B %d, %Y"], last )
 				end
 				tooltip:AddDoubleLine( L["Last Reincarnation"], " ", nil, nil, nil, 1, 1, 1 )
-				tooltip:AddDoubleLine( " ", text:gsub( "(%D)0", "%1" ), nil, nil, nil, 1, 1, 1 )
+				tooltip:AddDoubleLine( " ", text:gsub( "([^:%d])0", "%1" ), nil, nil, nil, 1, 1, 1 )
 			end
 
 			tooltip:AddLine( " " )
