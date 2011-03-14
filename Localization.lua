@@ -10,14 +10,8 @@
 
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
-local GAME_LOCALE = GetLocale()
--- if GAME_LOCALE:match("^en") then return end
-
 local _, ns = ...
-if not ns then -- WoW China is still running 3.2
-	ns = { }
-	_G.AnkhUpNS = ns
-end
+local GAME_LOCALE = GetLocale()
 
 --[[--------------------------------------------------------------------
 	German / Deutsch

@@ -11,7 +11,6 @@
 if select( 2, UnitClass( "player" ) ) ~= "SHAMAN" then return end
 
 local ADDON_NAME, ns = ...
-if not ns then ns = _G.AnkhUpNS end -- WoW China is still running 3.2
 
 local panel = LibStub( "PhanxConfig-OptionsPanel" ).CreateOptionsPanel( ADDON_NAME, nil, function( self )
 
