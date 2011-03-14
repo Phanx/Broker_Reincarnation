@@ -10,7 +10,6 @@
 
 local ADDON_NAME, ns = ...
 if select(2, UnitClass("player")) ~= "SHAMAN" then return DisableAddOn(ADDON_NAME) end
-if not ns then ns = _G.AnkhUpNS end -- WoW China is still running 3.2
 
 local db, hasGlyph
 local cooldown, cooldownStart, numAnkhs, resurrectionTime = 0, 0, 0, 0
