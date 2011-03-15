@@ -10,8 +10,10 @@
 
 if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
-local _, ns = ...
 local GAME_LOCALE = GetLocale()
+if GAME_LOCALE:match("^en") then return end
+
+local _, ns = ...
 
 --[[--------------------------------------------------------------------
 	German / Deutsch
@@ -296,49 +298,48 @@ if GAME_LOCALE == "zhCN" then ns.L = {
 } return end
 
 --[[--------------------------------------------------------------------
-	Traditional Chinese / 正體中文
-	Last updated: YYYY-MM-DD by UNKNOWN
+	Traditional Chinese / 繁體中文
+	Last updated: 2011-03-09 by wowuicn @ CurseForge
 ----------------------------------------------------------------------]]
 
 if GAME_LOCALE == "zhTW" then ns.L = {
 
-	["Ankh"] = "十字章",
+	Ankh = "十字章",
 
---	["Ankhs"] = "",
---	["Cooldown"] = "",
---	["Ready"] = "",
---	["Last Reincarnated"] = "",
-	["Today at %I:%M %p"] = "今天%p%I时%M分", -- See: http://www.lua.org/pil/22.1.html
+	Ankhs = "十字章",
+	Cooldown = "冷卻",
+	Ready = "就緒",
+	["Last Reincarnated"] = "最後一次複生",
+	["Today at %I:%M %p"] = "今天%p%I时%M分",
 	["Yesterday at %I:%M %p"] = "昨天%p%I时%M分",
 	["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I时%M分",
+	["Right-click for options."] = "右鍵單擊可以看到設置選項。",
 
---	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
---	["Purchased %d |4ankh:ankhs;."] = "",
---	["Reincarnation is ready!"] = "",
+	["Reincarnation is ready!"] = "複生已就緒！",
+	["Purchased %d |4ankh:ankhs;."] = "已購買 %d |4十字章:十字章;",
+	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "你現在僅剩 %d |4十字章:十字章;. 不要忘記補購!",
 
---	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "",
---	["Notify when ready"] = "",
---	["Show a notification message when Reincarnation's cooldown finishes."] = "",
---	["Notify when restocking"] = "",
---	["Show a notification message when automatically buying ankhs."] = "",
---	["Restock quantity"] = "",
---	["Buy ankhs up to a total of this number when you interact with a vendor."] = "",
---	["Warning quantity"] = "",
---	["Show a warning when you have fewer than this number of ankhs."] = "",
---	["Set to 0 to disable this feature."] = "",
+	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "這個面板允許你配置你的複生技能計時和管理你的十字章選項.",
+	["Notify when ready"] = "當就緒時提醒",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "當複生技能冷卻顯示一條提醒消息.",
+	["Notify when restocking"] = "當補購時提醒",
+	["Show a notification message when automatically buying ankhs."] = "當自動購買十字章時顯示一條提醒消息.",
+	["Restock quantity"] = "補購數量",
+	["Buy ankhs up to a total of this number when you interact with a vendor."] = "當你訪問商人時自動補購這個數量的十字章.",
+	["Warning quantity"] = "警報數量",
+	["Show a warning when you have fewer than this number of ankhs."] = "當你擁有低於這個數量的十字章時顯示一條警報.",
 
---	["Show monitor"] = "",
---	["Show a small movable window to track your Reincarnation cooldown."] = "",
---	["Lock monitor"] = "",
---	["Lock the monitor window in place to prevent it from being moved."] = "",
---	["Monitor scale"] = "",
---	["Adjust the size of the monitor window."] = "",
+	["Show monitor"] = "顯示監視器",
+	["Show a small movable window to track your Reincarnation cooldown."] = "顯示一個可移動的小窗體顯示你的複生技能的冷卻.",
+	["Lock monitor"] = "鎖定監視器",
+	["Lock the monitor window in place to prevent it from being moved."] = "鎖定監視器的當前位置.",
+	["Monitor scale"] = "監視器縮放",
+	["Adjust the size of the monitor window."] = "調整監視器的窗體大小.",
 	["Background color"] = "背景顏色",
 	["Change the monitor window's background color."] = "調整背景顏色。",
 	["Border color"] = "邊框顏色",
 	["Change the monitor window's border color."] = "調整邊框顏色。",
-
-	["Right-click for options."] = "右鍵單擊可以看到設置選項。",
+	["Set to 0 to disable this feature."] = "設定 0 為禁用這個功能",
 
 } return end
 
