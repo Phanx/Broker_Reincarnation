@@ -15,7 +15,7 @@
 ## X-Copyright: Copyright © 2006–2011 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
-## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU
+## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU, zhCN, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 ## X-Curse-Project-ID: ankhcooldowntimer
 ## X-WoWI-ID: 6330

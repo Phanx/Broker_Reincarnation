@@ -252,42 +252,42 @@ if GAME_LOCALE == "koKR" then ns.L = {
 
 --[[--------------------------------------------------------------------
 	Simplified Chinese / 简体中文
-	Last updated: YYYY-MM-DD by UNKNOWN
+	Last updated: 2010-06-06 by 8区_冬泉谷_东方小瑞 < kztit at 163 com >
 ----------------------------------------------------------------------]]
 
 if GAME_LOCALE == "zhCN" then ns.L = {
 
 	["Ankh"] = "十字章",
 
---	["Ankhs"] = "",
---	["Cooldown"] = "",
---	["Ready"] = "",
---	["Last Reincarnated"] = "",
+	["Ankhs"] = "十字章：",
+	["Cooldown"] = "冷却：",
+	["Ready"] = "OK",
+	["Last Reincarnated"] = "上次复生时间：",
 	["Today at %I:%M %p"] = "今天%p%A時%M分", -- See: http://www.lua.org/pil/22.1.html
 	["Yesterday at %I:%M %p"] = "昨天%p%A時%M分",
 	["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I時%M分",
 
---	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "",
---	["Purchased %d |4ankh:ankhs;."] = "",
+	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "只有%d个十字章了，记得买点。",
+	["Purchased %d |4ankh:ankhs;."] = "你购买了%d个十字章。",
 --	["Reincarnation is ready!"] = "",
 
 --	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "",
---	["Notify when ready"] = "",
---	["Show a notification message when Reincarnation's cooldown finishes."] = "",
---	["Notify when restocking"] = "",
---	["Show a notification message when automatically buying ankhs."] = "",
---	["Restock quantity"] = "",
---	["Buy ankhs up to a total of this number when you interact with a vendor."] = "",
---	["Warning quantity"] = "",
---	["Show a warning when you have fewer than this number of ankhs."] = "",
---	["Set to 0 to disable this feature."] = "",
+	["Notify when ready"] = "CD完成时通知",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "复生CD好后，在聊天框发出通知。",
+	["Notify when restocking"] = "购买时通知",
+	["Show a notification message when automatically buying ankhs."] = "购买时，在聊天框发出通知。",
+	["Restock quantity"] = "自动购买",
+	["Buy ankhs up to a total of this number when you interact with a vendor."] = "自动购买以达到保有量，设置为0可以禁用。",
+	["Warning quantity"] = "低量提醒",
+	["Show a warning when you have fewer than this number of ankhs."] = "当少于这个数时发出警告，设置为0可以关闭提醒。",
+	["Set to 0 to disable this feature."] = "",
 
---	["Show monitor"] = "",
---	["Show a small movable window to track your Reincarnation cooldown."] = "",
---	["Lock monitor"] = "",
---	["Lock the monitor window in place to prevent it from being moved."] = "",
---	["Monitor scale"] = "",
---	["Adjust the size of the monitor window."] = "",
+	["Show monitor"] = "打开监视框",
+	["Show a small movable window to track your Reincarnation cooldown."] = "可以查看冷却和复生情况。",
+	["Lock monitor"] = "锁定监视框",
+	["Lock the monitor window in place to prevent it from being moved."] = "这样就不会被拖动。",
+	["Monitor scale"] = "监视框",
+	["Adjust the size of the monitor window."] = "调整监视框大小。",
 	["Background color"] = "背景颜色",
 	["Change the monitor window's background color."] = "调整背景颜色。",
 	["Border color"] = "外框颜色",
