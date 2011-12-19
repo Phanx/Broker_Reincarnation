@@ -5,7 +5,7 @@
 	Maintained by Akkorian <akkorian@hotmail.com>
 	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
+	http://www.curse.com/addons/wow/ankhup
 ----------------------------------------------------------------------]]
 
 if select( 2, UnitClass( "player" ) ) ~= "SHAMAN" then return end
