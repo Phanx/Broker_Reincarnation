@@ -3,9 +3,9 @@
 	Reincarnation cooldown monitor and ankh manager for shamans.
 	Written by Phanx <addons@phanx.net>
 	Maintained by Akkorian <akkorian@hotmail.com>
-	Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Copyright ï¿½ 2006ï¿½2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	http://wow.curse.com/downloads/wow-addons/details/ankhup.aspx
+	http://www.curse.com/addons/wow/ankhup
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
