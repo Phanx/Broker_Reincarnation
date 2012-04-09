@@ -200,6 +200,7 @@ local dialog = {
 	hideOnEscape = 1,
 	showAlert = 1,
 	timeout = 0,
+	preferredIndex = 3, -- helps prevent taint; see http://forums.wowace.com/showthread.php?t=19960
 	OnShow = function(self)
 		local icon = _G[self:GetName() .. "AlertIcon"]
 		if icon then
