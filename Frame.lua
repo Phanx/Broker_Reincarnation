@@ -25,7 +25,7 @@ function ns.AnkhUp:CreateFrame()
 	local scale, x, y = db.frameScale, db.frameX, db.frameY
 	f:SetScale( scale )
 	if x and y then
-		f:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x / scale, y / scale )
+		f:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", math.floor( x / scale + 0.5 ), math.floor( y / scale + 0.5 ) )
 	else
 		f:SetPoint( "CENTER", UIParent, "CENTER", 0, 0 )
 	end
@@ -38,7 +38,9 @@ function ns.AnkhUp:CreateFrame()
 	f:SetBackdrop( backdrop )
 	f:SetBackdropColor( db.frameBGR or TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, db.frameBGG or TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, db.frameBGB or TOOLTIP_DEFAULT_BACKGROUND_COLOR.b, db.frameBGA or 0.8 )
 	f:SetBackdropBorderColor( db.frameBorderR or TOOLTIP_DEFAULT_COLOR.r, db.frameBorderG or TOOLTIP_DEFAULT_COLOR.g, db.frameBorderB or TOOLTIP_DEFAULT_COLOR.b, db.frameBorderA or 1 )
-	if PhanxBorder then PhanxBorder.AddBorder( f ) end
+	if PhanxBorder then
+		PhanxBorder.AddBorder( f )
+	end
 
 	local icon = f:CreateTexture( nil, "ARTWORK" )
 	icon:SetPoint( "LEFT", 5, 0 )
@@ -120,7 +122,7 @@ function ns.AnkhUp:CreateFrame()
 		db.frameX, db.frameY = x * s, y * s
 
 		AnkhUpFrame:ClearAllPoints()
-		AnkhUpFrame:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", x, y )
+		AnkhUpFrame:SetPoint( "CENTER", UIParent, "BOTTOMLEFT", math.floor( x + 0.5 ), math.floor( y + 0.5 ) )
 
 		if self:IsMouseOver() then
 			self:GetScript( "OnEnter" )( self )
