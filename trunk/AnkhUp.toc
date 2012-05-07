@@ -10,9 +10,9 @@
 ## Notes-ruRU: Контроль восстановления Перерождение, и управление кресты.
 
 ## Author: Phanx, Akkorian
-## X-Email: akkorian@hotmail.com
+## X-Email: addons@phanx.net
 ## X-Credits: Starforce of Shattered Hand (EU), author of the original Ankh Cooldown Timer addon.
-## X-Copyright: Copyright © 2006–2011 Phanx
+## X-Copyright: Copyright © 2006–2012 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, ruRU, zhCN, zhTW
