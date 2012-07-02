@@ -1,11 +1,10 @@
 AnkhUp
 ======
 
-Written by Phanx <addons@phanx.net>
-Maintained by Akkorian <akkorian@hotmail.com>
-Copyright © 2006–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
-http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-http://www.curse.com/addons/wow/ankhcooldowntimer
+* Copyright (c) 2006–2012 Phanx <addons@phanx.net>.
+* All rights reserved. See LICENSE.txt for details.
+* http://www.wowinterface.com/downloads/info6330-AnkhUp.html
+* http://www.curse.com/addons/wow/ankhup
 
 
 Description
@@ -13,9 +12,9 @@ Description
 
 AnkhUp is a Reincarnation cooldown monitor for shamans.
 
-It can warn you when you're running low on ankhs, restock ankhs when you
-interact with a vendor, and notify you when your Reincarnation cooldown
-ends, and it remembers the date and time when you last Reincarnated.
+It shows you the cooldown status of your Reincarnation ability, notifies
+you when Reincarnation becomes available again, and remembers the date
+and time when you last Reincarnated.
 
 The cooldown monitor can be shown in a small movable window, or on your
 favorite DataBroker display addon.
@@ -32,12 +31,12 @@ standalone monitor window.
 Localization
 ------------
 
-AnkhUp is compatible with English, Deutsch, Español, Français, Русский,
-한국어, 简体中文, and 正體中文 game clients.
+AnkhUp is compatible with English, Deutsch, Español, Français, Italiano,
+Русский, 한국어, 简体中文, and 正體中文 game clients.
 
-AnkhUp is translated into English, Deutsch, Español, and Français. If
-you can help translate for any locale, please contact me, or use the
-CurseForge localization system:
+AnkhUp is translated into English, Deutsch, Español, Français, Русский,
+简体中文, and 繁體中文. If you can help translate for any locale, please
+contact me, or use the CurseForge localization system:
 
 http://wow.curseforge.com/addons/ankhup/localization/
 
@@ -45,12 +44,18 @@ http://wow.curseforge.com/addons/ankhup/localization/
 Feedback
 --------
 
-To report a bug or request a feature, please use the ticket tracker on
-either download site. For general questions or feedback, feel free to
-post a comment on either download site.
+Bugs, errors, or other problems:
+	Please use the ticket system on either download page.
 
-If you need to contact me privately, you can send me a private message
-on either download site, or email me at <akkorian@hotmail.com>.
+Feature requests or other suggestions:
+	Please use the ticket system on either download page.
+
+General questions or comments:
+	Post a comment on either download page.
+
+If you need to contact me privately for a reason other than those listed
+above, you can send me a private message on either download site, or
+email me at <addons@phanx.net>.
 
 
 Credits
