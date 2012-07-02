@@ -46,7 +46,7 @@ AnkhUp:RegisterEvent("ADDON_LOADED")
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
-	if lvl > 10 then return end
+	if lvl > 0 then return end
 	if str:match("%%[ds%d%.]") then
 		print("|cffffcc00[DEBUG] AnkhUp:|r", str:format(...))
 	else
