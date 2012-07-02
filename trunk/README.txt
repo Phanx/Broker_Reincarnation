@@ -32,7 +32,7 @@ Localization
 ------------
 
 AnkhUp is compatible with English, Deutsch, Español, Français, Italiano,
-Русский, 한국어, 简体中文, and 正體中文 game clients.
+Português, Русский, 한국어, 简体中文, and 正體中文 game clients.
 
 AnkhUp is translated into English, Deutsch, Español, Français, Русский,
 简体中文, and 繁體中文. If you can help translate for any locale, please
