@@ -21,7 +21,7 @@ function ns.AnkhUp:CreateFrame()
 	local db = AnkhUpDB
 
 	local f = CreateFrame("Button", "AnkhUpFrame", UIParent)
-	f:SetSize(100, 30)
+	f:SetSize(100, 36)
 
 	local scale, x, y = db.frameScale, db.frameX, db.frameY
 	f:SetScale(scale)
@@ -44,14 +44,15 @@ function ns.AnkhUp:CreateFrame()
 	f:SetBackdropBorderColor(db.frameBorderR, db.frameBorderG, db.frameBorderB, db.frameBorderA)
 
 	local icon = f:CreateTexture(nil, "ARTWORK")
-	icon:SetPoint("LEFT", 3, 0)
+	icon:SetPoint("LEFT", 6, 0)
 	icon:SetSize(24, 24)
 	icon:SetTexture([[Interface\ICONS\Spell_Shaman_ImprovedReincarnation]])
+	icon:SetTexCoord(0.05, 0.95, 0.05, 0.95)
 	f.icon = icon
 
 	local text = f:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	text:SetPoint("LEFT", icon, "RIGHT", 6, 0)
-	text:SetPoint("RIGHT", -5, 0)
+	text:SetPoint("RIGHT", -6, 0)
 	text:SetJustifyH("LEFT")
 	text:SetJustifyV("CENTER")
 	f.text = text
