@@ -23,7 +23,7 @@ local panel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME,
 	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
 
 	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME,
-		L["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."])
+		L["These options let you change how AnkhUp tracks your Reincarnation cooldown."])
 
 	--------------------
 	--	Core options  --

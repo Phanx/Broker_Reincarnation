@@ -22,7 +22,7 @@ local _, ns = ...
 ----------------------------------------------------------------------]]
 
 if GAME_LOCALE == "deDE" then ns.L = {
-	["Cooldown"] = "Cooldown",
+	["Cooldown"] = "Abklingzeit",
 	["Ready"] = "Bereit",
 	["Last Reincarnated"] = "Letzte Reinkarnation",
 	["Today at %I:%M %p"] = "Heute um %H.%M Uhr", -- See: http://www.lua.org/pil/22.1.html
@@ -32,11 +32,11 @@ if GAME_LOCALE == "deDE" then ns.L = {
 
 	["Reincarnation is ready!"] = "Reinkarnation wieder Verfügbar!",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "In diesem Menü können Sie AnkhUp einstellen.",
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "Diese Einstellungen ermöglichen Euch zu anpassen, wie AnkhUp die Abklingzeit Eures Zaubers Reinkarnation überwachen.",
 	["Notify when ready"] = "Melde wenn Bereit",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "Benachrichtigt dich wenn die Reinkarnation wieder bereit ist.",
 	["Show monitor"] = "Zeige Fenster",
-	["Show a small movable window to track your Reincarnation cooldown."] = "Zeigt ein Standalone-Monitor-Fenster für dein Reinkarnation Cooldown.",
+	["Show a small movable window to track your Reincarnation cooldown."] = "Zeigt ein Standalone-Monitor-Fenster für die Abklingzeit Eures Zaubers Reinkarnation.",
 	["Lock monitor"] = "Sperre Fenster",
 	["Lock the monitor window in place to prevent it from being moved."] = "Sperrt das Fenster",
 	["Monitor scale"] = "Fenstergröße",
@@ -63,7 +63,7 @@ if GAME_LOCALE == "esES" or GAME_LOCALE == "esMX" then ns.L = {
 
 	["Reincarnation is ready!"] = "Reencarnación está listo!",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Este accesorio sigue el tiempo de reutilización de tu hechizo Reencarnación, y ayuda a administrar tus ankhs. Utilice estas opciones para configurarlo.",
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "Estas opciones te permiten personalizar la manera en la que AnkhUp sigue el tiempo de reutilización de tu hechizo Reencarnación.",
 	["Notify when ready"] = "Notificar de listo",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "Notificar cuando termine el tiempo de reutilización de tu hechizo Reencarnación.",
 	["Show monitor"] = "Mostrar ventana",
@@ -94,7 +94,7 @@ if GAME_LOCALE == "frFR" then ns.L = {
 
 	["Reincarnation is ready!"] = "Réincarnation est disponible!",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Cette fenêtre vous permet de configurer les options pour contrôler votre Réincarnation et gérer vos Ankhs",
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "Ces options vous permettent de personnaliser la façon dont AnkhUp suit le temps de recharge de votre sort Réincarnation.",
 	["Notify when ready"] = "Notifier quand disponible",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "Active la notification lors Réincarnation devient disponible.",
 	["Show monitor"] = "Afficher moniteur",
@@ -107,6 +107,37 @@ if GAME_LOCALE == "frFR" then ns.L = {
 	["Change the monitor window's background color."] = "Modifie la couleur de l'arrière-plan du moniteur.",
 	["Border color"] = "Bordure",
 	["Change the monitor window's border color."] = "Modifie la couleur de la bordure du moniteur.",
+} return end
+
+--[[--------------------------------------------------------------------
+	Brazilian Portuguese / Português Brasileiro
+	Last updated: 2012-07-14 by Phanx
+----------------------------------------------------------------------]]
+
+if GAME_LOCALE == "ptBR" then ns.L = {
+	["Cooldown"] = "Recarga",
+	["Ready"] = "Pronto",
+	["Last Reincarnated"] = "Última reencarnação",
+	["Today at %I:%M %p"] = "Hoje às %H:%M", -- See: http://www.lua.org/pil/22.1.html
+	["Yesterday at %I:%M %p"] = "Ontem às %H:M",
+	["%I:%M %p on %A, %B %d, %Y"] = "%H:%M em %d de %B de %Y",
+	["Right-click for options."] = "Clique com o botão direito para ver opções.",
+
+	["Reincarnation is ready!"] = "Reencarnação está pronto!",
+
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "Estas opções permitem que você personalize a forma em que AnkhUp acompanha o tempo de recarga do seu feitiço Reencarnação.",
+	["Notify when ready"] = "Aviso quando pronto",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "Mostrar um aviso quando o cooldown é concluída em seu feitiço Reencarnação.",
+	["Show monitor"] = "Mostrar quadro",
+	["Show a small movable window to track your Reincarnation cooldown."] = "Mostrar um pequeno quadro móvel para acompanhar o tempo de recarga do seu feitiço Reencarnação.",
+	["Lock monitor"] = "Travar quadro",
+	["Lock the monitor window in place to prevent it from being moved."] = "Travar quadro de acompanhamento, para impedir que o usuário arrasta-lo.",
+	["Monitor scale"] = "Tamanho quadro",
+	["Adjust the size of the monitor window."] = "Ajustar o tamanho do quadro de acompanhamento.",
+	["Background color"] = "Cor de fundo",
+	["Change the monitor window's background color."] = "Escolher a cor da fundo do quadro.",
+	["Border color"] = "Cor da borda",
+	["Change the monitor window's border color."] = "Escolher a cor da borda do quadro.",
 } return end
 
 --[[--------------------------------------------------------------------
@@ -125,11 +156,11 @@ if GAME_LOCALE == "ruRU" then ns.L = {
 
 	["Reincarnation is ready!"] = "Перерождение готов!",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "Позволяет управлять вариантов мониторинга восстановления Перерождение и управления кресты.",
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "Эти опции позволяют настроить как AnkhUp следит за восстановления заклинания Перерождение.",
 	["Notify when ready"] = "Уведомл. о готова",
-	["Show a notification message when Reincarnation's cooldown finishes."] = "Уведомление, когда восстановление Перерождения отделки.",
+	["Show a notification message when Reincarnation's cooldown finishes."] = "Уведомление, когда восстановление заклинание Перерождения отделки.",
 	["Show monitor"] = "Показать окно",
-	["Show a small movable window to track your Reincarnation cooldown."] = "Показать небольшое окно следить за восстановление Перерождение.",
+	["Show a small movable window to track your Reincarnation cooldown."] = "Показать небольшое окно следить за восстановления заклинания Перерождение.",
 	["Lock monitor"] = "Зафиксировать окно",
 	["Lock the monitor window in place to prevent it from being moved."] = "Не разрешайте перемещения окна.",
 	["Monitor scale"] = "Масштаб окна",
@@ -156,7 +187,7 @@ if GAME_LOCALE == "koKR" then ns.L = {
 
 --	["Reincarnation is ready!"] = "",
 
---	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "",
+--	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "",
 --	["Notify when ready"] = "",
 --	["Show a notification message when Reincarnation's cooldown finishes."] = "",
 --	["Show monitor"] = "",
@@ -187,7 +218,7 @@ if GAME_LOCALE == "zhCN" then ns.L = {
 
 --	["Reincarnation is ready!"] = "",
 
---	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "",
+--	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "",
 	["Notify when ready"] = "CD完成时通知",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "复生CD好后，在聊天框发出通知。",
 	["Show monitor"] = "打开监视框",
@@ -216,9 +247,9 @@ if GAME_LOCALE == "zhTW" then ns.L = {
 	["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I时%M分",
 	["Right-click for options."] = "右鍵單擊可以看到設置選項。",
 
-	["You only have %d |4ankh:ankhs; left. Don't forget to restock!"] = "你現在僅剩 %d |4十字章:十字章;. 不要忘記補購!",
+--	["Reincarnation is ready!"] = "",
 
-	["This panel allows you to configure options for monitoring your Reincarnation ability and managing your ankhs."] = "這個面板允許你配置你的複生技能計時和管理你的十字章選項.",
+	["These options let you change how AnkhUp tracks your Reincarnation cooldown."] = "這個面板允許你配置你的複生技能計時選項.",
 	["Notify when ready"] = "當就緒時提醒",
 	["Show a notification message when Reincarnation's cooldown finishes."] = "當複生技能冷卻顯示一條提醒消息.",
 	["Show monitor"] = "顯示監視器",
@@ -231,7 +262,6 @@ if GAME_LOCALE == "zhTW" then ns.L = {
 	["Change the monitor window's background color."] = "調整背景顏色。",
 	["Border color"] = "邊框顏色",
 	["Change the monitor window's border color."] = "調整邊框顏色。",
-	["Set to 0 to disable this feature."] = "設定 0 為禁用這個功能",
 } return end
 
 ------------------------------------------------------------------------
