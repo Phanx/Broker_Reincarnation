@@ -63,19 +63,17 @@ function ns.AnkhUp:CreateFrame()
 
 	f:EnableMouse(true)
 
-	local function GetTooltipAnchor(frame)
-		local x, y = frame:GetCenter()
-		if not x or not y then
-			return "ANCHOR_BOTTOMRIGHT"
-		end
-		local h = (x > UIParent:GetWidth() / 2) and "LEFT" or "RIGHT"
-		local v = (y > UIParent:GetHeight() / 2) and "BOTTOM" or "TOP"
-		return format("ANCHOR_%s%s", v, h)
-	end
-
 	f:SetScript("OnEnter", function(self)
 		if self.object and self.object.OnTooltipShow then
-			GameTooltip:SetOwner(self, GetTooltipAnchor(self))
+			GameTooltip:SetOwner(self, "ANCHOR_NONE")
+
+			local _, y = GetCursorPosition()
+			if y * 2 > UIParent:GetHeight() then
+				GameTooltip:SetPoint("TOP", self, "BOTTOM")
+			else
+				GameTooltip:SetPoint("BOTTOM", self, "TOP")
+			end
+
 			self.object.OnTooltipShow(GameTooltip)
 			GameTooltip:Show()
 		end

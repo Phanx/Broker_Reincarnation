@@ -50,10 +50,10 @@ Bugs, errors, or other problems:
 	Submit a bug report ticket on either download page.
 
 Feature requests or other suggestions:
-	Submit a feature request ticket system on either download page.
+	Submit a feature request ticket on either download page.
 
 General questions or comments:
-	Post a comment on either download page.
+	Post a comment on the WoWInterface download page.
 
 If you need to contact me privately for a reason other than those listed
 above, you can send me a private message on either download site, or
