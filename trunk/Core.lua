@@ -143,8 +143,8 @@ function AnkhUp:ADDON_LOADED(addon)
 		frameShow = true,
 		frameLock = false,
 		frameScale = 1,
-		frameBGR = 0.06, frameBGG = 0.06, frameBGB = 0.06, frame.BGA = 0.8,
-		frameBorderR = 0.8, frameBorderG = 0.8, frameBorderB = 0.8, frame.BGA = 1,
+		frameBGR = 0.06, frameBGG = 0.06, frameBGB = 0.06, frameBGA = 0.8,
+		frameBorderR = 0.8, frameBorderG = 0.8, frameBorderB = 0.8, frameBorderA = 1,
 	}
 	for k, v in pairs(defaults) do
 		if type(db[k]) ~= type(v) then
