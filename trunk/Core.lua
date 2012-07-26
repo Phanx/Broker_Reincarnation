@@ -20,17 +20,141 @@ local COOLDOWN_MAX_TIME = 1800
 
 ------------------------------------------------------------------------
 
-if not ns.L then
-	ns.L = { }
-end
-
-local L = setmetatable(ns.L, { __index = function(t, k)
+local L = setmetatable({
+	["Reincarnation"] = GetSpellInfo(20608)
+}, { __index = function(t, k)
 	local v = tostring(k)
-	t[k] = v
+	rawset(t, k, v)
 	return v
 end })
 
-L["Reincarnation"] = GetSpellInfo(20608)
+do
+	local LOCALE = GetLocale()
+	-- See http://www.lua.org/pil/22.1.html for date/time format info.
+
+	if LOCALE == "deDE" then
+		-- Last updated 2009-10-24 by Gyffes <www.ihl-gilneas.de>
+		L["Ready"] = "Bereit"
+		L["Last Reincarnation:"] = "Letzte Reinkarnation:"
+		L["Today at %I:%M %p"] = "Heute um %H.%M Uhr"
+		L["Yesterday at %I:%M %p"] = "Gestern um %H.%M Uhr"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%A, %d. %B %Y um %H.%M Uhr"
+		L["Total Reincarnations:"] = "Reinkarnationen insgesamt:"
+		L["%%d since %B %d, %Y"] = "%%d seit %d. %B %Y"
+		L["Reincarnation is ready!"] = "Reinkarnation wieder Verfügbar!"
+		L["Right-click for options."] = "Rechtsklick für Optionen."
+		L["Notify when ready"] = "Melde wenn Bereit"
+		L["Reset statistics"] = "Statistiken löschen"
+
+	elseif LOCALE == "esES" or LOCALE == "esMX" then
+		L["Ready"] = "Lista"
+		L["Last Reincarnation:"] = "Última reencarnación:"
+		L["Today at %I:%M %p"] = "Hoy a las %H.%M"
+		L["Yesterday at %I:%M %p"] = "Ayer a las %H.%M"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%H.%M del %A, %d de %B de %Y"
+		L["Total Reincarnations:"] = "Reencarnaciones totales:"
+		L["%%d since %B %d, %Y"] = "%%d desde %d de %B de %Y"
+		L["Reincarnation is ready!"] = "Reencarnación está lista!"
+		L["Right-click for options."] = "Haz clic derecho para ver opciones."
+		L["Notify when ready"] = "Notificar cuando lista"
+		L["Reset statistics"] = "Eliminar estadísticas"
+
+	elseif LOCALE == "frFR" then
+		-- Last updated: 2009-04-25 by Itania @ WoWInterface
+		L["Ready"] = "Disponible"
+		L["Last Reincarnation:"] = "Dernière réincarnation:"
+		L["Today at %I:%M %p"] = "Aujourd'hui à %H h %M"
+		L["Yesterday at %I:%M %p"] = "Hier à %H h %M"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%A %d %B %Y à %H h %M"
+		L["Total Reincarnations:"] = "Réincarnations totales:"
+		L["%%d since %B %d, %Y"] = "%%d depuis %d %B %Y"
+		L["Reincarnation is ready!"] = "Réincarnation est disponible!"
+		L["Right-click for options."] = "Clic droit pour options."
+		L["Notify when ready"] = "Notifier quand disponible"
+		L["Reset statistics"] = "Supprimer statistiques"
+
+	elseif LOCALE == "itIT" then
+		L["Ready"] = "Pronta"
+		L["Last Reincarnation:"] = "Ultimo Reincarnato:"
+		L["Today at %I:%M %p"] = "Oggi alle %H:%M"
+		L["Yesterday at %I:%M %p"] = "Ieri alle %H:%M"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%H:%M il %A %d %B %Y"
+		L["Total Reincarnations:"] = "Reincarnazioni totali:"
+		L["%%d since %B %d, %Y"] = "%%d da %d %B %Y"
+		L["Reincarnation is ready!"] = "Reincarnazione è pronta!"
+		L["Right-click for options."] = "Pulsante destro per opzioni,"
+		L["Notify when ready"] = "Notificare quando pronta"
+		L["Reset statistics"] = "Eliminare statistiche"
+
+	elseif LOCALE == "ptBR" then
+		L["Ready"] = "Pronto"
+		L["Last Reincarnation:"] = "Última reencarnação:"
+		L["Today at %I:%M %p"] = "Hoje às %H:%M"
+		L["Yesterday at %I:%M %p"] = "Ontem às %H:M"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%H:%M em %d de %B de %Y"
+		L["Total Reincarnations:"] = "Reencarnações total:"
+		L["%%d since %B %d, %Y"] = "%%d desde %d de %B de %Y"
+		L["Reincarnation is ready!"] = "Reencarnação está pronto!"
+		L["Right-click for options."] = "Botão direito para ver opções."
+		L["Notify when ready"] = "Notificar quando pronto"
+		L["Reset statistics"] = "Excluir estatísticas"
+
+	elseif LOCALE == "ruRU" then
+		L["Ready"] = "Доступно"
+		L["Last Reincarnation:"] = "Последнее Перерождение"
+		L["Today at %I:%M %p"] = "Сегодня в %I:%M %p"
+		L["Yesterday at %I:%M %p"] = "Вчера в %I:%M %p"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%A, %d %B %Y в %I:%M %p"
+		L["Total Reincarnations:"] = "Общий Перерождений"
+		L["%%d since %B %d, %Y"] = "%dd поскольку %d %B %Y"
+		L["Reincarnation is ready!"] = "Перерождение доступно!"
+		L["Right-click for options."] = "Правый-Клик, чтобы открыть параметры."
+		L["Notify when ready"] = "Уведомлять когда доступно"
+		L["Reset statistics"] = "Убрать статистики"
+
+	elseif LOCALE == "koKR" then
+		L["Ready"] = "준비"
+		L["Last Reincarnation:"] = "최근 윤회:"
+		L["Today at %I:%M %p"] = "%H시 %M분에서 오늘"
+		L["Yesterday at %I:%M %p"] = "%H시 %M분에서 어제"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%H시 %M분에서 %A %Y년 %m월 %d일"
+		L["Total Reincarnations:"] = "총 윤회:"
+		L["%%d since %B %d, %Y"] = "%Y년 %m월 %d일 부터 %dd"
+		L["Reincarnation is ready!"] = "윤회 사용할 준비가!"
+		L["Right-click for options."] = "옵션 메뉴을 열려면 오른쪽 버튼을 클릭하십시오."
+		L["Notify when ready"] = "되면 알림 사용할"
+		L["Reset statistics"] = "통계 삭제"
+
+	elseif LOCALE == "zhCN" then
+		-- Last updated: 2010-06-06 by 8区_冬泉谷_东方小瑞 <kztit at 163 com>
+		L["Ready"] = "OK"
+		L["Last Reincarnation:"] = "上次复生时间："
+		L["Today at %I:%M %p"] = "今天%p%A時%M分"
+		L["Yesterday at %I:%M %p"] = "昨天%p%A時%M分"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I時%M分"
+		L["Total Reincarnations:"] = "总复生:"
+		L["%%d since %B %d, %Y"] = "%%d自%Y年%m月%d日以来"
+		L["Reincarnation is ready!"] = "复生是準備好了！"
+		L["Right-click for options."] = "右键单击可以看到设置选项。"
+		L["Notify when ready"] = "通知我当准备"
+		L["Reset statistics"] = "删除统计"
+
+	elseif LOCALE == "zhTW" then
+		-- Last updated: 2011-03-09 by wowuicn @ CurseForge
+		L["Ready"] = "就緒"
+		L["Last Reincarnation:"] = "最後一次複生："
+		L["Today at %I:%M %p"] = "今天%p%I时%M分"
+		L["Yesterday at %I:%M %p"] = "昨天%p%I时%M分"
+		L["%I:%M %p on %A, %B %d, %Y"] = "%A%Y年%m月%d日在%p%I时%M分"
+		L["Total Reincarnations:"] = "總複生"
+		L["%%d since %B %d, %Y"] = "%%d自%Y年%m月%d日以來"
+		L["Reincarnation is ready!"] = "復生是準備好了！"
+		L["Right-click for options."] = "右鍵單擊可以看到設置選項。"
+		L["Notify when ready"] = "通知我當準備"
+		L["Reset statistics"] = "刪除統計"
+
+	end
+end
 
 ------------------------------------------------------------------------
 
@@ -109,6 +233,17 @@ end
 
 ------------------------------------------------------------------------
 
+function AnkhUp:Reincarnate(start)
+	cooldownStartTime = start
+	db.last = time() - (GetTime() - start)
+	db.total = db.total + 1
+	if not db.first then
+		db.first = db.last
+	end
+end
+
+------------------------------------------------------------------------
+
 local timerGroup = AnkhUp:CreateAnimationGroup()
 local timer = timerGroup:CreateAnimation()
 timer:SetOrder(1)
@@ -117,7 +252,7 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 	cooldown = cooldownStartTime + COOLDOWN_MAX_TIME - GetTime()
 	AnkhUp:UpdateText()
 	if cooldown <= 0 then
-		if db.notifyWhenReady then
+		if db.notify then
 			local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)["SHAMAN"]
 			UIErrorsFrame:AddMessage(L["Reincarnation is ready!"], color.r, color.g, color.b)
 		end
@@ -133,24 +268,24 @@ function AnkhUp:ADDON_LOADED(addon)
 	if addon ~= "AnkhUp" then return end
 	self:Debug(1, "ADDON_LOADED", addon)
 
-	if not AnkhUpDB then
-		AnkhUpDB = { }
-	end
-	db = AnkhUpDB
-
 	local defaults = {
-		notifyWhenReady = true,
-		frameShow = true,
-		frameLock = false,
-		frameScale = 1,
-		frameBGR = 0.06, frameBGG = 0.06, frameBGB = 0.06, frameBGA = 0.8,
-		frameBorderR = 0.8, frameBorderG = 0.8, frameBorderB = 0.8, frameBorderA = 1,
+		notify = true,
+		total = 0,
 	}
-	for k, v in pairs(defaults) do
-		if type(db[k]) ~= type(v) then
-			db[k] = v
+	if not AnkhUpDB then
+		AnkhUpDB = defaults
+		db = AnkhUpDB
+	else
+		db = AnkhUpDB
+		for k, v in pairs(defaults) do
+			if type(db[k]) ~= type(v) then
+				db[k] = v
+			end
 		end
 	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+	self.ADDON_LOADED = nil
 
 	if IsLoggedIn() then
 		self:PLAYER_LOGIN()
@@ -164,26 +299,11 @@ end
 function AnkhUp:PLAYER_LOGIN()
 	self:Debug(1, "PLAYER_LOGIN")
 
-	if not IsSpellKnown(20608) then
-		self:Debug(1, "Reincarnation not learned yet.")
-		self:RegisterEvent("SPELLS_CHANGED")
-		self:RegisterEvent("SPELL_LEARNED_IN_TAB")
-		return
-	end
-
 	self:SPELLS_CHANGED()
 
-	self:UnregisterEvent("PLAYER_LOGIN")
-	self.PLAYER_LOGIN = nil
-end
-
-------------------------------------------------------------------------
-
-function AnkhUp:PLAYER_LOGOUT()
-	for k, v in pairs(self.defaults) do
-		if db[k] == v then
-			db[k] = nil
-		end
+	if self.dataObject then
+		self:UnregisterEvent("PLAYER_LOGIN")
+		self.PLAYER_LOGIN = nil
 	end
 end
 
@@ -193,7 +313,7 @@ function AnkhUp:PLAYER_ALIVE()
 	self:Debug(1, "PLAYER_ALIVE")
 
 	if UnitIsGhost("player") then
-		return
+		return self:Debug(1, "Ghost.")
 	end
 
 	resurrectionTime = GetTime()
@@ -212,8 +332,7 @@ function AnkhUp:SPELL_UPDATE_COOLDOWN()
 	if start and duration and start > 0 and duration > 0 then
 		if now - start < 1 then
 			self:Debug(1, "Player just used Reincarnation.")
-			cooldownStartTime = start
-			db.lastReincarnation = time() - (GetTime() - start)
+			self:Reincarnate(start)
 			timerGroup:Play()
 		end
 	end
@@ -230,31 +349,74 @@ function AnkhUp:SPELLS_CHANGED()
 	end
 
 	self:UnregisterEvent("SPELLS_CHANGED")
-	self:UnregisterEvent("SPELL_LEARNED_IN_TAB")
 
-	self.dataObject = self.dataObject or LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
+	if self.dataObject then
+		self:Debug(1, "Data object already created.")
+		return
+	end
+
+	local menu = CreateFrame("Frame", "AnkhUpMenu", nil, "UIDropDownMenuTemplate")
+	menu.displayMode = "MENU"
+
+	menu.GetNotify = function() return db.nofity end
+	menu.SetNotify = function() db.notify = not db.notify end
+
+	menu.Reset = function() db.total, db.first, db.last = 0, nil, nil end
+
+	menu.Close = function() CloseDropDownMenus() end
+
+	menu.initialize = function(self, level)
+		if not level or level > 1 then return end
+		local info = UIDropDownMenu_CreateInfo()
+
+		info.text = ADDON_NAME
+		info.isTitle = 1
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+		info.text = L["Notify when ready"]
+		info.checked = self.GetNotify
+		info.func = self.SetNotify
+		info.disabled = nil
+		info.isNotRadio = true
+		info.isTitle = nil
+		info.keepShownOnClick = 1
+		info.notCheckable = nil
+		UIDropDownMenu_AddButton(info, level)
+
+		info.text = L["Reset statistics"]
+		info.func = self.Reset
+		info.keepShownOnClick = nil
+		info.notCheckable = 1
+		UIDropDownMenu_AddButton(info, level)
+
+		info.text = CLOSE
+		info.func = self.Close
+		UIDropDownMenu_AddButton(info, level)
+	end
+
+	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
 		type  = "data source",
 		icon  = [[Interface\ICONS\Spell_Shaman_ImprovedReincarnation]],
-		label = ADDON_NAME,
+		label = L["Reincarnation"],
 		text  = "Loading...",
 		OnClick = function(self, button)
+			print("OnClick", button)
 			if button == "RightButton" then
-				SlashCmdList.ANKHUP()
+				ToggleDropDownMenu(1, nil, menu, self, 0, 0)
 			end
 		end,
 		OnTooltipShow = function(tooltip)
-			tooltip:AddLine(ADDON_NAME, 1, 1, 1)
-			tooltip:AddLine(" ")
-
+			tooltip:AddLine(L["Reincarnation"], 1, 0.8, 0)
 			if cooldown > 0 then
 				local r, g, b = GetGradientColor(cooldown / COOLDOWN_MAX_TIME)
-				tooltip:AddDoubleLine(L["Cooldown"], GetAbbreviatedTime(cooldown), nil, nil, nil, r, g, b)
+				tooltip:AddDoubleLine(COOLDOWN_REMAINING, GetAbbreviatedTime(cooldown), 1, 1, 1, r, g, b)
 			else
-				tooltip:AddDoubleLine(L["Cooldown"], L["Ready"], nil, nil, nil, 0.2, 1, 0.2)
+				tooltip:AddLine(L["Ready"], 0.2, 1, 0.2)
 			end
 
-			local last = db.lastReincarnation
-			if db.lastReincarnation then
+			local last = db.last
+			if db.last then
 				local h, m = GetGameTime()
 				local today = time() - (h * 3600) - (m * 60)
 				local yesterday = today - 86400
@@ -267,18 +429,21 @@ function AnkhUp:SPELLS_CHANGED()
 				else
 					text = date(L["%I:%M %p on %A, %B %d, %Y"], last)
 				end
-				tooltip:AddDoubleLine(L["Last Reincarnation"], " ", nil, nil, nil, 1, 1, 1)
-				tooltip:AddDoubleLine(" ", text:gsub("([^:%d])0", "%1"), nil, nil, nil, 1, 1, 1)
+				tooltip:AddLine(" ")
+				tooltip:AddLine(L["Last Reincarnation:"], 1, 0.8, 0)
+				tooltip:AddLine(text:gsub("^0", ""):gsub("([^:%d])0", "%1"), 1, 1, 1)
+
+				if db.first and db.total > 1 then
+					tooltip:AddLine(" ")
+					tooltip:AddLine(L["Total Reincarnations:"], 1, 0.8, 0)
+					tooltip:AddLine(date(L["%%d since %B %d, %Y"], db.first):format(db.total), 1, 1, 1)
+				end
 			end
 
 			tooltip:AddLine(" ")
-			tooltip:AddLine(L["Right-click for options."])
+			tooltip:AddLine(L["Right-click for options."], 1, 0.8, 0)
 		end,
 	})
-
-	if db.frameShow and not AnkhUpFrame then
-		self:CreateFrame()
-	end
 
 	self:RegisterEvent("PLAYER_ALIVE")
 	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
@@ -286,8 +451,7 @@ function AnkhUp:SPELLS_CHANGED()
 	local start, duration = GetSpellCooldown(L["Reincarnation"])
 	if start and duration and start > 0 and duration > 0 then
 		self:Debug(1, "Reincarnation is on cooldown.")
-		cooldownStartTime = start
-		db.lastReincarnation = time() - (GetTime() - start)
+		self:Reincarnate(start)
 		timerGroup:Play()
 	end
 
@@ -295,7 +459,5 @@ function AnkhUp:SPELLS_CHANGED()
 
 	self:UpdateText()
 end
-
-AnkhUp.SPELL_LEARNED_IN_TAB = AnkhUp.SPELLS_CHANGED
 
 ------------------------------------------------------------------------
