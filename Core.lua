@@ -13,11 +13,6 @@ if select(2, UnitClass("player")) ~= "SHAMAN" then
 	return DisableAddOn(ADDON_NAME)
 end
 
-local db
-local cooldown, cooldownStartTime, resurrectionTime = 0, 0, 0
-
-local COOLDOWN_MAX_TIME = 1800
-
 ------------------------------------------------------------------------
 
 local L = setmetatable({
@@ -157,6 +152,11 @@ do
 end
 
 ------------------------------------------------------------------------
+
+local db
+local cooldown, cooldownStartTime, resurrectionTime = 0, 0, 0
+
+local COOLDOWN_MAX_TIME = 1800
 
 local AnkhUp = CreateFrame("Frame")
 ns.AnkhUp = AnkhUp
@@ -401,7 +401,6 @@ function AnkhUp:SPELLS_CHANGED()
 		label = L["Reincarnation"],
 		text  = "Loading...",
 		OnClick = function(self, button)
-			print("OnClick", button)
 			if button == "RightButton" then
 				ToggleDropDownMenu(1, nil, menu, self, 0, 0)
 			end
