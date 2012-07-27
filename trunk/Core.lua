@@ -401,7 +401,6 @@ function AnkhUp:SPELLS_CHANGED()
 		label = L["Reincarnation"],
 		text  = "Loading...",
 		OnClick = function(self, button)
-			print("OnClick", button)
 			if button == "RightButton" then
 				ToggleDropDownMenu(1, nil, menu, self, 0, 0)
 			end
