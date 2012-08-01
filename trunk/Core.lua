@@ -50,7 +50,7 @@ do
 		L["Total Reincarnations:"] = "Reencarnaciones totales:"
 		L["%%d since %B %d, %Y"] = "%%d desde %d de %B de %Y"
 		L["Reincarnation is ready!"] = "Reencarnación está lista!"
-		L["Right-click for options."] = "Haz clic derecho para ver opciones."
+		L["Right-click for options."] = "Haz clic derecho para opciones."
 		L["Notify when ready"] = "Notificar cuando lista"
 		L["Reset statistics"] = "Eliminar estadísticas"
 
@@ -90,7 +90,7 @@ do
 		L["Total Reincarnations:"] = "Reencarnações total:"
 		L["%%d since %B %d, %Y"] = "%%d desde %d de %B de %Y"
 		L["Reincarnation is ready!"] = "Reencarnação está pronto!"
-		L["Right-click for options."] = "Botão direito para ver opções."
+		L["Right-click for options."] = "Botão direito para opções."
 		L["Notify when ready"] = "Notificar quando pronto"
 		L["Reset statistics"] = "Excluir estatísticas"
 
