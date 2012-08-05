@@ -172,23 +172,24 @@ AnkhUp:RegisterEvent("ADDON_LOADED")
 ------------------------------------------------------------------------
 
 function AnkhUp:Debug(lvl, str, ...)
-	if lvl > 0 then return end
-	if ... then
-		if str:match("%%dfqsx%.%d") then
-			str = format(str, ...)
-		else
-			str = join(", ", str, ...)
+	if lvl <= 0 then
+		if ... then
+			if strfind(str, "%%[dfqsx%.%d]") then
+				str = format(str, ...)
+			else
+				str = strjoin(", ", str, ...)
+			end
 		end
+		print(format("|cffff7f7f[DEBUG] AnkhUp:|r %s", str))
 	end
-	print(format("|cffff7f7f[DEBUG] AnkhUp:|r %s", str))
 end
 
 function AnkhUp:Print(str, ...)
 	if (...) then
-		if str:match("%%dfqsx%.%d") then
+		if strfind(str, "%%[dfqsx%.%d]") then
 			str = format(str, ...)
 		else
-			str = join(", ", ...)
+			str = strjoin(", ", ...)
 		end
 	end
 	print(format("|cffffcc00AnkhUp:|r %s", str))
