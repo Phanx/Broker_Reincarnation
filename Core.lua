@@ -153,6 +153,8 @@ end
 
 ------------------------------------------------------------------------
 
+local ceil, format = ceil, format
+
 local db
 local cooldown, cooldownStartTime, resurrectionTime = 0, 0, 0
 
@@ -171,19 +173,25 @@ AnkhUp:RegisterEvent("ADDON_LOADED")
 
 function AnkhUp:Debug(lvl, str, ...)
 	if lvl > 0 then return end
-	if str:match("%%[ds%d%.]") then
-		print("|cffffcc00[DEBUG] AnkhUp:|r", str:format(...))
-	else
-		print("|cffffcc00[DEBUG] AnkhUp:|r", str)
+	if ... then
+		if str:match("%%dfqsx%.%d") then
+			str = format(str, ...)
+		else
+			str = join(", ", str, ...)
+		end
 	end
+	print(format("|cffff7f7f[DEBUG] AnkhUp:|r %s", str))
 end
 
 function AnkhUp:Print(str, ...)
-	if str:match("%%[ds%d%.]") then
-		print("|cff00ddbaAnkhUp:|r", str:format(...))
-	else
-		print("|cff00ddbaAnkhUp:|r", str)
+	if (...) then
+		if str:match("%%dfqsx%.%d") then
+			str = format(str, ...)
+		else
+			str = join(", ", ...)
+		end
 	end
+	print(format("|cffffcc00AnkhUp:|r %s", str))
 end
 
 ------------------------------------------------------------------------
@@ -195,13 +203,13 @@ local ABBR_SECOND = SECOND_ONELETTER_ABBR:gsub(" ", ""):lower()
 
 local function GetAbbreviatedTime(seconds)
 	if seconds >= 86400 then
-		return ABBR_DAY:format(ceil(seconds / 86400))
+		return format(ABBR_DAY, ceil(seconds / 86400))
 	elseif seconds >= 3600 then
-		return ABBR_HOUR:format(ceil(seconds / 3600))
+		return format(ABBR_HOUR, ceil(seconds / 3600))
 	elseif seconds >= 60 then
-		return ABBR_MINUTE:format(ceil(seconds / 60))
+		return format(ABBR_MINUTE, ceil(seconds / 60))
 	end
-	return ABBR_SECOND:format(seconds)
+	return format(ABBR_SECOND, seconds)
 end
 
 ------------------------------------------------------------------------
@@ -225,9 +233,9 @@ end
 function AnkhUp:UpdateText()
 	if cooldown > 0 then
 		local r, g, b = GetGradientColor(cooldown / COOLDOWN_MAX_TIME)
-		self.dataObject.text = ("|cff%02x%02x%02x%s|r"):format(r * 255, g * 255, b * 255, GetAbbreviatedTime(cooldown))
+		self.dataObject.text = format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, GetAbbreviatedTime(cooldown))
 	else
-		self.dataObject.text = ("|cff33ff33%s|r"):format(L["Ready"])
+		self.dataObject.text = format("|cff33ff33%s|r", L["Ready"])
 	end
 end
 
@@ -313,7 +321,7 @@ function AnkhUp:PLAYER_ALIVE()
 	self:Debug(1, "PLAYER_ALIVE")
 
 	if UnitIsGhost("player") then
-		return self:Debug(1, "Ghost.")
+		return self:Debug(1, "UnitIsGhost player")
 	end
 
 	resurrectionTime = GetTime()
@@ -430,12 +438,12 @@ function AnkhUp:SPELLS_CHANGED()
 				end
 				tooltip:AddLine(" ")
 				tooltip:AddLine(L["Last Reincarnation:"], 1, 0.8, 0)
-				tooltip:AddLine(text:gsub("^0", ""):gsub("([^:%d])0", "%1"), 1, 1, 1)
+				tooltip:AddLine(gsub(gsub(text, "^0", ""), "([^:%d])0", "%1"), 1, 1, 1)
 
 				if db.first and db.total > 1 then
 					tooltip:AddLine(" ")
 					tooltip:AddLine(L["Total Reincarnations:"], 1, 0.8, 0)
-					tooltip:AddLine(date(L["%%d since %B %d, %Y"], db.first):format(db.total), 1, 1, 1)
+					tooltip:AddLine(format(date(L["%%d since %B %d, %Y"], db.first), db.total), 1, 1, 1)
 				end
 			end
 
