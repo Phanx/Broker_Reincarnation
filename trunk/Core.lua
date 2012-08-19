@@ -153,7 +153,7 @@ end
 
 ------------------------------------------------------------------------
 
-local ceil, format = ceil, format
+local ceil, format, print, strfind, strjoin = ceil, format, print, strfind, strjoin
 
 local db
 local cooldown, cooldownStartTime, resurrectionTime = 0, 0, 0
@@ -180,7 +180,7 @@ function AnkhUp:Debug(lvl, str, ...)
 				str = strjoin(", ", str, ...)
 			end
 		end
-		print(format("|cffff7f7f[DEBUG] AnkhUp:|r %s", str))
+		print("|cffff7f7f[DEBUG] AnkhUp:|r", str)
 	end
 end
 
@@ -192,15 +192,15 @@ function AnkhUp:Print(str, ...)
 			str = strjoin(", ", ...)
 		end
 	end
-	print(format("|cffffcc00AnkhUp:|r %s", str))
+	print("|cffffcc00AnkhUp:|r %s", str)
 end
 
 ------------------------------------------------------------------------
 
-local ABBR_DAY    =    DAY_ONELETTER_ABBR:gsub(" ", ""):lower()
-local ABBR_HOUR   =   HOUR_ONELETTER_ABBR:gsub(" ", ""):lower()
-local ABBR_MINUTE = MINUTE_ONELETTER_ABBR:gsub(" ", ""):lower()
-local ABBR_SECOND = SECOND_ONELETTER_ABBR:gsub(" ", ""):lower()
+local ABBR_DAY = strlower(gsub(DAY_ONELETTER_ABBR, " ", ""))
+local ABBR_HOUR = strlower(gsub(HOUR_ONELETTER_ABBR, " ", ""))
+local ABBR_MINUTE = strlower(gsub(MINUTE_ONELETTER_ABBR, " ", ""))
+local ABBR_SECOND = strlower(gsub(SECOND_ONELETTER_ABBR, " ", ""))
 
 local function GetAbbreviatedTime(seconds)
 	if seconds >= 86400 then
@@ -253,11 +253,9 @@ end
 
 ------------------------------------------------------------------------
 
-local timerGroup = AnkhUp:CreateAnimationGroup()
-local timer = timerGroup:CreateAnimation()
-timer:SetOrder(1)
+local timer = AnkhUp:CreateAnimationGroup():CreateAnimation()
 timer:SetDuration(0.25)
-timerGroup:SetScript("OnFinished", function(self, requested)
+timer:SetScript("OnFinished", function(self, requested)
 	cooldown = cooldownStartTime + COOLDOWN_MAX_TIME - GetTime()
 	AnkhUp:UpdateText()
 	if cooldown <= 0 then
@@ -342,7 +340,7 @@ function AnkhUp:SPELL_UPDATE_COOLDOWN()
 		if now - start < 1 then
 			self:Debug(1, "Player just used Reincarnation.")
 			self:Reincarnate(start)
-			timerGroup:Play()
+			timer:Play()
 		end
 	end
 end
@@ -460,7 +458,7 @@ function AnkhUp:SPELLS_CHANGED()
 	if start and duration and start > 0 and duration > 0 then
 		self:Debug(1, "Reincarnation is on cooldown.")
 		self:Reincarnate(start)
-		timerGroup:Play()
+		timer:Play()
 	end
 
 	self:Debug(1, "cooldown = %d", cooldown)
