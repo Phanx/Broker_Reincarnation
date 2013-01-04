@@ -1,5 +1,5 @@
-## Interface: 50001
-## Version: 5.0.4.wowi:revision
+## Interface: 50100
+## Version: 5.1.0.wowi:revision
 
 ## Title: AnkhUp
 ## Notes: Monitor your Reincarnation cooldown on your DataBroker display.
@@ -13,7 +13,7 @@
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Credits: Originally based on Ankh Cooldown Timer, by Starforce of Shattered Hand (EU).
-## X-Copyright: Copyright (c) 2006-2012 Phanx. All rights reserved.
+## X-Copyright: Copyright (c) 2006-2013 Phanx. All rights reserved.
 ## X-License: See accompanying LICENSE file for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ruRU, koKR, zhCN, zhTW
 ## X-Localizations: enUS, deDE, esES, esMX, frFR, itIT, ptBR, ruRU, koKR, zhCN, zhTW
