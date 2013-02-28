@@ -373,7 +373,6 @@ function AnkhUp:SPELLS_CHANGED()
 	menu.SetNotify = function() db.notify = not db.notify end
 
 	menu.Reset = function() db.total, db.first, db.last = 0, nil, nil end
-
 	menu.Close = function() CloseDropDownMenus() end
 
 	menu.initialize = function(self, level)
@@ -410,7 +409,7 @@ function AnkhUp:SPELLS_CHANGED()
 		type  = "data source",
 		icon  = [[Interface\ICONS\Spell_Shaman_ImprovedReincarnation]],
 		label = L.Reincarnation,
-		text  = "Loading...",
+		text  = BUFFERING,
 		OnClick = function(self, button)
 			if button == "RightButton" then
 				ToggleDropDownMenu(1, nil, menu, self, 0, 0)
@@ -441,7 +440,7 @@ function AnkhUp:SPELLS_CHANGED()
 				end
 				tooltip:AddLine(" ")
 				tooltip:AddLine(L.Last, 1, 0.8, 0)
-				tooltip:AddLine(gsub(gsub(text, "^0", ""), "([^:%d])0", "%1"), 1, 1, 1)
+				tooltip:AddLine((text:gsub("^0", ""):gsub("([^:%d])0", "%1")), 1, 1, 1)
 
 				if db.first and db.total > 1 then
 					tooltip:AddLine(" ")
