@@ -24,7 +24,7 @@ local L = {
 	Date = "%I:%M %p on %A, %B %d, %Y",
 	Total = "Total Reincarnations:",
 	TotalSinceDate = "%%d since %B %d, %Y",
-	Ready = "Reincarnation is ready!",
+	ReadyMessage = "Reincarnation is ready!",
 	RightClickOptions = "Right-click for options.",
 	NotifyReady = "Notify when ready",
 	Reset = "Reset statistics",
@@ -41,7 +41,7 @@ if LOCALE == "deDE" then
 	L.Date = "%A, %d. %B %Y um %H.%M Uhr"
 	L.Total = "Reinkarnationen insgesamt:"
 	L.TotalSinceDate = "%%d seit %d. %B %Y"
-	L.Ready = "Reinkarnation wieder Verfügbar!"
+	L.ReadyMessage = "Reinkarnation wieder Verfügbar!"
 	L.RightClickOptions = "Rechtsklick für Optionen."
 	L.NotifyReady = "Melde wenn Bereit"
 	L.Reset = "Statistiken löschen"
@@ -54,7 +54,7 @@ elseif strmatch(LOCALE, "^es") then
 	L.Date = "%H.%M del %A, %d de %B de %Y"
 	L.Total = "Reencarnaciones totales:"
 	L.TotalSinceDate = "%%d desde %d de %B de %Y"
-	L.Ready = "Reencarnación está lista!"
+	L.ReadyMessage = "Reencarnación está lista!"
 	L.RightClickOptions = "Haz clic derecho para opciones."
 	L.NotifyReady = "Notificar cuando lista"
 	L.Reset = "Eliminar estadísticas"
@@ -68,7 +68,7 @@ elseif LOCALE == "frFR" then
 	L.Date = "%A %d %B %Y à %H h %M"
 	L.Total = "Réincarnations totales:"
 	L.TotalSinceDate = "%%d depuis %d %B %Y"
-	L.Ready = "Réincarnation est disponible!"
+	L.ReadyMessage = "Réincarnation est disponible!"
 	L.RightClickOptions = "Clic droit pour options."
 	L.NotifyReady = "Notifier quand disponible"
 	L.Reset = "Supprimer statistiques"
@@ -81,7 +81,7 @@ elseif LOCALE == "itIT" then
 	L.Date = "%H:%M il %A %d %B %Y"
 	L.Total = "Reincarnazioni totali:"
 	L.TotalSinceDate = "%%d da %d %B %Y"
-	L.Ready = "Reincarnazione è pronta!"
+	L.ReadyMessage = "Reincarnazione è pronta!"
 	L.RightClickOptions = "Pulsante destro per opzioni,"
 	L.NotifyReady = "Notificare quando pronta"
 	L.Reset = "Eliminare statistiche"
@@ -94,7 +94,7 @@ elseif strmatch(LOCALE, "^pt") then
 	L.Date = "%H:%M em %d de %B de %Y"
 	L.Total = "Reencarnações total:"
 	L.TotalSinceDate = "%%d desde %d de %B de %Y"
-	L.Ready = "Reencarnação está pronto!"
+	L.ReadyMessage = "Reencarnação está pronto!"
 	L.RightClickOptions = "Botão direito para opções."
 	L.NotifyReady = "Notificar quando pronto"
 	L.Reset = "Excluir estatísticas"
@@ -107,7 +107,7 @@ elseif LOCALE == "ruRU" then
 	L.Date = "%A, %d %B %Y в %I:%M %p"
 	L.Total = "Общий Перерождений"
 	L.TotalSinceDate = "%dd поскольку %d %B %Y"
-	L.Ready = "Перерождение доступно!"
+	L.ReadyMessage = "Перерождение доступно!"
 	L.RightClickOptions = "Правый-Клик, чтобы открыть параметры."
 	L.NotifyReady = "Уведомлять когда доступно"
 	L.Reset = "Убрать статистики"
@@ -120,7 +120,7 @@ elseif LOCALE == "koKR" then
 	L.Date = "%H시 %M분에서 %A %Y년 %m월 %d일"
 	L.Total = "총 윤회:"
 	L.TotalSinceDate = "%Y년 %m월 %d일 부터 %dd"
-	L.Ready = "윤회 사용할 준비가!"
+	L.ReadyMessage = "윤회 사용할 준비가!"
 	L.RightClickOptions = "옵션 메뉴을 열려면 오른쪽 버튼을 클릭하십시오."
 	L.NotifyReady = "되면 알림 사용할"
 	L.Reset = "통계 삭제"
@@ -134,7 +134,7 @@ elseif LOCALE == "zhCN" then
 	L.Date = "%A%Y年%m月%d日在%p%I時%M分"
 	L.Total = "总复生:"
 	L.TotalSinceDate = "%%d自%Y年%m月%d日以来"
-	L.Ready = "复生是準備好了！"
+	L.ReadyMessage = "复生是準備好了！"
 	L.RightClickOptions = "右键单击可以看到设置选项。"
 	L.NotifyReady = "通知我当准备"
 	L.Reset = "删除统计"
@@ -148,7 +148,7 @@ elseif LOCALE == "zhTW" then
 	L.Date = "%A%Y年%m月%d日在%p%I时%M分"
 	L.Total = "總複生"
 	L.TotalSinceDate = "%%d自%Y年%m月%d日以來"
-	L.Ready = "復生是準備好了！"
+	L.ReadyMessage = "復生是準備好了！"
 	L.RightClickOptions = "右鍵單擊可以看到設置選項。"
 	L.NotifyReady = "通知我當準備"
 	L.Reset = "刪除統計"
@@ -220,17 +220,17 @@ end
 ------------------------------------------------------------------------
 
 local function GetGradientColor(percent)
-		local r1, g1, b1, r2, g2, b2
-		if percent <= 0.5 then
-			percent = percent * 2
-			r1, g1, b1 = 0.2, 1, 0.2
-			r2, g2, b2 = 1, 1, 0.2
-		else
-			percent = percent * 2 - 1
-			r1, g1, b1 = 1, 1, 0.2
-			r2, g2, b2 = 1, 0.2, 0.2
-		end
-		return r1 + (r2 - r1) * percent, g1 + (g2 - g1) * percent, b1 + (b2 - b1) * percent
+	local r1, g1, b1, r2, g2, b2
+	if percent <= 0.5 then
+		percent = percent * 2
+		r1, g1, b1 = 0.2, 1, 0.2
+		r2, g2, b2 = 1, 1, 0.2
+	else
+		percent = percent * 2 - 1
+		r1, g1, b1 = 1, 1, 0.2
+		r2, g2, b2 = 1, 0.2, 0.2
+	end
+	return r1 + (r2 - r1) * percent, g1 + (g2 - g1) * percent, b1 + (b2 - b1) * percent
 end
 
 ------------------------------------------------------------------------
@@ -249,7 +249,7 @@ end
 function AnkhUp:Reincarnate(start)
 	cooldownStartTime = start
 	db.last = time() - (GetTime() - start)
-	db.total = db.total + 1
+	db.total = 1 + (db.total or 0)
 	if not db.first then
 		db.first = db.last
 	end
@@ -265,7 +265,7 @@ timer:SetScript("OnFinished", function(self, requested)
 	if cooldown <= 0 then
 		if db.notify then
 			local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)["SHAMAN"]
-			UIErrorsFrame:AddMessage(L.Ready, color.r, color.g, color.b)
+			UIErrorsFrame:AddMessage(L.ReadyMessage, color.r, color.g, color.b)
 		end
 		cooldown = 0
 	else
@@ -281,7 +281,6 @@ function AnkhUp:ADDON_LOADED(addon)
 
 	local defaults = {
 		notify = true,
-		total = 0,
 	}
 	if not AnkhUpDB then
 		AnkhUpDB = defaults
@@ -310,11 +309,12 @@ end
 function AnkhUp:PLAYER_LOGIN()
 	self:Debug(1, "PLAYER_LOGIN")
 
-	self:SPELLS_CHANGED()
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.PLAYER_LOGIN = nil
 
-	if self.dataObject then
-		self:UnregisterEvent("PLAYER_LOGIN")
-		self.PLAYER_LOGIN = nil
+	self:SPELLS_CHANGED()
+	if not self.dataObject then
+		self:RegisterEvent("SPELLS_CHANGED")
 	end
 end
 
@@ -366,43 +366,50 @@ function AnkhUp:SPELLS_CHANGED()
 		return
 	end
 
-	local menu = CreateFrame("Frame", "AnkhUpMenu", nil, "UIDropDownMenuTemplate")
+	local menu = CreateFrame("Frame", "AnkhUpMenu", UIParent, "UIDropDownMenuTemplate")
 	menu.displayMode = "MENU"
 
 	menu.GetNotify = function() return db.nofity end
 	menu.SetNotify = function() db.notify = not db.notify end
 
-	menu.Reset = function() db.total, db.first, db.last = 0, nil, nil end
+	menu.Reset = function() db.total, db.first, db.last = nil, nil, nil end
 	menu.Close = function() CloseDropDownMenus() end
 
 	menu.initialize = function(self, level)
 		if not level or level > 1 then return end
-		local info = UIDropDownMenu_CreateInfo()
 
+		local info = UIDropDownMenu_CreateInfo()
 		info.text = ADDON_NAME
 		info.isTitle = 1
 		info.notCheckable = 1
 		UIDropDownMenu_AddButton(info, level)
 
+		info = UIDropDownMenu_CreateInfo()
 		info.text = L.NotifyReady
 		info.checked = self.GetNotify
 		info.func = self.SetNotify
-		info.disabled = nil
 		info.isNotRadio = true
-		info.isTitle = nil
 		info.keepShownOnClick = 1
-		info.notCheckable = nil
 		UIDropDownMenu_AddButton(info, level)
 
+		info = UIDropDownMenu_CreateInfo()
 		info.text = L.Reset
 		info.func = self.Reset
-		info.keepShownOnClick = nil
 		info.notCheckable = 1
 		UIDropDownMenu_AddButton(info, level)
 
+		info = UIDropDownMenu_CreateInfo()
 		info.text = CLOSE
 		info.func = self.Close
+		info.notCheckable = 1
 		UIDropDownMenu_AddButton(info, level)
+	end
+
+	local function CleanDate(...)
+		local text = date(...)
+		text = gsub(text, "^0", "")
+		text = gsub(text, "([^:%d])0", "%1")
+		return text
 	end
 
 	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
@@ -416,12 +423,14 @@ function AnkhUp:SPELLS_CHANGED()
 			end
 		end,
 		OnTooltipShow = function(tooltip)
-			tooltip:AddLine(L.Reincarnation, 1, 0.8, 0)
+			--tooltip:AddLine(L.Reincarnation, 1, 0.82, 0)
 			if cooldown > 0 then
 				local r, g, b = GetGradientColor(cooldown / COOLDOWN_MAX_TIME)
-				tooltip:AddDoubleLine(COOLDOWN_REMAINING, GetAbbreviatedTime(cooldown), 1, 1, 1, r, g, b)
+				tooltip:AddDoubleLine(L.Reincarnation, GetAbbreviatedTime(cooldown), nil, nil, nil, r, g, b)
+				--tooltip:AddDoubleLine(COOLDOWN_REMAINING, GetAbbreviatedTime(cooldown), 1, 1, 1, r, g, b)
 			else
-				tooltip:AddLine(L.Ready, 0.2, 1, 0.2)
+				tooltip:AddDoubleLine(L.Reincarnation, L.Ready, nil, nil, nil, 0.2, 1, 0.2)
+				--tooltip:AddLine(L.Ready, 0.2, 1, 0.2)
 			end
 
 			local last = db.last
@@ -432,20 +441,20 @@ function AnkhUp:SPELLS_CHANGED()
 
 				local text
 				if last > today then
-					text = date(L.Today, last)
+					text = CleanDate(L.Today, last)
 				elseif last > yesterday then
-					text = date(L.Yesterday, last)
+					text = CleanDate(L.Yesterday, last)
 				else
-					text = date(L.Date, last)
+					text = CleanDate(L.Date, last)
 				end
 				tooltip:AddLine(" ")
 				tooltip:AddLine(L.Last, 1, 0.8, 0)
-				tooltip:AddLine((text:gsub("^0", ""):gsub("([^:%d])0", "%1")), 1, 1, 1)
+				tooltip:AddDoubleLine(" ", text, nil, nil, nil, 1, 1, 1)
 
-				if db.first and db.total > 1 then
+				if db.first and db.total and db.total > 1 then
 					tooltip:AddLine(" ")
 					tooltip:AddLine(L.Total, 1, 0.8, 0)
-					tooltip:AddLine(format(date(L.TotalSinceDate, db.first), db.total), 1, 1, 1)
+					tooltip:AddDoubleLine(" ", format(CleanDate(L.TotalSinceDate, db.first), db.total), nil, nil, nil, 1, 1, 1)
 				end
 			end
 
