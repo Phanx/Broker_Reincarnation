@@ -55,7 +55,7 @@ elseif strmatch(LOCALE, "^es") then
 	L.Total = "Reencarnaciones totales:"
 	L.TotalSinceDate = "%%d desde %d de %B de %Y"
 	L.ReadyMessage = "Reencarnación está lista!"
-	L.RightClickOptions = "Haz clic derecho para opciones."
+	L.RightClickOptions = "Clic derecho para opciones."
 	L.NotifyReady = "Notificar cuando lista"
 	L.Reset = "Eliminar estadísticas"
 
@@ -246,19 +246,9 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:Reincarnate(start)
-	cooldownStartTime = start
-	db.last = time() - (GetTime() - start)
-	db.total = 1 + (db.total or 0)
-	if not db.first then
-		db.first = db.last
-	end
-end
-
-------------------------------------------------------------------------
-
-local timer = AnkhUp:CreateAnimationGroup():CreateAnimation()
-timer:SetDuration(0.25)
+local timer = AnkhUp:CreateAnimationGroup()
+timer.animation = timer:CreateAnimation()
+timer.animation:SetDuration(0.25)
 timer:SetScript("OnFinished", function(self, requested)
 	cooldown = cooldownStartTime + COOLDOWN_MAX_TIME - GetTime()
 	AnkhUp:UpdateText()
@@ -272,6 +262,16 @@ timer:SetScript("OnFinished", function(self, requested)
 		self:Play()
 	end
 end)
+
+------------------------------------------------------------------------
+
+function AnkhUp:Reincarnate(start)
+	cooldownStartTime = start
+	db.last = time() - (GetTime() - start)
+	db.first = db.first or db.last
+	db.total = 1 + (db.total or 0)
+	timer:Play()
+end
 
 ------------------------------------------------------------------------
 
@@ -416,7 +416,7 @@ function AnkhUp:SPELLS_CHANGED()
 		type  = "data source",
 		icon  = [[Interface\ICONS\Spell_Shaman_ImprovedReincarnation]],
 		label = L.Reincarnation,
-		text  = BUFFERING,
+		text  = L.Ready,
 		OnClick = function(self, button)
 			if button == "RightButton" then
 				ToggleDropDownMenu(1, nil, menu, self, 0, 0)
@@ -469,7 +469,7 @@ function AnkhUp:SPELLS_CHANGED()
 	local start, duration = GetSpellCooldown(L.Reincarnation)
 	if start and duration and start > 0 and duration > 0 then
 		self:Debug(1, "Reincarnation is on cooldown.")
-		self:Reincarnate(start)
+		cooldownStartTime = start
 		timer:Play()
 	end
 
