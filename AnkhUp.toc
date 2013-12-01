@@ -1,9 +1,9 @@
 ## Interface: 50400
-## Version: 5.4.0.wowi:revision
+## Version: 5.4.1.wowi:revision
 
 ## Title: AnkhUp
 ## Notes: Monitor your Reincarnation cooldown on your DataBroker display.
-## Notes-deDE: Überwachen die Abklingzeit Eures Zaubers Reinkarnation.
+## Notes-deDE: Die Abklingzeit Ihres Zaubers Reinkarnation auf der DataBroker-Anzeige überwachen.
 ## Notes-esES: Seguir el tiempo de reutilización de tu hechizo Reencarnación.
 ## Notes-esMX: Seguir el tiempo de reutilización de tu hechizo Reencarnación.
 ## Notes-frFR: Contrôler votre le temps de recharge de votre sort Réincarnation.

@@ -41,7 +41,7 @@ if LOCALE == "deDE" then
 	L.Date = "%A, %d. %B %Y um %H.%M Uhr"
 	L.Total = "Reinkarnationen insgesamt:"
 	L.TotalSinceDate = "%%d seit %d. %B %Y"
-	L.ReadyMessage = "Reinkarnation wieder Verfügbar!"
+	L.ReadyMessage = "Reinkarnation wieder verfügbar!"
 	L.RightClickOptions = "Rechtsklick für Optionen."
 	L.NotifyReady = "Melde wenn Bereit"
 	L.Reset = "Statistiken löschen"
