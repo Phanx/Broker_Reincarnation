@@ -1,7 +1,7 @@
 AnkhUp
 ======
 
-* Copyright (c) 2006–2013 Phanx <addons@phanx.net>. All rights reserved.
+* Copyright (c) 2006-2014 Phanx <addons@phanx.net>. All rights reserved.
 * See the accompanying LICENSE file for more information.
 * http://www.wowinterface.com/downloads/info6330-AnkhUp.html
 * http://www.curse.com/addons/wow/ankhup
