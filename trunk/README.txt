@@ -29,7 +29,7 @@ standalone monitor window.
 
 
 Localization
-------------
+--------------
 
 Compatible with English, Deutsch, Español (EU), Español (AL), Français,
 Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
@@ -43,26 +43,30 @@ on the CurseForge project page:
 http://wow.curseforge.com/addons/ankhup/localization/
 
 
-Feedback
---------
-
-Bugs, errors, or other problems:
-	Submit a bug report ticket on either download page.
-
-Feature requests or other suggestions:
-	Submit a feature request ticket on either download page.
-
-General questions or comments:
-	Post a comment on the WoWInterface download page.
-
-If you need to contact me privately for a reason other than those listed
-above, you can send me a private message on either download site, or
-email me at <addons@phanx.net>.
-
-
 Credits & History
------------------
+-------------------
 
 The original Ankh Cooldown Timer addon, upon which this addon is based,
 was written by Starforce of Shattered Hand (EU). I took over maintenance
 and development in late 2006, and renamed the addon to AnkhUp in 2009.
+
+
+Feedback
+-----------
+
+**Post a comment on WoWInterface.** If you are reporting a bug, please
+include detailed instructions I can follow to reproduce the bug myself,
+whether or not it still happens when all other addons are disabled, and
+the exact text of the first related error message (if any) from BugSack.
+
+If you need to contact me privately, you can send a private message to
+Phanx on either download site, or email me at <addons@phanx.net>.
+**Please note** that I do not provide private addon support or tutoring
+of any kind; post a comment or forum thread instead!
+
+
+License
+----------
+
+Copyright (c) 2006-2014 Phanx. All rights reserved. See the accompanying
+LICENSE file for additional information.
