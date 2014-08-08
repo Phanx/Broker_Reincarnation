@@ -29,40 +29,44 @@ standalone monitor window.
 
 
 Localization
-------------
+--------------
 
-Compatible with English, Deutsch, Español (EU), Español (AL), Français,
-Italiano, Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+Compatible with English, Deutsch, Español, Français, Italiano, 
+Português, Русский, 한국어, 简体中文 and 繁體中文 game clients.
 
 Translated into English, Deutsch, Español, Français, Português, Русский,
-简体中文, and 繁體中文.
+简体中文 and 繁體中文.
 
-To add or update translations for any language, see the Localization tab
-on the CurseForge project page:
+To add or update translations for any language, see the Localization
+tab on the CurseForge project page:
 
-http://wow.curseforge.com/addons/ankhup/localization/
-
-
-Feedback
---------
-
-Bugs, errors, or other problems:
-	Submit a bug report ticket on either download page.
-
-Feature requests or other suggestions:
-	Submit a feature request ticket on either download page.
-
-General questions or comments:
-	Post a comment on the WoWInterface download page.
-
-If you need to contact me privately for a reason other than those listed
-above, you can send me a private message on either download site, or
-email me at <addons@phanx.net>.
+<http://wow.curseforge.com/addons/ankhup/localization/>
 
 
 Credits & History
------------------
+-------------------
 
 The original Ankh Cooldown Timer addon, upon which this addon is based,
 was written by Starforce of Shattered Hand (EU). I took over maintenance
 and development in late 2006, and renamed the addon to AnkhUp in 2009.
+
+
+Feedback
+-----------
+
+Post a ticket on either download site, or a comment on WoWInterface.
+
+If you are reporting a bug, please include directions I can follow to
+reproduce the bug, whether it still happens when all other addons are
+disabled, and the exact text of the related error message (if any) from 
+[BugSack](http://www.wowinterface.com/downloads/info5995-BugSack.html).
+
+If you need to contact me privately, you can send me a private message
+on either download site, or email me at <addons@phanx.net>.
+
+
+License
+----------
+
+Copyright (c) 2006-2014 Phanx <addons@phanx.net>. All rights reserved.
+See the accompanying LICENSE file for additional information.
