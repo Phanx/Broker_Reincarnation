@@ -33,7 +33,7 @@ local L = {
 local LOCALE = GetLocale()
 -- See http://www.lua.org/pil/22.1.html for date/time format info.
 if LOCALE == "deDE" then
-	-- Last updated 2009-10-24 by Gyffes <www.ihl-gilneas.de>
+	-- Translators: Gyffes <www.ihl-gilneas.de>
 	L.Ready = "Bereit"
 	L.Last = "Letzte Reinkarnation:"
 	L.Today = "Heute um %H.%M Uhr"
@@ -60,7 +60,7 @@ elseif strmatch(LOCALE, "^es") then
 	L.Reset = "Eliminar estadísticas"
 
 elseif LOCALE == "frFR" then
-	-- Last updated: 2009-04-25 by Itania @ WoWInterface
+	-- Translators: Itania
 	L.Ready = "Disponible"
 	L.Last = "Dernière réincarnation:"
 	L.Today = "Aujourd'hui à %H h %M"
@@ -126,7 +126,7 @@ elseif LOCALE == "koKR" then
 	L.Reset = "통계 삭제"
 
 elseif LOCALE == "zhCN" then
-	-- Last updated: 2010-06-06 by 8区_冬泉谷_东方小瑞 <kztit at 163 com>
+	-- Translators: 8区_冬泉谷_东方小瑞 <kztit at 163 com>
 	L.Ready = "OK"
 	L.Last = "上次复生时间："
 	L.Today = "今天%p%A時%M分"
@@ -140,7 +140,7 @@ elseif LOCALE == "zhCN" then
 	L.Reset = "删除统计"
 
 elseif LOCALE == "zhTW" then
-	-- Last updated: 2011-03-09 by wowuicn @ CurseForge
+	-- Translators: wowuicn
 	L.Ready = "就緒"
 	L.Last = "最後一次複生："
 	L.Today = "今天%p%I时%M分"
