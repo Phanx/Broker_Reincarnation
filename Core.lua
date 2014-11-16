@@ -1,17 +1,10 @@
 --[[--------------------------------------------------------------------
-	AnkhUp
+	Broker: Reincarnation
 	Reincarnation cooldown monitor for shamans.
 	Copyright (c) 2006-2014 Phanx <addons@phanx.net>. All rights reserved.
-	See the accompanying README and LICENSE files for more information.
-	http://www.wowinterface.com/downloads/info6330-AnkhUp.html
-	http://www.curse.com/addons/wow/ankhup
-
-	Please DO NOT upload this addon to other websites, or post modified
-	versions of it. However, you are welcome to use any/all of its code
-	in your own addon, as long as you do not use my name or the name of
-	this addon ANYWHERE in your addon, including in its name, outside of
-	an optional attribution. You are also welcome to include this addon
-	WITHOUT CHANGES in compilations posted on Curse and/or WoWInterface.
+	http://www.wowinterface.com/downloads/info6330-BrokerReincarnation.html
+	http://www.curse.com/addons/wow/broker-reincarnation
+	https://github.com/Phanx/Broker_Reincarnation
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
@@ -171,18 +164,13 @@ local cooldown, cooldownStartTime, resurrectionTime = 0, 0, 0
 
 local COOLDOWN_MAX_TIME = 1800
 
-local AnkhUp = CreateFrame("Frame")
-ns.AnkhUp = AnkhUp
-
-AnkhUp:SetScript("OnEvent", function(self, event, ...)
-	return self[event] and self[event](self, ...)
-end)
-
-AnkhUp:RegisterEvent("ADDON_LOADED")
+local Addon = CreateFrame("Frame")
+Addon:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+Addon:RegisterEvent("ADDON_LOADED")
 
 ------------------------------------------------------------------------
 
-function AnkhUp:Debug(lvl, str, ...)
+function Addon:Debug(lvl, str, ...)
 	if lvl <= 0 then
 		if ... then
 			if strfind(str, "%%[dfqsx%.%d]") then
@@ -191,11 +179,11 @@ function AnkhUp:Debug(lvl, str, ...)
 				str = strjoin(", ", str, ...)
 			end
 		end
-		print("|cffff7f7f[DEBUG] AnkhUp:|r", str)
+		print("|cffff7f7f[DEBUG] Broker Reincarnation:|r", str)
 	end
 end
 
-function AnkhUp:Print(str, ...)
+function Addon:Print(str, ...)
 	if (...) then
 		if strfind(str, "%%[dfqsx%.%d]") then
 			str = format(str, ...)
@@ -203,7 +191,7 @@ function AnkhUp:Print(str, ...)
 			str = strjoin(", ", ...)
 		end
 	end
-	print("|cffffcc00AnkhUp:|r %s", str)
+	print("|cffffcc00Broker Reincarnation:|r %s", str)
 end
 
 ------------------------------------------------------------------------
@@ -242,7 +230,7 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:UpdateText()
+function Addon:UpdateText()
 	if cooldown > 0 then
 		local r, g, b = GetGradientColor(cooldown / COOLDOWN_MAX_TIME)
 		self.dataObject.text = format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, GetAbbreviatedTime(cooldown))
@@ -253,12 +241,12 @@ end
 
 ------------------------------------------------------------------------
 
-local timer = AnkhUp:CreateAnimationGroup()
+local timer = Addon:CreateAnimationGroup()
 timer.animation = timer:CreateAnimation()
 timer.animation:SetDuration(0.25)
 timer:SetScript("OnFinished", function(self, requested)
 	cooldown = cooldownStartTime + COOLDOWN_MAX_TIME - GetTime()
-	AnkhUp:UpdateText()
+	Addon:UpdateText()
 	if cooldown <= 0 then
 		if db.notify then
 			local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)["SHAMAN"]
@@ -272,7 +260,7 @@ end)
 
 ------------------------------------------------------------------------
 
-function AnkhUp:Reincarnate(start)
+function Addon:Reincarnate(start)
 	cooldownStartTime = start
 	db.last = time() - (GetTime() - start)
 	db.first = db.first or db.last
@@ -282,8 +270,8 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:ADDON_LOADED(addon)
-	if addon ~= "AnkhUp" then return end
+function Addon:ADDON_LOADED(addon)
+	if addon ~= ADDON_NAME then return end
 	self:Debug(1, "ADDON_LOADED", addon)
 
 	local defaults = {
@@ -313,7 +301,7 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:PLAYER_LOGIN()
+function Addon:PLAYER_LOGIN()
 	self:Debug(1, "PLAYER_LOGIN")
 
 	self:UnregisterEvent("PLAYER_LOGIN")
@@ -327,7 +315,7 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:PLAYER_ALIVE()
+function Addon:PLAYER_ALIVE()
 	self:Debug(1, "PLAYER_ALIVE")
 
 	if UnitIsGhost("player") then
@@ -339,7 +327,7 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:SPELL_UPDATE_COOLDOWN()
+function Addon:SPELL_UPDATE_COOLDOWN()
 	self:Debug(1, "SPELL_UPDATE_COOLDOWN")
 
 	local now = GetTime()
@@ -358,7 +346,7 @@ end
 
 ------------------------------------------------------------------------
 
-function AnkhUp:SPELLS_CHANGED()
+function Addon:SPELLS_CHANGED()
 	self:Debug(1, "SPELLS_CHANGED")
 
 	if not IsSpellKnown(20608) then
@@ -373,7 +361,7 @@ function AnkhUp:SPELLS_CHANGED()
 		return
 	end
 
-	local menu = CreateFrame("Frame", "AnkhUpMenu", UIParent, "UIDropDownMenuTemplate")
+	local menu = CreateFrame("Frame", "BrokerReincarnationMenu", UIParent, "UIDropDownMenuTemplate")
 	menu.displayMode = "MENU"
 
 	menu.GetNotify = function() return db.nofity end

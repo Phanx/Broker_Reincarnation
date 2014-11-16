@@ -1,0 +1,29 @@
+## Interface: 60000
+## Version: 6.0.2.140
+
+## Title: Broker: Reincarnation
+## Notes: Monitor your Reincarnation cooldown on your DataBroker display.
+## Notes-deDE: Die Abklingzeit Ihres Zaubers Reinkarnation auf der DataBroker-Anzeige überwachen.
+## Notes-esES: Seguir el tiempo de reutilización de tu hechizo Reencarnación.
+## Notes-esMX: Seguir el tiempo de reutilización de tu hechizo Reencarnación.
+## Notes-frFR: Contrôler votre le temps de recharge de votre sort Réincarnation.
+## Notes-ptBR: Acompanhar o tempo de recarga do seu feitiço Reencarnação.
+## Notes-ptPT: Acompanhar o tempo de recarga do seu feitiço Reencarnação.
+## Notes-ruRU: Следить за восстановления заклинания Перерождение.
+
+## Author: Phanx
+## X-Email: addons@phanx.net
+## X-Copyright: Copyright (c) 2006-2014 Phanx. All rights reserved.
+## X-Credits: Originally based on Ankh Cooldown Timer, by Starforce of Shattered Hand (EU).
+## X-Website: https://github.com/Phanx/Broker_Reincarnation
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Class: SHAMAN
+
+## SavedVariablesPerCharacter: AnkhUpDB
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+Core.lua
