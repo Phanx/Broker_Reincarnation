@@ -1,5 +1,5 @@
 ## Interface: 60000
-## Version: 6.0.2.140
+## Version: @project-version@
 
 ## Title: Broker: Reincarnation
 ## Notes: Monitor your Reincarnation cooldown on your DataBroker display.
