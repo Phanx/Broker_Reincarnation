@@ -1,13 +1,14 @@
 --[[--------------------------------------------------------------------
 	Broker: Reincarnation
 	Reincarnation cooldown monitor for shamans.
-	Copyright (c) 2006-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Formerly known as AnkhUp and Ankh Cooldown Timer.
+	Copyright (c) 2006-2015 Phanx <addons@phanx.net>. All rights reserved.
 	http://www.wowinterface.com/downloads/info6330-BrokerReincarnation.html
 	http://www.curse.com/addons/wow/broker-reincarnation
 	https://github.com/Phanx/Broker_Reincarnation
 ----------------------------------------------------------------------]]
 
-local ADDON_NAME, ns = ...
+local ADDON_NAME, L = ...
 
 if select(2, UnitClass("player")) ~= "SHAMAN" then
 	return DisableAddOn(ADDON_NAME)
