@@ -2,7 +2,7 @@
 	Broker: Reincarnation
 	Reincarnation cooldown monitor for shamans.
 	Formerly known as AnkhUp and Ankh Cooldown Timer.
-	Copyright (c) 2006-2015 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2006-2016 Phanx <addons@phanx.net>. All rights reserved.
 	http://www.wowinterface.com/downloads/info6330-BrokerReincarnation.html
 	http://www.curse.com/addons/wow/broker-reincarnation
 	https://github.com/Phanx/Broker_Reincarnation
@@ -16,148 +16,6 @@ end
 
 ------------------------------------------------------------------------
 
-local L = {
-	Reincarnation = GetSpellInfo(20608),
-	Ready = "Ready",
-	Last = "Last Reincarnation:",
-	Today = "Today at %I:%M %p",
-	Yesterday = "Yesterday at %I:%M %p",
-	Date = "%I:%M %p on %A, %B %d, %Y",
-	Total = "Total Reincarnations:",
-	TotalSinceDate = "%%d since %B %d, %Y",
-	ReadyMessage = "Reincarnation is ready!",
-	RightClickOptions = "Right-click for options.",
-	NotifyReady = "Notify when ready",
-	Reset = "Reset statistics",
-}
-
-local LOCALE = GetLocale()
--- See http://www.lua.org/pil/22.1.html for date/time format info.
-if LOCALE == "deDE" then
-	-- Translators: Gyffes <www.ihl-gilneas.de>
-	L.Ready = "Bereit"
-	L.Last = "Letzte Reinkarnation:"
-	L.Today = "Heute um %H.%M Uhr"
-	L.Yesterday = "Gestern um %H.%M Uhr"
-	L.Date = "%A, %d. %B %Y um %H.%M Uhr"
-	L.Total = "Reinkarnationen insgesamt:"
-	L.TotalSinceDate = "%%d seit %d. %B %Y"
-	L.ReadyMessage = "Reinkarnation ist wieder bereit!"
-	L.RightClickOptions = "Rechtsklick für Optionen."
-	L.NotifyReady = "Melden, wenn bereit"
-	L.Reset = "Statistiken löschen"
-
-elseif strmatch(LOCALE, "^es") then
-	L.Ready = "Lista"
-	L.Last = "Última reencarnación:"
-	L.Today = "Hoy a las %H.%M"
-	L.Yesterday = "Ayer a las %H.%M"
-	L.Date = "%H.%M del %A, %d de %B de %Y"
-	L.Total = "Reencarnaciones totales:"
-	L.TotalSinceDate = "%%d desde %d de %B de %Y"
-	L.ReadyMessage = "Reencarnación está lista!"
-	L.RightClickOptions = "Clic derecho para opciones."
-	L.NotifyReady = "Notificar cuando lista"
-	L.Reset = "Eliminar estadísticas"
-
-elseif LOCALE == "frFR" then
-	-- Translators: Itania
-	L.Ready = "Disponible"
-	L.Last = "Dernière réincarnation:"
-	L.Today = "Aujourd'hui à %H h %M"
-	L.Yesterday = "Hier à %H h %M"
-	L.Date = "%A %d %B %Y à %H h %M"
-	L.Total = "Réincarnations totales:"
-	L.TotalSinceDate = "%%d depuis %d %B %Y"
-	L.ReadyMessage = "Réincarnation est disponible!"
-	L.RightClickOptions = "Clic droit pour options."
-	L.NotifyReady = "Notifier quand disponible"
-	L.Reset = "Supprimer statistiques"
-
-elseif LOCALE == "itIT" then
-	L.Ready = "Pronta"
-	L.Last = "Ultimo Reincarnato:"
-	L.Today = "Oggi alle %H:%M"
-	L.Yesterday = "Ieri alle %H:%M"
-	L.Date = "%H:%M il %A %d %B %Y"
-	L.Total = "Reincarnazioni totali:"
-	L.TotalSinceDate = "%%d da %d %B %Y"
-	L.ReadyMessage = "Reincarnazione è pronta!"
-	L.RightClickOptions = "Pulsante destro per opzioni,"
-	L.NotifyReady = "Notificare quando pronta"
-	L.Reset = "Eliminare statistiche"
-
-elseif strmatch(LOCALE, "^pt") then
-	L.Ready = "Pronto"
-	L.Last = "Última reencarnação:"
-	L.Today = "Hoje às %H:%M"
-	L.Yesterday = "Ontem às %H:M"
-	L.Date = "%H:%M em %d de %B de %Y"
-	L.Total = "Reencarnações total:"
-	L.TotalSinceDate = "%%d desde %d de %B de %Y"
-	L.ReadyMessage = "Reencarnação está pronto!"
-	L.RightClickOptions = "Botão direito para opções."
-	L.NotifyReady = "Notificar quando pronto"
-	L.Reset = "Excluir estatísticas"
-
-elseif LOCALE == "ruRU" then
-	L.Ready = "Доступно"
-	L.Last = "Последнее Перерождение"
-	L.Today = "Сегодня в %I:%M %p"
-	L.Yesterday = "Вчера в %I:%M %p"
-	L.Date = "%A, %d %B %Y в %I:%M %p"
-	L.Total = "Общий Перерождений"
-	L.TotalSinceDate = "%dd поскольку %d %B %Y"
-	L.ReadyMessage = "Перерождение доступно!"
-	L.RightClickOptions = "Правый-Клик, чтобы открыть параметры."
-	L.NotifyReady = "Уведомлять когда доступно"
-	L.Reset = "Убрать статистики"
-
-elseif LOCALE == "koKR" then
-	L.Ready = "준비"
-	L.Last = "최근 윤회:"
-	L.Today = "%H시 %M분에서 오늘"
-	L.Yesterday = "%H시 %M분에서 어제"
-	L.Date = "%H시 %M분에서 %A %Y년 %m월 %d일"
-	L.Total = "총 윤회:"
-	L.TotalSinceDate = "%Y년 %m월 %d일 부터 %dd"
-	L.ReadyMessage = "윤회 사용할 준비가!"
-	L.RightClickOptions = "옵션 메뉴을 열려면 오른쪽 버튼을 클릭하십시오."
-	L.NotifyReady = "되면 알림 사용할"
-	L.Reset = "통계 삭제"
-
-elseif LOCALE == "zhCN" then
-	-- Translators: 8区_冬泉谷_东方小瑞 <kztit at 163 com>
-	L.Ready = "OK"
-	L.Last = "上次复生时间："
-	L.Today = "今天%p%A時%M分"
-	L.Yesterday = "昨天%p%A時%M分"
-	L.Date = "%A%Y年%m月%d日在%p%I時%M分"
-	L.Total = "总复生:"
-	L.TotalSinceDate = "%%d自%Y年%m月%d日以来"
-	L.ReadyMessage = "复生是準備好了！"
-	L.RightClickOptions = "右键单击可以看到设置选项。"
-	L.NotifyReady = "通知我当准备"
-	L.Reset = "删除统计"
-
-elseif LOCALE == "zhTW" then
-	-- Translators: wowuicn
-	L.Ready = "就緒"
-	L.Last = "最後一次複生："
-	L.Today = "今天%p%I时%M分"
-	L.Yesterday = "昨天%p%I时%M分"
-	L.Date = "%A%Y年%m月%d日在%p%I时%M分"
-	L.Total = "總複生"
-	L.TotalSinceDate = "%%d自%Y年%m月%d日以來"
-	L.ReadyMessage = "復生是準備好了！"
-	L.RightClickOptions = "右鍵單擊可以看到設置選項。"
-	L.NotifyReady = "通知我當準備"
-	L.Reset = "刪除統計"
-end
-LOCALE = nil
-
-------------------------------------------------------------------------
-
 local ceil, format, print, strfind, strjoin = ceil, format, print, strfind, strjoin
 
 local db
@@ -168,6 +26,8 @@ local COOLDOWN_MAX_TIME = 1800
 local Addon = CreateFrame("Frame")
 Addon:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
 Addon:RegisterEvent("ADDON_LOADED")
+
+L.Reincarnation = GetSpellInfo(20608)
 
 ------------------------------------------------------------------------
 
@@ -408,7 +268,7 @@ function Addon:SPELLS_CHANGED()
 		return text
 	end
 
-	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
+	self.dataObject = LibStub("LibDataBroker-1.1"):NewDataObject("Reincarnation", {
 		type  = "data source",
 		icon  = [[Interface\ICONS\Spell_Shaman_ImprovedReincarnation]],
 		label = L.Reincarnation,
