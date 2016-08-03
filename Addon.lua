@@ -4,7 +4,7 @@
 	Formerly known as AnkhUp and Ankh Cooldown Timer.
 	Copyright (c) 2006-2016 Phanx <addons@phanx.net>. All rights reserved.
 	http://www.wowinterface.com/downloads/info6330-BrokerReincarnation.html
-	http://www.curse.com/addons/wow/broker-reincarnation
+	https://mods.curse.com/addons/wow/broker-reincarnation
 	https://github.com/Phanx/Broker_Reincarnation
 ----------------------------------------------------------------------]]
 
